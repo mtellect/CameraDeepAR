@@ -1,20 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fce1fb28-a1e1-4aae-8d4d-dbf5bbf22375" name="Default Changelist" comment="" />
+    <list default="true" id="fce1fb28-a1e1-4aae-8d4d-dbf5bbf22375" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/example/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/Classes/SwiftCameraDeepArPlugin.swift" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/Classes/SwiftCameraDeepArPlugin.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/lib/camera_deep_ar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/lib/camera_deep_ar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/test/camera_deep_ar_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/test/camera_deep_ar_test.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/SwiftCameraDeepArPlugin.swift" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/SwiftCameraDeepArPlugin.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/camera_deep_ar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/camera_deep_ar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/camera_deep_ar_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/camera_deep_ar_test.dart" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="Nexus_5X_API_29_x86" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1hlk9siz6EiuHImu224NYAA638Y" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/ios" />
@@ -39,21 +57,21 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1239" height="171" key="GridCell.Tab.0.bottom" timestamp="1600594130019">
+    <state width="1303" height="171" key="GridCell.Tab.0.bottom" timestamp="1600608585167">
       <screen x="0" y="23" width="1366" height="699" />
     </state>
-    <state width="1239" height="171" key="GridCell.Tab.0.bottom/0.23.1366.699@0.23.1366.699" timestamp="1600594130019" />
-    <state width="1239" height="171" key="GridCell.Tab.0.center" timestamp="1600594130018">
+    <state width="1303" height="171" key="GridCell.Tab.0.bottom/0.23.1366.699@0.23.1366.699" timestamp="1600608585167" />
+    <state width="1303" height="171" key="GridCell.Tab.0.center" timestamp="1600608585165">
       <screen x="0" y="23" width="1366" height="699" />
     </state>
-    <state width="1239" height="171" key="GridCell.Tab.0.center/0.23.1366.699@0.23.1366.699" timestamp="1600594130018" />
-    <state width="1239" height="171" key="GridCell.Tab.0.left" timestamp="1600594130017">
+    <state width="1303" height="171" key="GridCell.Tab.0.center/0.23.1366.699@0.23.1366.699" timestamp="1600608585165" />
+    <state width="1303" height="171" key="GridCell.Tab.0.left" timestamp="1600608585162">
       <screen x="0" y="23" width="1366" height="699" />
     </state>
-    <state width="1239" height="171" key="GridCell.Tab.0.left/0.23.1366.699@0.23.1366.699" timestamp="1600594130017" />
-    <state width="1239" height="171" key="GridCell.Tab.0.right" timestamp="1600594130019">
+    <state width="1303" height="171" key="GridCell.Tab.0.left/0.23.1366.699@0.23.1366.699" timestamp="1600608585162" />
+    <state width="1303" height="171" key="GridCell.Tab.0.right" timestamp="1600608585166">
       <screen x="0" y="23" width="1366" height="699" />
     </state>
-    <state width="1239" height="171" key="GridCell.Tab.0.right/0.23.1366.699@0.23.1366.699" timestamp="1600594130019" />
+    <state width="1303" height="171" key="GridCell.Tab.0.right/0.23.1366.699@0.23.1366.699" timestamp="1600608585166" />
   </component>
 </project>
