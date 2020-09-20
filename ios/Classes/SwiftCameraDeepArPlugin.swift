@@ -144,19 +144,26 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         
         NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChange), name:  Notification.Name("UIDeviceOrientationDidChangeNotification"), object: nil)
         
+        
+        if let dict = args as? [String: Any] {
+            let licence: String = (dict["iosLicenceKey"] as? String)!
+            self.licenceKey = licence
+        }
+        
+        
         channel.setMethodCallHandler { call, result in
-            if call.method == "initialize" {
-                if let dict = call.arguments as? [String: Any] {
-                    if let licenceKey = (dict["licenceKey"] as? String) {
-                        self.licenceKey=licenceKey;
-                        //self.initCameraDeepAR(key: licenceKey)
-                        result("iOS /\(String(describing: licenceKey))" + UIDevice.current.systemVersion)
-                    }
-                }
-                result("iOS Initialized" + UIDevice.current.systemVersion)
-            } else if call.method == "captureImage" {
+            if call.method == "isCameraReady" {
+//                if let dict = call.arguments as? [String: Any] {
+//                    if let licenceKey = (dict["licenceKey"] as? String) {
+//                        self.licenceKey=licenceKey;
+//                        result("iOS /\(String(describing: licenceKey))" + UIDevice.current.systemVersion)
+//                    }
+//                }
+                result("iOS /\(String(describing: self.licenceKey))" + UIDevice.current.systemVersion)
+
+            } else if call.method == "next" {
                 result("captureImage")
-            } else if call.method == "setPreviewRatio" {
+            } else if call.method == "previous" {
                 result("setPreviewRatio")
             } else if call.method == "switchCamera" {
                 result("switchCamera")
@@ -167,8 +174,8 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
             }
         }
         if #available(iOS 9.0, *) {
-            self.initCameraDeepAR(key: licenceKey)
-            self.addTargets()
+            self.initCameraDeepAR()
+            //self.addTargets()
         } else {
             // Fallback on earlier versions
         }
@@ -276,12 +283,12 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
     
     
     @available(iOS 9.0, *)
-    @objc func  initCameraDeepAR(key: String){
+    @objc func  initCameraDeepAR(){
         
         self.deepAR = DeepAR()
         self.deepAR.delegate = self
-        var licenceKey="53618212114fc16bbd7499c0c04c2ca11a4eed188dc20ed62a7f7eec02b41cb34d638e72945a6bf6"
-        self.deepAR.setLicenseKey(licenceKey)
+        //var licenceKey="53618212114fc16bbd7499c0c04c2ca11a4eed188dc20ed62a7f7eec02b41cb34d638e72945a6bf6"
+        self.deepAR.setLicenseKey(self.licenceKey)
         cameraController = CameraController()
         cameraController.deepAR = self.deepAR
         
