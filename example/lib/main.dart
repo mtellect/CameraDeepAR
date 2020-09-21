@@ -50,13 +50,18 @@ class _MyAppState extends State<MyApp> {
         body: Stack(
           children: [
             CameraDeepAr(
+                onCameraReady: (isReady) {
+                  _platformVersion = "Camera status $isReady";
+                  setState(() {});
+                },
+                onImageCaptured: (path) {},
+                onVideoRecorded: (path) {},
                 androidLicenceKey:
                     "498eb09a2f04b2d44fa4e60c069ee6814e77c8eb972d3c5e14340d53f064637f8bb14452c0634e05",
                 iosLicenceKey:
                     "53618212114fc16bbd7499c0c04c2ca11a4eed188dc20ed62a7f7eec02b41cb34d638e72945a6bf6",
                 cameraDeepArCallback: (c) async {
                   cameraDeepArController = c;
-                  _platformVersion = await c.isCameraReady();
                   setState(() {});
                 }),
             Align(

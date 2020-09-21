@@ -34,7 +34,7 @@ enum Masks: String, CaseIterable {
     case aviators
     case bigmouth
     case dalmatian
-    case bcgSeg
+    //case bcgSeg
     case look2
     case fatify
     case flowers
@@ -135,11 +135,6 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         self.frame=frame
         self.viewId=viewId
         deepAR = DeepAR()
-        
-        self.arViewContainer = UIView(frame: frame)
-        //self.arViewContainer.isOpaque=false
-        self.arViewContainer.backgroundColor = .clear
-        //self.arViewContainer.backgroundColor = .yellow
         licenceKey=""
         modeValue=""
         directionValue=""
@@ -157,14 +152,18 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         
         channel.setMethodCallHandler { call, result in
             if call.method == "isCameraReady" {
-//                if let dict = call.arguments as? [String: Any] {
-//                    if let licenceKey = (dict["licenceKey"] as? String) {
-//                        self.licenceKey=licenceKey;
-//                        result("iOS /\(String(describing: licenceKey))" + UIDevice.current.systemVersion)
-//                    }
-//                }
+                //                if let dict = call.arguments as? [String: Any] {
+                //                    if let licenceKey = (dict["licenceKey"] as? String) {
+                //                        self.licenceKey=licenceKey;
+                //                        result("iOS /\(String(describing: licenceKey))" + UIDevice.current.systemVersion)
+                //                    }
+                //                }
+                
+                var dict: [String: Bool] = [String:Bool]()
+                       dict["isReady"] = true
+                self.channel.invokeMethod("onCameraReady", arguments: dict)
                 result("iOS is ready")
-
+                
             } else if call.method == "next" {
                 self.didTapNextButton()
                 result("You Tapped on  Next \(self.modeValue)")
@@ -174,20 +173,23 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
             } else if call.method == "switchCamera" {
                 self.didTapSwitchCameraButton()
                 result("You Tapped SwitchCamera \(self.directionValue)")
-            } else if call.method == "setFlashType" {
-                result("setFlashType")
-            } else if call.method == "setSessionPreset" {
-                result("setSessionPreset")
+            } else if call.method == "startRecording" {
+                self.didTapStartRecordButton()
+                result("You Tapped on StartRecording")
+            } else if call.method == "stopRecording" {
+                self.didTapStopRecordButton()
+                result("You Tapped on StopRecording")
+            } else if call.method == "snapPhoto" {
+                self.deepAR.takeScreenshot()
+                result("You Tapped on SnapPhoto")
+                
             }
         }
         if #available(iOS 9.0, *) {
             self.initCameraDeepAR()
-            //self.addTargets()
         } else {
             // Fallback on earlier versions
         }
-//        buttonModePairs = [(masksButton, .masks), (effectsButton, .effects), (filtersButton, .filters)]
-//        buttonRecordingModePairs = [ (photoButton, RecordingMode.photo), (videoButton, RecordingMode.video), (lowQVideoButton, RecordingMode.lowQualityVideo)]
         currentMode = .masks
         currentRecordingMode = .photo
     }
@@ -222,7 +224,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
     
     
     public func view() -> UIView {
-      return arView;
+        return arView;
     }
     
     
@@ -294,23 +296,25 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         cameraController.startCamera()
     }
     
-    @objc func addTargets() {
-        switchCameraButton.addTarget(self, action: #selector(didTapSwitchCameraButton), for: .touchUpInside)
-        recordActionButton.addTarget(self, action: #selector(didTapRecordActionButton), for: .touchUpInside)
-        previousButton.addTarget(self, action: #selector(didTapPreviousButton), for: .touchUpInside)
-        nextButton.addTarget(self, action: #selector(didTapNextButton), for: .touchUpInside)
-        masksButton.addTarget(self, action: #selector(didTapMasksButton), for: .touchUpInside)
-        effectsButton.addTarget(self, action: #selector(didTapEffectsButton), for: .touchUpInside)
-        filtersButton.addTarget(self, action: #selector(didTapFiltersButton), for: .touchUpInside)
-        photoButton.addTarget(self, action: #selector(didTapPhotoButton), for: .touchUpInside)
-        videoButton.addTarget(self, action: #selector(didTapVideoButton), for: .touchUpInside)
-        lowQVideoButton.addTarget(self, action: #selector(didTapLowQVideoButton), for: .touchUpInside)
-    }
     
     @objc
     private func didTapSwitchCameraButton() {
         cameraController.position = cameraController.position == .back ? .front : .back
         directionValue="\(cameraController.position == .back ? "Front Camera" : "Back Camera")"
+    }
+    
+    @objc
+    private func didTapStartRecordButton() {
+        let width: Int32 = Int32(deepAR.renderingResolution.width)
+        let height: Int32 =  Int32(deepAR.renderingResolution.height)
+        deepAR.startVideoRecording(withOutputWidth: width, outputHeight: height)
+        isRecordingInProcess = true
+    }
+    
+    @objc
+    private func didTapStopRecordButton() {
+        deepAR.finishVideoRecording()
+        isRecordingInProcess = false
     }
     
     @objc
@@ -422,52 +426,59 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
     }
     
     func didFinishPreparingForVideoRecording() { }
-
+    
     public func didStartVideoRecording() { }
-
+    
     public func didFinishVideoRecording(_ videoFilePath: String!) {
-
         let documentsDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
         let components = videoFilePath.components(separatedBy: "/")
         guard let last = components.last else { return }
         let destination = URL(fileURLWithPath: String(format: "%@/%@", documentsDirectory, last))
-
-//        let playerController = AVPlayerViewController()
-//        let player = AVPlayer(url: destination)
-//        playerController.player = player
-//        present(playerController, animated: true) {
-//            player.play()
-//        }
+        var dict: [String: String] = [String:String]()
+        dict["path"] = destination.absoluteString
+        channel.invokeMethod("didFinishVideoRecording", arguments: dict)
     }
-
+    
     public func recordingFailedWithError(_ error: Error!) {}
-
-   public func didTakeScreenshot(_ screenshot: UIImage!) {
+    
+    public func didTakeScreenshot(_ screenshot: UIImage!) {
+        
         UIImageWriteToSavedPhotosAlbum(screenshot, nil, nil, nil)
-
         let imageView = UIImageView(image: screenshot)
-        imageView.frame = self.frame
-    self.arView.insertSubview(imageView, aboveSubview: arView)
-
-        let flashView = UIView(frame: self.arView.frame)
-        flashView.alpha = 0
-        flashView.backgroundColor = .black
-        self.arView.insertSubview(flashView, aboveSubview: imageView)
-
-        UIView.animate(withDuration: 0.1, animations: {
-            flashView.alpha = 1
-        }) { _ in
-            flashView.removeFromSuperview()
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
-                imageView.removeFromSuperview()
-            }
+        if let data = screenshot.pngData() {
+            let filename = getDocumentsDirectory().appendingPathComponent("\(Date().timeIntervalSinceReferenceDate).png")
+            var dict: [String: String] = [String:String]()
+            dict["path"] = filename.absoluteString
+            channel.invokeMethod("didFinishSnapPhoto", arguments: dict)
+            try? data.write(to: filename)
         }
+        //        imageView.frame = self.frame
+        //    self.arView.insertSubview(imageView, aboveSubview: arView)
+        //
+        //        let flashView = UIView(frame: self.arView.frame)
+        //        flashView.alpha = 0
+        //        flashView.backgroundColor = .black
+        //        self.arView.insertSubview(flashView, aboveSubview: imageView)
+        //
+        //        UIView.animate(withDuration: 0.1, animations: {
+        //            flashView.alpha = 1
+        //        }) { _ in
+        //            flashView.removeFromSuperview()
+        //
+        //            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+        //                imageView.removeFromSuperview()
+        //            }
+        //        }
     }
-
-   public func didInitialize() {}
-
-  public  func faceVisiblityDidChange(_ faceVisible: Bool) {}
+    
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
+    }
+    
+    public func didInitialize() {}
+    
+    public  func faceVisiblityDidChange(_ faceVisible: Bool) {}
     
 }
 
@@ -476,7 +487,7 @@ extension String {
     var path: String? {
         let filePath = Bundle.main.resourcePath!+"/Frameworks/camera_deep_ar.framework/\(self)"
         
-       print("Path-find \(self) >>>> \(String(describing: filePath)) >>> ")
+        print("Path-find \(self) >>>> \(String(describing: filePath)) >>> ")
         return filePath
         //return Bundle.main.path(forResource: self, ofType: nil)
     }
