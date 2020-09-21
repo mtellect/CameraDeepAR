@@ -66,7 +66,7 @@ class CameraDeepArController {
   final MethodChannel _channel;
 
   Future isCameraReady() async {
-    return _channel.invokeMethod('cameraReady');
+    return _channel.invokeMethod('isCameraReady');
   }
 
   Future switchCamera({@required String licenceKey}) async {

@@ -14,7 +14,7 @@ EXTERNAL SOURCES:
     :path: Flutter
 
 SPEC CHECKSUMS:
-  camera_deep_ar: 2a6843f97304f77c3af80cdd3d4c67e5d48909d2
+  camera_deep_ar: 4263044c46e5ec52de9bb136edf382f101e4bcef
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
 
 PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c

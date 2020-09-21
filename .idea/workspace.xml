@@ -2,13 +2,75 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fce1fb28-a1e1-4aae-8d4d-dbf5bbf22375" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/Effects/aviators" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/Effects/bcgSeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/Effects/bigmouth" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/Effects/bleachbypass" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/Effects/blizzard" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/Effects/dalmatian" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/Effects/drawingmanga" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/Effects/fatify" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/Effects/filmcolorperfection" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/Effects/fire" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/Effects/flowers" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/Effects/grumpycat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/Effects/heart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/Effects/koala" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/Effects/lion" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/Effects/look2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/Effects/mudMask" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/Effects/obama" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/Effects/pug" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/Effects/rain" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/Effects/realvhs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/Effects/sepia" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/Effects/slash" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/Effects/sleepingmask" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/Effects/smallface" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/Effects/teddycigar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/Effects/tripleface" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/Effects/tv80" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/Effects/twistedFace" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Effects/aviators" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Effects/bcgSeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Effects/bigmouth" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Effects/bleachbypass" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Effects/blizzard" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Effects/dalmatian" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Effects/drawingmanga" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Effects/fatify" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Effects/filmcolorperfection" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Effects/fire" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Effects/flowers" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Effects/grumpycat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Effects/heart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Effects/koala" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Effects/lion" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Effects/look2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Effects/mudMask" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Effects/obama" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Effects/pug" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Effects/rain" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Effects/realvhs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Effects/sepia" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Effects/slash" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Effects/sleepingmask" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Effects/smallface" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Effects/teddycigar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Effects/tripleface" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Effects/tv80" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Effects/twistedFace" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/example/ios/Podfile.lock" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/example/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/Classes/SwiftCameraDeepArPlugin.swift" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/Classes/SwiftCameraDeepArPlugin.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/camera_deep_ar.podspec" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/ios/camera_deep_ar.podspec" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/lib/camera_deep_ar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/lib/camera_deep_ar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/Podfile.lock" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ios/Classes/SwiftCameraDeepArPlugin.swift" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/SwiftCameraDeepArPlugin.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/camera_deep_ar.podspec" beforeDir="false" afterPath="$PROJECT_DIR$/ios/camera_deep_ar.podspec" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/camera_deep_ar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/camera_deep_ar.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -53,21 +115,29 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1303" height="135" key="GridCell.Tab.0.bottom" timestamp="1600622510918">
+    <state x="423" y="181" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1600660202212">
       <screen x="0" y="23" width="1366" height="699" />
     </state>
-    <state width="1303" height="135" key="GridCell.Tab.0.bottom/0.23.1366.699@0.23.1366.699" timestamp="1600622510918" />
-    <state width="1303" height="135" key="GridCell.Tab.0.center" timestamp="1600622510917">
+    <state x="423" y="181" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1366.699@0.23.1366.699" timestamp="1600660202212" />
+    <state width="1303" height="176" key="GridCell.Tab.0.bottom" timestamp="1600658765345">
       <screen x="0" y="23" width="1366" height="699" />
     </state>
-    <state width="1303" height="135" key="GridCell.Tab.0.center/0.23.1366.699@0.23.1366.699" timestamp="1600622510917" />
-    <state width="1303" height="135" key="GridCell.Tab.0.left" timestamp="1600622510917">
+    <state width="1303" height="176" key="GridCell.Tab.0.bottom/0.23.1366.699@0.23.1366.699" timestamp="1600658765345" />
+    <state width="1303" height="176" key="GridCell.Tab.0.center" timestamp="1600658765340">
       <screen x="0" y="23" width="1366" height="699" />
     </state>
-    <state width="1303" height="135" key="GridCell.Tab.0.left/0.23.1366.699@0.23.1366.699" timestamp="1600622510917" />
-    <state width="1303" height="135" key="GridCell.Tab.0.right" timestamp="1600622510917">
+    <state width="1303" height="176" key="GridCell.Tab.0.center/0.23.1366.699@0.23.1366.699" timestamp="1600658765340" />
+    <state width="1303" height="176" key="GridCell.Tab.0.left" timestamp="1600658765338">
       <screen x="0" y="23" width="1366" height="699" />
     </state>
-    <state width="1303" height="135" key="GridCell.Tab.0.right/0.23.1366.699@0.23.1366.699" timestamp="1600622510917" />
+    <state width="1303" height="176" key="GridCell.Tab.0.left/0.23.1366.699@0.23.1366.699" timestamp="1600658765338" />
+    <state width="1303" height="176" key="GridCell.Tab.0.right" timestamp="1600658765344">
+      <screen x="0" y="23" width="1366" height="699" />
+    </state>
+    <state width="1303" height="176" key="GridCell.Tab.0.right/0.23.1366.699@0.23.1366.699" timestamp="1600658765342" />
+    <state x="342" y="204" key="com.intellij.ide.util.TipDialog" timestamp="1600655302209">
+      <screen x="0" y="23" width="1366" height="699" />
+    </state>
+    <state x="342" y="204" key="com.intellij.ide.util.TipDialog/0.23.1366.699@0.23.1366.699" timestamp="1600655302209" />
   </component>
 </project>

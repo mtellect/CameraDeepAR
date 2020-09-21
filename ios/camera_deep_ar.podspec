@@ -27,5 +27,13 @@ A new Flutter plugin.
   s.xcconfig = { 'OTHER_LDFLAGS' => '-framework DeepAR' }
   s.vendored_frameworks = 'DeepAR.framework'
 
+#  s.resource_bundles = {
+#    'Effects' => ['camera_deep_ar/Effects/**/*']
+#  }
+#  s.resource = 'Pod/Resources/**/*'
+  s.resources = ['Effects/*']
+  s.resource_bundle = { 'Effects' => 'Effects/*.' }
+
+
 
 end

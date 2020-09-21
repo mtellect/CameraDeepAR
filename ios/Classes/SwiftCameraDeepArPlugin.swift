@@ -99,6 +99,8 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
     let viewId: Int64
     let channel: FlutterMethodChannel
     var licenceKey: String
+    var modeValue: String
+    var directionValue: String
     
     
     // MARK: - IBOutlets -
@@ -138,7 +140,9 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         //self.arViewContainer.isOpaque=false
         self.arViewContainer.backgroundColor = .clear
         //self.arViewContainer.backgroundColor = .yellow
-        licenceKey="";
+        licenceKey=""
+        modeValue=""
+        directionValue=""
         channel = FlutterMethodChannel(name: "plugins.flutter.io/deep_ar_camera/\(viewId)", binaryMessenger: messenger)
         super.init()
         
@@ -159,14 +163,17 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
 //                        result("iOS /\(String(describing: licenceKey))" + UIDevice.current.systemVersion)
 //                    }
 //                }
-                result("iOS /\(String(describing: self.licenceKey))" + UIDevice.current.systemVersion)
+                result("iOS is ready")
 
             } else if call.method == "next" {
-                result("captureImage")
+                self.didTapNextButton()
+                result("You Tapped on  Next \(self.modeValue)")
             } else if call.method == "previous" {
-                result("setPreviewRatio")
+                self.didTapPreviousButton()
+                result("You Tapped Previous \(self.modeValue)")
             } else if call.method == "switchCamera" {
-                result("switchCamera")
+                self.didTapSwitchCameraButton()
+                result("You Tapped SwitchCamera \(self.directionValue)")
             } else if call.method == "setFlashType" {
                 result("setFlashType")
             } else if call.method == "setSessionPreset" {
@@ -181,8 +188,8 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         }
 //        buttonModePairs = [(masksButton, .masks), (effectsButton, .effects), (filtersButton, .filters)]
 //        buttonRecordingModePairs = [ (photoButton, RecordingMode.photo), (videoButton, RecordingMode.video), (lowQVideoButton, RecordingMode.lowQualityVideo)]
-//        currentMode = .masks
-//        currentRecordingMode = .photo
+        currentMode = .masks
+        currentRecordingMode = .photo
     }
     
     
@@ -215,20 +222,9 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
     
     
     public func view() -> UIView {
-        let uiWindow = UIWindow(frame: frame)
-        uiWindow.backgroundColor = .yellow
-        uiWindow.addSubview(UISlider(frame: frame))
-        let button   = UIButton(type: UIButton.ButtonType.system) as UIButton
-        button.frame = CGRect(x: 100, y: 100, width: 100, height: 50)
-        button.setTitle("Test Button", for: .normal)
-        button.addTarget(self, action: #selector(didTapOnTakePhotoButton), for: UIControl.Event.touchUpInside)
-        return arView;
+      return arView;
     }
     
-    
-    @objc func didTapOnTakePhotoButton()  {
-        
-    }
     
     // MARK: - Private properties -
     
@@ -244,6 +240,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
     //
     private var filterIndex: Int = 0
     private var filterPaths: [String?] {
+        print("Filter val "+String(describing: Filters.self))
         return Filters.allCases.map { $0.rawValue.path }
     }
     //
@@ -275,6 +272,8 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
     }
     
     private func switchMode(_ path: String?) {
+        self.modeValue="\(currentMode.rawValue) -- \(path ?? "nothing")"
+        print(self.modeValue)
         deepAR.switchEffect(withSlot: currentMode.rawValue, path: path)
     }
     
@@ -287,20 +286,11 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         
         self.deepAR = DeepAR()
         self.deepAR.delegate = self
-        //var licenceKey="53618212114fc16bbd7499c0c04c2ca11a4eed188dc20ed62a7f7eec02b41cb34d638e72945a6bf6"
         self.deepAR.setLicenseKey(self.licenceKey)
         cameraController = CameraController()
         cameraController.deepAR = self.deepAR
-        
-        
         self.arView = self.deepAR.createARView(withFrame: self.frame) as? ARView
         self.arView.translatesAutoresizingMaskIntoConstraints = false
-        //         self.arViewContainer.addSubview(self.arView)
-        //         self.arView.leftAnchor.constraint(equalTo: self.arViewContainer.leftAnchor, constant: 0).isActive = true
-        //         self.arView.rightAnchor.constraint(equalTo: self.arViewContainer.rightAnchor, constant: 0).isActive = true
-        //         self.arView.topAnchor.constraint(equalTo: self.arViewContainer.topAnchor, constant: 0).isActive = true
-        //         self.arView.bottomAnchor.constraint(equalTo: self.arViewContainer.bottomAnchor, constant: 0).isActive = true
-        
         cameraController.startCamera()
     }
     
@@ -312,8 +302,6 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         masksButton.addTarget(self, action: #selector(didTapMasksButton), for: .touchUpInside)
         effectsButton.addTarget(self, action: #selector(didTapEffectsButton), for: .touchUpInside)
         filtersButton.addTarget(self, action: #selector(didTapFiltersButton), for: .touchUpInside)
-        
-        
         photoButton.addTarget(self, action: #selector(didTapPhotoButton), for: .touchUpInside)
         videoButton.addTarget(self, action: #selector(didTapVideoButton), for: .touchUpInside)
         lowQVideoButton.addTarget(self, action: #selector(didTapLowQVideoButton), for: .touchUpInside)
@@ -322,6 +310,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
     @objc
     private func didTapSwitchCameraButton() {
         cameraController.position = cameraController.position == .back ? .front : .back
+        directionValue="\(cameraController.position == .back ? "Front Camera" : "Back Camera")"
     }
     
     @objc
@@ -485,7 +474,11 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
 
 extension String {
     var path: String? {
-        return Bundle.main.path(forResource: self, ofType: nil)
+        let filePath = Bundle.main.resourcePath!+"/Frameworks/camera_deep_ar.framework/\(self)"
+        
+       print("Path-find \(self) >>>> \(String(describing: filePath)) >>> ")
+        return filePath
+        //return Bundle.main.path(forResource: self, ofType: nil)
     }
 }
 
