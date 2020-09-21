@@ -4,20 +4,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-// class CameraDeepAr {
-//   static const MethodChannel _channel =
-//       const MethodChannel('camera_deep_ar');
-//
-//   static Future<String> get platformVersion async {
-//     final String version = await _channel.invokeMethod('getPlatformVersion');
-//     return version;
-//   }
-// }
-
 typedef void CameraDeepArCallback(CameraDeepArController controller);
 typedef void OnImageCaptured(String path);
 typedef void OnVideoRecorded(String path);
 typedef void OnCameraReady(bool isCameraReady);
+
+enum CameraMode { photo, video, lowQVideo }
+
+enum CameraEffects { masks, effects, filters }
+
+enum CameraDirection { front, back }
 
 class CameraDeepAr extends StatefulWidget {
   final CameraDeepArCallback cameraDeepArCallback;
@@ -104,10 +100,6 @@ class _CameraDeepArState extends State<CameraDeepAr> {
 }
 
 class CameraDeepArController {
-  // CameraDeepArController._(int id)
-  //     : _channel = new MethodChannel('plugins.flutter.io/deep_ar_camera/$id');
-  // final MethodChannel _channel;
-
   CameraDeepArController._(
     this.channel,
     this._cameraDeepArState,
@@ -202,9 +194,3 @@ class CameraDeepArController {
     });
   }
 }
-
-enum CameraMode { photo, video, lowQVideo }
-
-enum CameraEffects { masks, effects, filters }
-
-enum CameraDirection { front, back }
