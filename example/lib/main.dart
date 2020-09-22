@@ -18,6 +18,7 @@ class _MyAppState extends State<MyApp> {
   Effects currentEffect = Effects.none;
   Filters currentFilter = Filters.none;
   Masks currentMask = Masks.none;
+  bool isRecording = false;
 
   @override
   void initState() {
@@ -39,8 +40,15 @@ class _MyAppState extends State<MyApp> {
                   _platformVersion = "Camera status $isReady";
                   setState(() {});
                 },
-                onImageCaptured: (path) {},
-                onVideoRecorded: (path) {},
+                onImageCaptured: (path) {
+                  _platformVersion = "Image Taken @ $path";
+                  setState(() {});
+                },
+                onVideoRecorded: (path) {
+                  _platformVersion = "Video Recorded @ $path";
+                  isRecording = false;
+                  setState(() {});
+                },
                 androidLicenceKey:
                     "3b58c448bd650192e7c53d965cfe5dc1c341d2568b663a3962b7517c4ac6eeed0ba1fb2afe491a4b",
                 iosLicenceKey:
@@ -66,39 +74,83 @@ class _MyAppState extends State<MyApp> {
                     SizedBox(
                       height: 20,
                     ),
-                    Container(
-                        height: 150,
-                        padding: EdgeInsets.all(15),
-                        child: PageView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: Masks.values.length,
-                            controller: vp,
-                            onPageChanged: (p) {
+                    Row(
+                      children: [
+                        Expanded(
+                          child: FlatButton(
+                            onPressed: () {
+                              if (null == cameraDeepArController) return;
+                              if (isRecording) return;
+                              cameraDeepArController.snapPhoto();
+                            },
+                            child: Icon(Icons.camera_enhance_outlined),
+                            color: Colors.white,
+                            padding: EdgeInsets.all(15),
+                          ),
+                        ),
+                        if (isRecording)
+                          Expanded(
+                            child: FlatButton(
+                              onPressed: () {
+                                if (null == cameraDeepArController) return;
+                                cameraDeepArController.stopVideoRecording();
+                                isRecording = false;
+                                setState(() {});
+                              },
+                              child: Icon(Icons.videocam_off),
+                              color: Colors.red,
+                              padding: EdgeInsets.all(15),
+                            ),
+                          )
+                        else
+                          Expanded(
+                            child: FlatButton(
+                              onPressed: () {
+                                if (null == cameraDeepArController) return;
+                                cameraDeepArController.startVideoRecording();
+                                isRecording = true;
+                                setState(() {});
+                              },
+                              child: Icon(Icons.videocam),
+                              color: Colors.green,
+                              padding: EdgeInsets.all(15),
+                            ),
+                          ),
+                      ],
+                    ),
+                    SingleChildScrollView(
+                      padding: EdgeInsets.all(15),
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: List.generate(Masks.values.length, (p) {
+                          bool active = currentPage == p;
+                          return GestureDetector(
+                            onTap: () {
                               currentPage = p;
                               cameraDeepArController.changeMask(p);
                               setState(() {});
                             },
-                            itemBuilder: (ctx, p) {
-                              bool active = currentPage == p;
-
-                              return Container(
-                                  margin: EdgeInsets.all(5),
-                                  padding: EdgeInsets.all(12),
-                                  width: active ? 120 : 100,
-                                  height: active ? 120 : 100,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                      color:
-                                          active ? Colors.orange : Colors.white,
-                                      shape: BoxShape.circle),
-                                  child: Text(
-                                    "$p",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: active ? 16 : 14,
-                                        color: Colors.black),
-                                  ));
-                            })),
+                            child: Container(
+                                margin: EdgeInsets.all(5),
+                                padding: EdgeInsets.all(12),
+                                width: active ? 100 : 80,
+                                height: active ? 100 : 80,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                    color:
+                                        active ? Colors.orange : Colors.white,
+                                    shape: BoxShape.circle),
+                                child: Text(
+                                  "$p",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: active ? 16 : 14,
+                                      color: Colors.black),
+                                )),
+                          );
+                        }),
+                      ),
+                    )
                   ],
                 ),
               ),

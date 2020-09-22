@@ -91,6 +91,7 @@ public class CameraDeepArView implements PlatformView,
     ArrayList<String> filters;
 
     private int activeFilterType = 0;
+    private File videoFile;
 
 
     public CameraDeepArView(Activity mActivity, BinaryMessenger mBinaryMessenger, Context mContext, int id, Object args) {
@@ -166,13 +167,24 @@ public class CameraDeepArView implements PlatformView,
     @Override
     public void onMethodCall(@NonNull MethodCall methodCall, @NonNull MethodChannel.Result result) {
 
+        //File imageFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/DeepAR_" + now + ".jpg");
+
+
         if ("isCameraReady".equals(methodCall.method)) {
             Map<String, Object> argument = new HashMap<>();
             argument.put("isReady",true);
             methodChannel.invokeMethod("onCameraReady",argument);
             result.success("Android is ready");
         }
-
+        else  if ("setCameraMode".equals(methodCall.method)) {
+            if (methodCall.arguments instanceof HashMap) {
+                @SuppressWarnings({"unchecked"})
+                Map<String, Object> params = (Map<String, Object>) methodCall.arguments;
+                Object direction = params.get("cameraMode");
+                if(null!=direction) activeFilterType = Integer.parseInt(String.valueOf(direction));
+            }
+            result.success("Mask Changed");
+        }
         else  if ("switchCameraDirection".equals(methodCall.method)) {
             if (methodCall.arguments instanceof HashMap) {
                 @SuppressWarnings({"unchecked"})
@@ -215,6 +227,20 @@ public class CameraDeepArView implements PlatformView,
                 deepAR.switchEffect("filter", getFilterPath(filters.get(currentFilter)));
             }
             result.success("Filter Changed");
+        }
+        else  if ("startVideoRecording".equals(methodCall.method)) {
+            CharSequence now = DateFormat.format("yyyy_MM_dd_hh_mm_ss", new Date());
+             videoFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES) + "/DeepAR_" + now + ".mp4");
+            deepAR.startVideoRecording(videoFile.getPath());
+            result.success("Video Recording Started");
+        }
+        else  if ("stopVideoRecording".equals(methodCall.method)) {
+              deepAR.stopVideoRecording();
+            result.success("Video Recording Stopped");
+        }
+        else  if ("snapPhoto".equals(methodCall.method)) {
+              deepAR.takeScreenshot();
+            result.success("Photo Snapped");
         }
 
     }
@@ -441,7 +467,10 @@ public class CameraDeepArView implements PlatformView,
             outputStream.flush();
             outputStream.close();
             MediaScannerConnection.scanFile(context, new String[]{imageFile.toString()}, null, null);
-            Toast.makeText(context, "Screenshot saved", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "Screenshot saved", Toast.LENGTH_SHORT).show();
+            Map<String, Object> argument = new HashMap<>();
+            argument.put("path",imageFile.toString());
+            methodChannel.invokeMethod("onSnapPhotoCompleted",argument);
         } catch (Throwable e) {
             e.printStackTrace();
         }
@@ -455,6 +484,9 @@ public class CameraDeepArView implements PlatformView,
     @Override
     public void videoRecordingFinished() {
 //deepAR.stopVideoRecording();
+        Map<String, Object> argument = new HashMap<>();
+        argument.put("path",videoFile.toString());
+        methodChannel.invokeMethod("onVideoRecordingComplete",argument);
     }
 
     @Override

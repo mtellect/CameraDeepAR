@@ -197,11 +197,11 @@ class CameraDeepArController {
         bool isReady = call.arguments['isReady'] as bool;
         _cameraDeepArState.onCameraReady(isReady);
         break;
-      case "didFinishVideoRecording":
+      case "onVideoRecordingComplete":
         String path = call.arguments['path'] as String;
         _cameraDeepArState.onVideoRecorded(path);
         break;
-      case "didFinishSnapPhoto":
+      case "onSnapPhotoCompleted":
         String path = call.arguments['path'] as String;
         _cameraDeepArState.onImageCaptured(path);
         break;

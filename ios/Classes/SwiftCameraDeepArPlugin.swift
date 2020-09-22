@@ -22,7 +22,7 @@ enum Mode: String, CaseIterable {
     case filters
 }
 
-enum RecordingMode : String {
+enum RecordingMode : String, CaseIterable {
     case photo
     case video
     case lowQualityVideo
@@ -143,17 +143,19 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         
         NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChange), name:  Notification.Name("UIDeviceOrientationDidChangeNotification"), object: nil)
         
-        
+        currentMode = .masks
         if let dict = args as? [String: Any] {
             let licence: String = (dict["iosLicenceKey"] as? String ?? "")
-            let _: Int = (dict["cameraEffect"] as? Int ?? 0)
+            let recordingMode: Int = (dict["recordingMode"] as? Int ?? 0)
             let direction: Int = (dict["direction"] as? Int ?? 0)
             let cameraMode: Int = (dict["cameraMode"] as? Int ?? 0)
             
             print(direction)
             self.licenceKey = licence
             self.currentMode=Mode.allCases[cameraMode];
+            self.currentRecordingMode = RecordingMode.allCases[recordingMode]
             self.cameraController.position = direction == 0 ? .back : .front
+            //currentRecordingMode = .photo
             
         }
         
@@ -166,6 +168,15 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
                 result("iOS is ready")
             }
                 
+            else if call.method == "setCameraMode" {
+                           if let dict = call.arguments as? [String: Any] {
+                               if let cameraMode = (dict["cameraMode"] as? Int) {
+                                   //let index = Int(direction) ?? 0
+                                self.currentMode = cameraMode == 0 ? .masks : cameraMode == 1 ? .effects  : .filters
+                               }
+                           }
+                           result("Camera  Changed")
+                       }
             else if call.method == "switchCameraDirection" {
                 if let dict = call.arguments as? [String: Any] {
                     if let direction = (dict["direction"] as? Int) {
@@ -200,10 +211,14 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
                 }
                 result("Filter  Changed")
             } else if call.method == "startVideoRecording" {
-                self.didTapStartRecordButton()
+                let width: Int32 = Int32(self.deepAR.renderingResolution.width)
+                let height: Int32 =  Int32(self.deepAR.renderingResolution.height)
+                self.deepAR.startVideoRecording(withOutputWidth: width, outputHeight: height)
+                self.isRecordingInProcess = true
                 result("You Tapped on startVideoRecording")
             } else if call.method == "stopVideoRecording" {
-                self.didTapStopRecordButton()
+                self.deepAR.finishVideoRecording()
+                self.isRecordingInProcess = false
                 result("You Tapped on stopVideoRecording")
             } else if call.method == "snapPhoto" {
                 self.deepAR.takeScreenshot()
@@ -212,12 +227,35 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         }
         if #available(iOS 9.0, *) {
             self.initCameraDeepAR()
+            
         } else {
             // Fallback on earlier versions
         }
-        currentMode = .masks
-        currentRecordingMode = .photo
     }
+    
+    
+//    @objc
+//    private func handlePinch(_ pinch: UIPinchGestureRecognizer) {
+//        guard sessionSetupSucceeds,  let device = activeCamera else { return }
+//
+//        switch pinch.state {
+//        case .began:
+//            initialScale = device.videoZoomFactor
+//        case .changed:
+//            let minAvailableZoomScale = device.minAvailableVideoZoomFactor
+//            let maxAvailableZoomScale = device.maxAvailableVideoZoomFactor
+//            let availableZoomScaleRange = minAvailableZoomScale...maxAvailableZoomScale
+//            let resolvedZoomScaleRange = zoomScaleRange.clamped(to: availableZoomScaleRange)
+//
+//            let resolvedScale = max(resolvedZoomScaleRange.lowerBound, min(pinch.scale * initialScale, resolvedZoomScaleRange.upperBound))
+//
+//            configCamera(device) { device in
+//                device.videoZoomFactor = resolvedScale
+//            }
+//        default:
+//            return
+//        }
+//    }
     
     
     @objc func orientationDidChange() {
@@ -318,26 +356,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         cameraController.startCamera()
     }
     
-    
-    @objc
-    private func didTapSwitchCameraButton() {
-        cameraController.position = cameraController.position == .back ? .front : .back
-        directionValue="\(cameraController.position == .back ? "Front Camera" : "Back Camera")"
-    }
-    
-    @objc
-    private func didTapStartRecordButton() {
-        let width: Int32 = Int32(deepAR.renderingResolution.width)
-        let height: Int32 =  Int32(deepAR.renderingResolution.height)
-        deepAR.startVideoRecording(withOutputWidth: width, outputHeight: height)
-        isRecordingInProcess = true
-    }
-    
-    @objc
-    private func didTapStopRecordButton() {
-        deepAR.finishVideoRecording()
-        isRecordingInProcess = false
-    }
+
     
     @objc
     private func didTapRecordActionButton() {
@@ -458,7 +477,8 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         let destination = URL(fileURLWithPath: String(format: "%@/%@", documentsDirectory, last))
         var dict: [String: String] = [String:String]()
         dict["path"] = destination.absoluteString
-        channel.invokeMethod("didFinishVideoRecording", arguments: dict)
+        channel.invokeMethod("onVideoRecordingComplete", arguments: dict)
+        
     }
     
     public func recordingFailedWithError(_ error: Error!) {}
@@ -471,7 +491,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
             let filename = getDocumentsDirectory().appendingPathComponent("\(Date().timeIntervalSinceReferenceDate).png")
             var dict: [String: String] = [String:String]()
             dict["path"] = filename.absoluteString
-            channel.invokeMethod("didFinishSnapPhoto", arguments: dict)
+            channel.invokeMethod("onSnapPhotoCompleted", arguments: dict)
             try? data.write(to: filename)
         }
         //        imageView.frame = self.frame
