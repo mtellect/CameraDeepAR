@@ -214,6 +214,9 @@ class CameraDeepArController {
     return channel.invokeMethod('isCameraReady');
   }
 
+  Future dispose() async {
+    return channel.invokeMethod('dispose');
+  }
   Future switchCamera() async {
     return channel.invokeMethod('switchCamera');
   }

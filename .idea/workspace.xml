@@ -5,14 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fce1fb28-a1e1-4aae-8d4d-dbf5bbf22375" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/example/android/app/proguard-rules.pro" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/example/android/app/proguard-rules.pro" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/example/android/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/example/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/Runner/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Runner/Info.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/main.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,22 +68,22 @@
       <screen x="0" y="23" width="1366" height="699" />
     </state>
     <state x="221" y="123" width="1145" height="499" key="DiffContextDialog/0.23.1366.699@0.23.1366.699" timestamp="1600761419147" />
-    <state width="1303" height="241" key="GridCell.Tab.0.bottom" timestamp="1600787964249">
+    <state width="1303" height="241" key="GridCell.Tab.0.bottom" timestamp="1600789585379">
       <screen x="0" y="23" width="1366" height="699" />
     </state>
-    <state width="1303" height="241" key="GridCell.Tab.0.bottom/0.23.1366.699@0.23.1366.699" timestamp="1600787964249" />
-    <state width="1303" height="241" key="GridCell.Tab.0.center" timestamp="1600787964249">
+    <state width="1303" height="241" key="GridCell.Tab.0.bottom/0.23.1366.699@0.23.1366.699" timestamp="1600789585379" />
+    <state width="1303" height="241" key="GridCell.Tab.0.center" timestamp="1600789585378">
       <screen x="0" y="23" width="1366" height="699" />
     </state>
-    <state width="1303" height="241" key="GridCell.Tab.0.center/0.23.1366.699@0.23.1366.699" timestamp="1600787964249" />
-    <state width="1303" height="241" key="GridCell.Tab.0.left" timestamp="1600787964248">
+    <state width="1303" height="241" key="GridCell.Tab.0.center/0.23.1366.699@0.23.1366.699" timestamp="1600789585378" />
+    <state width="1303" height="241" key="GridCell.Tab.0.left" timestamp="1600789585377">
       <screen x="0" y="23" width="1366" height="699" />
     </state>
-    <state width="1303" height="241" key="GridCell.Tab.0.left/0.23.1366.699@0.23.1366.699" timestamp="1600787964248" />
-    <state width="1303" height="241" key="GridCell.Tab.0.right" timestamp="1600787964249">
+    <state width="1303" height="241" key="GridCell.Tab.0.left/0.23.1366.699@0.23.1366.699" timestamp="1600789585377" />
+    <state width="1303" height="241" key="GridCell.Tab.0.right" timestamp="1600789585378">
       <screen x="0" y="23" width="1366" height="699" />
     </state>
-    <state width="1303" height="241" key="GridCell.Tab.0.right/0.23.1366.699@0.23.1366.699" timestamp="1600787964249" />
+    <state width="1303" height="241" key="GridCell.Tab.0.right/0.23.1366.699@0.23.1366.699" timestamp="1600789585378" />
     <state x="221" y="123" width="1145" height="499" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1600761419148">
       <screen x="0" y="23" width="1366" height="699" />
     </state>

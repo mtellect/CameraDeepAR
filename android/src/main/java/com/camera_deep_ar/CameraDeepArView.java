@@ -242,6 +242,14 @@ public class CameraDeepArView implements PlatformView,
               deepAR.takeScreenshot();
             result.success("Photo Snapped");
         }
+        else  if ("dispose".equals(methodCall.method)) {
+            disposed = true;
+            methodChannel.setMethodCallHandler(null);
+            deepAR.setAREventListener(null);
+            deepAR.release();
+            deepAR = null;
+            result.success("Disposed");
+        }
 
     }
 
@@ -453,6 +461,9 @@ public class CameraDeepArView implements PlatformView,
         }
         disposed = true;
         methodChannel.setMethodCallHandler(null);
+        deepAR.setAREventListener(null);
+        deepAR.release();
+        deepAR = null;
 
     }
 
