@@ -223,6 +223,9 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
             } else if call.method == "snapPhoto" {
                 self.deepAR.takeScreenshot()
                 result("You Tapped on SnapPhoto")
+            } else if call.method == "dispose" {
+                self.deepAR.shutdown()
+                result("You Tapped on SnapPhoto")
             }
         }
         if #available(iOS 9.0, *) {
