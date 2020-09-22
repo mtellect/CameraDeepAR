@@ -31,7 +31,7 @@ class _MyAppState extends State<MyApp> {
       home: Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
-          title: const Text('Plugin example app'),
+          title: const Text('DeepAR Camera Example'),
         ),
         body: Stack(
           children: [
