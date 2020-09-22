@@ -13,37 +13,22 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
   CameraDeepArController cameraDeepArController;
+  int currentPage = 0;
+  final vp = PageController(viewportFraction: .24);
+  Effects currentEffect = Effects.none;
+  Filters currentFilter = Filters.none;
+  Masks currentMask = Masks.none;
 
   @override
   void initState() {
     super.initState();
-    //initPlatformState();
   }
-
-  // Platform messages are asynchronous, so we initialize in an async method.
-  // Future<void> initPlatformState() async {
-  //   String platformVersion;
-  //   // Platform messages may fail, so we use a try/catch PlatformException.
-  //   try {
-  //     platformVersion = await CameraDeepAr.platformVersion;
-  //   } on PlatformException {
-  //     platformVersion = 'Failed to get platform version.';
-  //   }
-  //
-  //   // If the widget was removed from the tree while the asynchronous platform
-  //   // message was in flight, we want to discard the reply rather than calling
-  //   // setState to update our non-existent appearance.
-  //   if (!mounted) return;
-  //
-  //   setState(() {
-  //     _platformVersion = platformVersion;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        backgroundColor: Colors.black,
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
@@ -57,7 +42,7 @@ class _MyAppState extends State<MyApp> {
                 onImageCaptured: (path) {},
                 onVideoRecorded: (path) {},
                 androidLicenceKey:
-                    "498eb09a2f04b2d44fa4e60c069ee6814e77c8eb972d3c5e14340d53f064637f8bb14452c0634e05",
+                    "3b58c448bd650192e7c53d965cfe5dc1c341d2568b663a3962b7517c4ac6eeed0ba1fb2afe491a4b",
                 iosLicenceKey:
                     "53618212114fc16bbd7499c0c04c2ca11a4eed188dc20ed62a7f7eec02b41cb34d638e72945a6bf6",
                 cameraDeepArCallback: (c) async {
@@ -81,47 +66,39 @@ class _MyAppState extends State<MyApp> {
                     SizedBox(
                       height: 20,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        RaisedButton(
-                          onPressed: () async {
-                            if (cameraDeepArController == null) return;
-                            _platformVersion = await cameraDeepArController
-                                .previous(licenceKey: 'null');
-                            setState(() {});
-                          },
-                          shape: CircleBorder(),
-                          padding: EdgeInsets.all(20),
-                          color: Colors.white,
-                          child: Icon(Icons.navigate_before),
-                        ),
-                        RaisedButton(
-                          onPressed: () async {
-                            if (cameraDeepArController == null) return;
-                            _platformVersion = await cameraDeepArController
-                                .switchCamera(licenceKey: 'null');
-                            setState(() {});
-                          },
-                          shape: CircleBorder(),
-                          padding: EdgeInsets.all(20),
-                          color: Colors.white,
-                          child: Icon(Icons.switch_camera_outlined),
-                        ),
-                        RaisedButton(
-                          onPressed: () async {
-                            if (cameraDeepArController == null) return;
-                            _platformVersion = await cameraDeepArController
-                                .next(licenceKey: 'null');
-                            setState(() {});
-                          },
-                          shape: CircleBorder(),
-                          padding: EdgeInsets.all(20),
-                          color: Colors.white,
-                          child: Icon(Icons.navigate_next),
-                        ),
-                      ],
-                    ),
+                    Container(
+                        height: 150,
+                        padding: EdgeInsets.all(15),
+                        child: PageView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: Masks.values.length,
+                            controller: vp,
+                            onPageChanged: (p) {
+                              currentPage = p;
+                              cameraDeepArController.changeMask(p);
+                              setState(() {});
+                            },
+                            itemBuilder: (ctx, p) {
+                              bool active = currentPage == p;
+
+                              return Container(
+                                  margin: EdgeInsets.all(5),
+                                  padding: EdgeInsets.all(12),
+                                  width: active ? 120 : 100,
+                                  height: active ? 120 : 100,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      color:
+                                          active ? Colors.orange : Colors.white,
+                                      shape: BoxShape.circle),
+                                  child: Text(
+                                    "$p",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: active ? 16 : 14,
+                                        color: Colors.black),
+                                  ));
+                            })),
                   ],
                 ),
               ),

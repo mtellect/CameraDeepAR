@@ -9,11 +9,52 @@ typedef void OnImageCaptured(String path);
 typedef void OnVideoRecorded(String path);
 typedef void OnCameraReady(bool isCameraReady);
 
-enum CameraMode { photo, video, lowQVideo }
+enum RecordingMode { photo, video, lowQVideo }
 
-enum CameraEffects { masks, effects, filters }
+enum CameraMode { masks, effects, filters }
 
-enum CameraDirection { front, back }
+enum CameraDirection { back, front }
+
+enum Masks {
+  none,
+  aviators,
+  bigmouth,
+  dalmatian,
+  //bcgSeg,
+  look2,
+  fatify,
+  flowers,
+  grumpycat,
+  koala,
+  lion,
+  mudMask,
+  obama,
+  pug,
+  slash,
+  sleepingmask,
+  smallface,
+  teddycigar,
+  tripleface,
+  twistedFace,
+}
+
+enum Effects {
+  none,
+  fire,
+  heart,
+  blizzard,
+  rain,
+}
+
+enum Filters {
+  none,
+  tv80,
+  drawingmanga,
+  sepia,
+  bleachbypass,
+  realvhs,
+  filmcolorperfection,
+}
 
 class CameraDeepAr extends StatefulWidget {
   final CameraDeepArCallback cameraDeepArCallback;
@@ -21,6 +62,9 @@ class CameraDeepAr extends StatefulWidget {
   final OnVideoRecorded onVideoRecorded;
   final OnCameraReady onCameraReady;
   final String androidLicenceKey, iosLicenceKey;
+  final RecordingMode recordingMode;
+  final CameraDirection cameraDirection;
+  final CameraMode cameraMode;
 
   const CameraDeepAr(
       {Key key,
@@ -29,35 +73,47 @@ class CameraDeepAr extends StatefulWidget {
       @required this.iosLicenceKey,
       @required this.onImageCaptured,
       @required this.onVideoRecorded,
-      @required this.onCameraReady})
+      @required this.onCameraReady,
+      this.cameraMode = CameraMode.masks,
+      this.cameraDirection = CameraDirection.front,
+      this.recordingMode = RecordingMode.video})
       : super(key: key);
   @override
   _CameraDeepArState createState() => _CameraDeepArState();
 }
 
 class _CameraDeepArState extends State<CameraDeepAr> {
-  StreamController stream = StreamController<String>.broadcast();
   CameraDeepArController _controller;
+  bool hasPermission = false;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    stream.stream.listen((path) {});
+    // DeepCameraArPermissions.checkForPermission().then((value) {
+    //   print("Value checked.... $value");
+    //
+    //   if (this.mounted)
+    //     setState(() {
+    //       hasPermission = value;
+    //     });
+    // });
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    stream?.close();
   }
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, String> args = {
+    final Map<String, Object> args = {
       "androidLicenceKey": widget.androidLicenceKey ?? "",
-      "iosLicenceKey": widget.iosLicenceKey ?? ""
+      "iosLicenceKey": widget.iosLicenceKey ?? "",
+      "recordingMode": RecordingMode.values.indexOf(widget.recordingMode),
+      "direction": CameraDirection.values.indexOf(widget.cameraDirection),
+      "cameraMode": CameraMode.values.indexOf(widget.cameraMode)
     };
 
     if (defaultTargetPlatform == TargetPlatform.android) {
@@ -96,6 +152,14 @@ class _CameraDeepArState extends State<CameraDeepAr> {
 
   void onCameraReady(bool ready) {
     widget.onCameraReady(ready);
+  }
+}
+
+class DeepCameraArPermissions {
+  static const MethodChannel _channel = const MethodChannel('camera_deep_ar');
+
+  static Future<bool> checkForPermission() async {
+    return await _channel.invokeMethod('checkForPermission');
   }
 }
 
@@ -146,35 +210,33 @@ class CameraDeepArController {
     }
   }
 
-  // Future isCameraReady() async {
-  //   return channel.invokeMethod('isCameraReady');
-  // }
+  Future isCameraReady() async {
+    return channel.invokeMethod('isCameraReady');
+  }
 
-  Future switchCamera({@required String licenceKey}) async {
-    return channel.invokeMethod('switchCamera', <String, dynamic>{
-      'licenceKey': licenceKey,
-    });
+  Future switchCamera() async {
+    return channel.invokeMethod('switchCamera');
   }
 
   Future snapPhoto() async {
     return channel.invokeMethod('snapPhoto');
   }
 
-  Future startRecording() async {
-    return channel.invokeMethod('startRecording');
+  Future startVideoRecording() async {
+    return channel.invokeMethod('startVideoRecording');
   }
 
-  Future stopRecording() async {
-    return channel.invokeMethod('stopRecording');
+  Future stopVideoRecording() async {
+    return channel.invokeMethod('stopVideoRecording');
   }
 
-  Future next({@required String licenceKey}) async {
-    return channel.invokeMethod('next');
-  }
-
-  Future previous({@required String licenceKey}) async {
-    return channel.invokeMethod('previous');
-  }
+  // Future next({@required String licenceKey}) async {
+  //   return channel.invokeMethod('next');
+  // }
+  //
+  // Future previous({@required String licenceKey}) async {
+  //   return channel.invokeMethod('previous');
+  // }
 
   Future setCameraMode({@required CameraMode camMode}) async {
     return channel.invokeMethod('setCameraMode', <String, dynamic>{
@@ -182,15 +244,36 @@ class CameraDeepArController {
     });
   }
 
-  Future setCameraEffect({@required CameraEffects camEffects}) async {
-    return channel.invokeMethod('setCameraEffect', <String, dynamic>{
-      'cameraEffect': CameraEffects.values.indexOf(camEffects),
+  Future setRecordingMode({@required RecordingMode recordingMode}) async {
+    return channel.invokeMethod('setRecordingMode', <String, dynamic>{
+      'recordingMode': RecordingMode.values.indexOf(recordingMode),
     });
   }
 
   Future switchCameraDirection({@required CameraDirection direction}) async {
     return channel.invokeMethod('switchCameraDirection', <String, dynamic>{
       'direction': CameraDirection.values.indexOf(direction),
+    });
+  }
+
+  Future changeMask(int p) async {
+    if (p > Masks.values.length - 1) p = 0;
+    return channel.invokeMethod('changeMask', <String, dynamic>{
+      'mask': p,
+    });
+  }
+
+  Future changeEffect(int p) async {
+    if (p > Effects.values.length - 1) p = 0;
+    return channel.invokeMethod('changeEffect', <String, dynamic>{
+      'effect': p,
+    });
+  }
+
+  Future changeFilter(int p) async {
+    if (p > Filters.values.length - 1) p = 0;
+    return channel.invokeMethod('changeFilter', <String, dynamic>{
+      'filter': p,
     });
   }
 }

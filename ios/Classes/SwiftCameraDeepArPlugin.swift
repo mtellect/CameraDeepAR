@@ -10,14 +10,13 @@ public class SwiftCameraDeepArPlugin: NSObject, FlutterPlugin {
         let viewFactory = DeepArCameraViewFactory(messenger: registrar.messenger())
         registrar.register(viewFactory, withId: "plugins.flutter.io/deep_ar_camera")
     }
-    
     //public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
     //  result("iOS " + UIDevice.current.systemVersion)
     //}
 }
 
 
-enum Mode: String {
+enum Mode: String, CaseIterable {
     case masks
     case effects
     case filters
@@ -34,7 +33,7 @@ enum Masks: String, CaseIterable {
     case aviators
     case bigmouth
     case dalmatian
-    //case bcgSeg
+    case bcgSeg
     case look2
     case fatify
     case flowers
@@ -135,6 +134,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         self.frame=frame
         self.viewId=viewId
         deepAR = DeepAR()
+        cameraController = CameraController()
         licenceKey=""
         modeValue=""
         directionValue=""
@@ -145,44 +145,69 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         
         
         if let dict = args as? [String: Any] {
-            let licence: String = (dict["iosLicenceKey"] as? String)!
+            let licence: String = (dict["iosLicenceKey"] as? String ?? "")
+            let _: Int = (dict["cameraEffect"] as? Int ?? 0)
+            let direction: Int = (dict["direction"] as? Int ?? 0)
+            let cameraMode: Int = (dict["cameraMode"] as? Int ?? 0)
+            
+            print(direction)
             self.licenceKey = licence
+            self.currentMode=Mode.allCases[cameraMode];
+            self.cameraController.position = direction == 0 ? .back : .front
+            
         }
         
         
         channel.setMethodCallHandler { call, result in
             if call.method == "isCameraReady" {
-                //                if let dict = call.arguments as? [String: Any] {
-                //                    if let licenceKey = (dict["licenceKey"] as? String) {
-                //                        self.licenceKey=licenceKey;
-                //                        result("iOS /\(String(describing: licenceKey))" + UIDevice.current.systemVersion)
-                //                    }
-                //                }
-                
                 var dict: [String: Bool] = [String:Bool]()
-                       dict["isReady"] = true
+                dict["isReady"] = true
                 self.channel.invokeMethod("onCameraReady", arguments: dict)
                 result("iOS is ready")
+            }
                 
-            } else if call.method == "next" {
-                self.didTapNextButton()
-                result("You Tapped on  Next \(self.modeValue)")
-            } else if call.method == "previous" {
-                self.didTapPreviousButton()
-                result("You Tapped Previous \(self.modeValue)")
-            } else if call.method == "switchCamera" {
-                self.didTapSwitchCameraButton()
-                result("You Tapped SwitchCamera \(self.directionValue)")
-            } else if call.method == "startRecording" {
+            else if call.method == "switchCameraDirection" {
+                if let dict = call.arguments as? [String: Any] {
+                    if let direction = (dict["direction"] as? Int) {
+                        //let index = Int(direction) ?? 0
+                        self.cameraController.position = direction == 0 ? .back : .front
+                    }
+                }
+                result("Camera  Changed")
+            }
+            else if call.method == "changeMask" {
+                if let dict = call.arguments as? [String: Any] {
+                    if let mask = (dict["mask"] as? Int) {
+                        //let index = Int(mask) ?? 0
+                        self.switchMode(self.maskPaths[mask])
+                    }
+                }
+                result("Mask  Changed")
+            } else if call.method == "changeEffect" {
+                if let dict = call.arguments as? [String: Any] {
+                    if let effect = (dict["effect"] as? Int) {
+                        //let index = Int(effect) ?? 0
+                        self.switchMode(self.effectPaths[effect])
+                    }
+                }
+                result("Effects  Changed")
+            } else if call.method == "changeFilter" {
+                if let dict = call.arguments as? [String: Any] {
+                    if let filter = (dict["filter"] as? Int) {
+                        //let index = Int(filter) ?? 0
+                        self.switchMode(self.filterPaths[filter])
+                    }
+                }
+                result("Filter  Changed")
+            } else if call.method == "startVideoRecording" {
                 self.didTapStartRecordButton()
-                result("You Tapped on StartRecording")
-            } else if call.method == "stopRecording" {
+                result("You Tapped on startVideoRecording")
+            } else if call.method == "stopVideoRecording" {
                 self.didTapStopRecordButton()
-                result("You Tapped on StopRecording")
+                result("You Tapped on stopVideoRecording")
             } else if call.method == "snapPhoto" {
                 self.deepAR.takeScreenshot()
                 result("You Tapped on SnapPhoto")
-                
             }
         }
         if #available(iOS 9.0, *) {
@@ -285,11 +310,8 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
     
     @available(iOS 9.0, *)
     @objc func  initCameraDeepAR(){
-        
-        self.deepAR = DeepAR()
         self.deepAR.delegate = self
         self.deepAR.setLicenseKey(self.licenceKey)
-        cameraController = CameraController()
         cameraController.deepAR = self.deepAR
         self.arView = self.deepAR.createARView(withFrame: self.frame) as? ARView
         self.arView.translatesAutoresizingMaskIntoConstraints = false
