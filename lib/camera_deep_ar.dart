@@ -22,38 +22,38 @@ enum Masks {
   dalmatian,
   //bcgSeg,
   look2,
-  fatify,
+  //fatify,
   flowers,
   grumpycat,
-  koala,
+  //koala,
   lion,
-  mudMask,
-  obama,
-  pug,
-  slash,
-  sleepingmask,
-  smallface,
-  teddycigar,
-  tripleface,
-  twistedFace,
+  // mudMask,
+  //obama,
+  //pug,
+  // slash,
+  // sleepingmask,
+  // smallface,
+  // teddycigar,
+  // tripleface,
+  // twistedFace,
 }
 
 enum Effects {
   none,
   fire,
   heart,
-  blizzard,
-  rain,
+  // blizzard,
+  //rain,
 }
 
 enum Filters {
   none,
-  tv80,
-  drawingmanga,
+  //tv80,
+  //drawingmanga,
   sepia,
   bleachbypass,
-  realvhs,
-  filmcolorperfection,
+  //realvhs,
+  //filmcolorperfection,
 }
 
 class CameraDeepAr extends StatefulWidget {
@@ -217,6 +217,7 @@ class CameraDeepArController {
   Future dispose() async {
     return channel.invokeMethod('dispose');
   }
+
   Future switchCamera() async {
     return channel.invokeMethod('switchCamera');
   }
