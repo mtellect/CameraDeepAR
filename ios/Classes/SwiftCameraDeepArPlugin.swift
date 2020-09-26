@@ -190,6 +190,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
                 if let dict = call.arguments as? [String: Any] {
                     if let mask = (dict["mask"] as? Int) {
                         //let index = Int(mask) ?? 0
+                        self.currentMode = .masks
                         self.switchMode(self.maskPaths[mask])
                     }
                 }
@@ -198,6 +199,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
                 if let dict = call.arguments as? [String: Any] {
                     if let effect = (dict["effect"] as? Int) {
                         //let index = Int(effect) ?? 0
+                        self.currentMode = .effects
                         self.switchMode(self.effectPaths[effect])
                     }
                 }
@@ -206,6 +208,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
                 if let dict = call.arguments as? [String: Any] {
                     if let filter = (dict["filter"] as? Int) {
                         //let index = Int(filter) ?? 0
+                        self.currentMode = .filters
                         self.switchMode(self.filterPaths[filter])
                     }
                 }
