@@ -192,7 +192,7 @@ public class CameraDeepArView implements PlatformView,
                 Object direction = params.get("direction");
                 if(null!=direction){
                     int index=Integer.parseInt(String.valueOf(direction));
-                    defaultCameraDevice = index==0?Camera.CameraInfo.CAMERA_FACING_FRONT:Camera.CameraInfo.CAMERA_FACING_FRONT;
+                    defaultCameraDevice = index==0?Camera.CameraInfo.CAMERA_FACING_BACK:Camera.CameraInfo.CAMERA_FACING_FRONT;
                     cameraDevice = defaultCameraDevice;
                     cameraGrabber.changeCameraDevice(cameraDevice);
                 }

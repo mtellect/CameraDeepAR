@@ -8,17 +8,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fce1fb28-a1e1-4aae-8d4d-dbf5bbf22375" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/android/src/main/java/com/camera_deep_ar/CameraDeepArPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/camera_deep_ar/CameraDeepArPlugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/src/main/java/com/camera_deep_ar/CameraDeepArView.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/camera_deep_ar/CameraDeepArView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/android/src/main/java/com/camera_deep_ar/CameraDeepArPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/android/src/main/java/com/camera_deep_ar/CameraDeepArPlugin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/camera_deep_ar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/camera_deep_ar.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[jjqkzdmvsoeijniv]" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -58,7 +56,19 @@
       <option name="presentableId" value="Default" />
       <updated>1600592917529</updated>
     </task>
+    <task id="LOCAL-00001" summary="Add zoom capability on android only....">
+      <created>1607437090969</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1607437090971</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Add zoom capability on android only...." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add zoom capability on android only...." />
   </component>
   <component name="WindowStateProjectService">
     <state x="269" y="113" key="#PSD" timestamp="1600700760687">
@@ -69,6 +79,10 @@
       <screen x="0" y="23" width="1366" height="699" />
     </state>
     <state x="423" y="181" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1366.699@0.23.1366.699" timestamp="1600660202212" />
+    <state x="173" y="23" key="CommitChangelistDialog2" timestamp="1607437090475">
+      <screen x="0" y="23" width="1366" height="699" />
+    </state>
+    <state x="173" y="23" key="CommitChangelistDialog2/0.23.1366.699@0.23.1366.699" timestamp="1607437090475" />
     <state x="221" y="123" width="1145" height="499" key="DiffContextDialog" timestamp="1600761419147">
       <screen x="0" y="23" width="1366" height="699" />
     </state>
@@ -89,6 +103,10 @@
       <screen x="0" y="23" width="1366" height="699" />
     </state>
     <state width="1303" height="241" key="GridCell.Tab.0.right/0.23.1366.699@0.23.1366.699" timestamp="1600789585378" />
+    <state x="305" y="98" key="Vcs.Push.Dialog.v2" timestamp="1607437130468">
+      <screen x="0" y="23" width="1366" height="699" />
+    </state>
+    <state x="305" y="98" key="Vcs.Push.Dialog.v2/0.23.1366.699@0.23.1366.699" timestamp="1607437130468" />
     <state x="221" y="123" width="1145" height="499" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1600761419148">
       <screen x="0" y="23" width="1366" height="699" />
     </state>
