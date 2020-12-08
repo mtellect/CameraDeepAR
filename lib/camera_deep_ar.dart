@@ -285,6 +285,12 @@ class CameraDeepArController {
     });
   }
 
+  Future zoomTo(int p) async {
+    return channel.invokeMethod('zoomTo', <String, dynamic>{
+      'zoom': p,
+    });
+  }
+
   Future changeMask(int p) async {
     int sendNative = p;
     if (_cameraDeepArState.supportedEffects.isNotEmpty) {

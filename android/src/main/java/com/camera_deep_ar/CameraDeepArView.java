@@ -200,6 +200,20 @@ public class CameraDeepArView implements PlatformView,
             result.success("Mask Changed");
         }
 
+        else  if ("zoomTo".equals(methodCall.method)) {
+            if (methodCall.arguments instanceof HashMap) {
+                @SuppressWarnings({"unchecked"})
+                Map<String, Object> params = (Map<String, Object>) methodCall.arguments;
+                Object index = params.get("zoom");
+                int zoom=Integer.parseInt(String.valueOf(index));
+                Camera.Parameters camParams = cameraGrabber.getCamera().getParameters();
+                cameraGrabber.getCamera().cancelAutoFocus();
+                camParams.setZoom(zoom);
+                cameraGrabber.getCamera().setParameters(camParams);
+                 }
+            result.success("ZoomTo Changed");
+        }
+
         else  if ("changeMask".equals(methodCall.method)) {
             if (methodCall.arguments instanceof HashMap) {
                 @SuppressWarnings({"unchecked"})
@@ -399,17 +413,15 @@ public class CameraDeepArView implements PlatformView,
             public boolean onTouch(View v, MotionEvent event) {
                 // Get the pointer ID
                 Camera.Parameters params = cameraGrabber.getCamera().getParameters();
-
                 int action = event.getAction();
-
                 if (event.getPointerCount() > 1) {
                     // handle multi-touch events
-                    if (action == MotionEvent.ACTION_POINTER_DOWN) {
-                        mDist = getFingerSpacing(event);
-                    } else if (action == MotionEvent.ACTION_MOVE && params.isZoomSupported()) {
-                        cameraGrabber.getCamera().cancelAutoFocus();
-                        handleZoom(event, params);
-                    }
+//                    if (action == MotionEvent.ACTION_POINTER_DOWN) {
+//                        mDist = getFingerSpacing(event);
+//                    } else if (action == MotionEvent.ACTION_MOVE && params.isZoomSupported()) {
+//                        cameraGrabber.getCamera().cancelAutoFocus();
+//                        handleZoom(event, params);
+//                    }
                 } else {
                     // handle single touch events
                     if (action == MotionEvent.ACTION_UP) {
