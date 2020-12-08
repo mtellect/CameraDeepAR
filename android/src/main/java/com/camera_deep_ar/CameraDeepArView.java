@@ -129,7 +129,7 @@ public class CameraDeepArView implements PlatformView,
             if(null!=cameraEffect)activeFilterType=Integer.parseInt(String.valueOf(cameraEffect));
             if(null!=direction){
                int index=Integer.parseInt(String.valueOf(direction));
-                defaultCameraDevice = index==0?Camera.CameraInfo.CAMERA_FACING_FRONT:Camera.CameraInfo.CAMERA_FACING_FRONT;
+                defaultCameraDevice = index==0?Camera.CameraInfo.CAMERA_FACING_BACK:Camera.CameraInfo.CAMERA_FACING_FRONT;
                 cameraDevice = defaultCameraDevice;
             }
            /* if(null!=cameraMode){
