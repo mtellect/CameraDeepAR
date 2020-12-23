@@ -6,12 +6,15 @@ A new Flutter plugin for Camera video and Photo Augmented reality recording. Thi
 
 ## Getting Started
 
+Get your ApiKeys from DeepAr [a link](https://www.deepar.ai/)
+
 
 ![DeepAr Camera Demo](demo.gif)
 
 
 
 1) Simply follow the example main.dart. More documentations to come in as time permits
+
 
 ```dart
 
@@ -173,39 +176,50 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
+
 ```
 
 
 2) To snap a photo
 
 ```dart
+
  cameraDeepArController.snapPhoto();
+
 ```
 
 3) To record a video
 
 ```dart
+
  cameraDeepArController.startVideoRecording();
+
 ```
 
 
 4) To stop video recording
 
 ```dart
+
 cameraDeepArController.stopVideoRecording();
+
 ```
 
 
 5) To stop video recording
 
 ```dart
+
 cameraDeepArController.stopVideoRecording();
+
 ```
 
 5) To change a mask
 
 ```dart
+
 cameraDeepArController.changeMask(p);
+
 ```
 
 More to come....
@@ -217,7 +231,31 @@ More to come....
  You can use [Permission_handler](https://pub.dev/packages/permission_handler), a permissions plugin for Flutter.
 Require and add the following permissions in your manifest:
 
+Add this to the proguard-rules.pro
+
+```
+
+-keepclassmembers class ai.deepar.ar.DeepAR { *; }
+
+```
+
+for release mode modify and add to your BuildType in your build.gradle
+
+```
+    buildTypes {
+        release {
+            // TODO: Add your own signing config for the release build.
+            // Signing with the debug keys for now, so `flutter run --release` works.
+            signingConfig signingConfigs.debug
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+```
+
+
 ```java
+
     <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -235,6 +273,7 @@ Require and add the following permissions in your manifest:
         android:required="true" />
     <uses-feature android:name="android.hardware.camera.flash" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
 ```
 
 ## iOS
@@ -242,6 +281,7 @@ Require and add the following permissions in your manifest:
 You only need add the permission message on the Info.plist
 
 ```swift
+
     <key>NSCameraUsageDescription</key>
     <string>Allows you to capture your best moment</string>
 	<key>io.flutter.embedded_views_preview</key>
@@ -250,4 +290,5 @@ You only need add the permission message on the Info.plist
     <string>Allows you to capture your best moment</string>
     <key>NSMicrophoneUsageDescription</key>
     <string>Needs access to your mic to help your record voice notes on chat/message conversations</string>
+
 ```

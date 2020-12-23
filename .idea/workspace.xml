@@ -8,9 +8,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fce1fb28-a1e1-4aae-8d4d-dbf5bbf22375" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +30,7 @@
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/example/android/app" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -40,6 +38,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/example/android/app" />
       <recent name="$PROJECT_DIR$/android/src/main" />
       <recent name="$PROJECT_DIR$/android/lib" />
@@ -78,13 +77,21 @@
       <option name="project" value="LOCAL" />
       <updated>1607439452339</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Add ReadMe documentation">
+      <created>1608712198011</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1608712198011</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Add zoom capability on android only...." />
     <MESSAGE value="Add zoom capability on android only....&#10;fix camera direction on android" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add zoom capability on android only....&#10;fix camera direction on android" />
+    <MESSAGE value="Add ReadMe documentation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add ReadMe documentation" />
   </component>
   <component name="WindowStateProjectService">
     <state x="269" y="113" key="#PSD" timestamp="1600700760687">
@@ -95,10 +102,10 @@
       <screen x="0" y="23" width="1366" height="699" />
     </state>
     <state x="423" y="181" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1366.699@0.23.1366.699" timestamp="1600660202212" />
-    <state x="173" y="23" key="CommitChangelistDialog2" timestamp="1607439452199">
+    <state x="173" y="23" key="CommitChangelistDialog2" timestamp="1608712196507">
       <screen x="0" y="23" width="1366" height="699" />
     </state>
-    <state x="173" y="23" key="CommitChangelistDialog2/0.23.1366.699@0.23.1366.699" timestamp="1607439452199" />
+    <state x="173" y="23" key="CommitChangelistDialog2/0.23.1366.699@0.23.1366.699" timestamp="1608712196507" />
     <state x="221" y="123" width="1145" height="499" key="DiffContextDialog" timestamp="1600761419147">
       <screen x="0" y="23" width="1366" height="699" />
     </state>
@@ -119,10 +126,10 @@
       <screen x="0" y="23" width="1366" height="699" />
     </state>
     <state width="1303" height="241" key="GridCell.Tab.0.right/0.23.1366.699@0.23.1366.699" timestamp="1600789585378" />
-    <state x="305" y="98" key="Vcs.Push.Dialog.v2" timestamp="1607439453911">
+    <state x="305" y="98" key="Vcs.Push.Dialog.v2" timestamp="1608712201691">
       <screen x="0" y="23" width="1366" height="699" />
     </state>
-    <state x="305" y="98" key="Vcs.Push.Dialog.v2/0.23.1366.699@0.23.1366.699" timestamp="1607439453911" />
+    <state x="305" y="98" key="Vcs.Push.Dialog.v2/0.23.1366.699@0.23.1366.699" timestamp="1608712201691" />
     <state x="221" y="123" width="1145" height="499" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1600761419148">
       <screen x="0" y="23" width="1366" height="699" />
     </state>
