@@ -1,8 +1,8 @@
 name: camera_deep_ar
 description: A new Flutter plugin.
 version: 0.0.1
-author:
-homepage:
+#author:
+homepage: https://github.com/mtellect/CameraDeepAR
 
 environment:
   sdk: ">=2.7.0 <3.0.0"

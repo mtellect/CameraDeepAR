@@ -8,7 +8,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fce1fb28-a1e1-4aae-8d4d-dbf5bbf22375" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/LICENSE" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/demo.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/camera_deep_ar/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,14 +90,22 @@
       <option name="project" value="LOCAL" />
       <updated>1608712198011</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Add ReadMe Mod documentation">
+      <created>1608713201015</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1608713201015</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Add zoom capability on android only...." />
     <MESSAGE value="Add zoom capability on android only....&#10;fix camera direction on android" />
     <MESSAGE value="Add ReadMe documentation" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add ReadMe documentation" />
+    <MESSAGE value="Add ReadMe Mod documentation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add ReadMe Mod documentation" />
   </component>
   <component name="WindowStateProjectService">
     <state x="269" y="113" key="#PSD" timestamp="1600700760687">
@@ -102,10 +116,10 @@
       <screen x="0" y="23" width="1366" height="699" />
     </state>
     <state x="423" y="181" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1366.699@0.23.1366.699" timestamp="1600660202212" />
-    <state x="173" y="23" key="CommitChangelistDialog2" timestamp="1608712196507">
+    <state x="173" y="23" key="CommitChangelistDialog2" timestamp="1608713200834">
       <screen x="0" y="23" width="1366" height="699" />
     </state>
-    <state x="173" y="23" key="CommitChangelistDialog2/0.23.1366.699@0.23.1366.699" timestamp="1608712196507" />
+    <state x="173" y="23" key="CommitChangelistDialog2/0.23.1366.699@0.23.1366.699" timestamp="1608713200834" />
     <state x="221" y="123" width="1145" height="499" key="DiffContextDialog" timestamp="1600761419147">
       <screen x="0" y="23" width="1366" height="699" />
     </state>
@@ -126,10 +140,10 @@
       <screen x="0" y="23" width="1366" height="699" />
     </state>
     <state width="1303" height="241" key="GridCell.Tab.0.right/0.23.1366.699@0.23.1366.699" timestamp="1600789585378" />
-    <state x="305" y="98" key="Vcs.Push.Dialog.v2" timestamp="1608712201691">
+    <state x="305" y="98" key="Vcs.Push.Dialog.v2" timestamp="1608713202892">
       <screen x="0" y="23" width="1366" height="699" />
     </state>
-    <state x="305" y="98" key="Vcs.Push.Dialog.v2/0.23.1366.699@0.23.1366.699" timestamp="1608712201691" />
+    <state x="305" y="98" key="Vcs.Push.Dialog.v2/0.23.1366.699@0.23.1366.699" timestamp="1608713202892" />
     <state x="221" y="123" width="1145" height="499" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1600761419148">
       <screen x="0" y="23" width="1366" height="699" />
     </state>
