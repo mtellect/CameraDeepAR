@@ -134,8 +134,8 @@ class _CameraDeepArState extends State<CameraDeepAr> {
   @override
   Widget build(BuildContext context) {
     final Map<String, Object> args = {
-      "androidLicenceKey": widget.androidLicenceKey ?? "",
-      "iosLicenceKey": widget.iosLicenceKey ?? "",
+      "androidLicenceKey": widget.androidLicenceKey,
+      "iosLicenceKey": widget.iosLicenceKey,
       "recordingMode": RecordingMode.values.indexOf(widget.recordingMode),
       "direction": CameraDirection.values.indexOf(widget.cameraDirection),
       "cameraMode": CameraMode.values.indexOf(widget.cameraMode)
