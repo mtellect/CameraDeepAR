@@ -264,6 +264,15 @@ public class CameraDeepArView implements PlatformView,
             deepAR.release();
             deepAR = null;
             result.success("Disposed");
+        }else  if ("switchEffect".equals(methodCall.method)) {
+            if (methodCall.arguments instanceof HashMap) {
+                @SuppressWarnings({"unchecked"})
+                Map<String, Object> params = (Map<String, Object>) methodCall.arguments;
+                Object mode = params.get("mode");
+                Object path = params.get("path");
+                deepAR.switchEffect(String.valueOf(mode), String.valueOf(path));
+            }
+            result.success("Custom Effect Changed");
         }
 
     }

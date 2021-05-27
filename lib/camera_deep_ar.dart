@@ -326,4 +326,11 @@ class CameraDeepArController {
       'filter': sendNative,
     });
   }
+
+  Future switchEffect(String mode, String path) async {
+    return channel.invokeMethod('switchEffect', <String, dynamic>{
+      'mode': mode,
+      'path': path,
+    });
+  }
 }
