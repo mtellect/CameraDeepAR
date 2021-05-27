@@ -229,7 +229,18 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
             } else if call.method == "dispose" {
                 self.deepAR.shutdown()
                 result("You Tapped on SnapPhoto")
+            } else if call.method == "switchEffect" {
+                if let dict = call.arguments as? [String: Any] {
+                    if let mode = (dict["mode"] as? String) {
+                        if let path = (dict["path"] as? String){
+                            deepAR.switchEffect(withSlot: mode, path: path)
+                        }
+                       
+                    }
+                }
+                result("Custom Effect Changed")
             }
+            
         }
         if #available(iOS 9.0, *) {
             self.initCameraDeepAR()
