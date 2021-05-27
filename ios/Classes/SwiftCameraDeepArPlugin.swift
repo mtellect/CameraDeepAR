@@ -233,7 +233,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
                 if let dict = call.arguments as? [String: Any] {
                     if let mode = (dict["mode"] as? String) {
                         if let path = (dict["path"] as? String){
-                            deepAR.switchEffect(withSlot: mode, path: path)
+                            self.deepAR.switchEffect(withSlot: mode, path: path)
                         }
                        
                     }
