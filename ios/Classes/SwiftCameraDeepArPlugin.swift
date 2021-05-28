@@ -7,9 +7,10 @@ public class SwiftCameraDeepArPlugin: NSObject, FlutterPlugin {
         //let channel = FlutterMethodChannel(name: "camera_deep_ar", binaryMessenger: registrar.messenger())
         //let instance = SwiftCameraDeepArPlugin()
         //registrar.addMethodCallDelegate(instance, channel: channel)
-        let viewFactory = DeepArCameraViewFactory(messenger: registrar.messenger())
+        let viewFactory = DeepArCameraViewFactory(messenger: registrar.messenger(), registrar: registrar)
         registrar.register(viewFactory, withId: "plugins.flutter.io/deep_ar_camera")
     }
+    
     //public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
     //  result("iOS " + UIDevice.current.systemVersion)
     //}
@@ -72,14 +73,17 @@ enum Filters: String, CaseIterable {
 //Factory view for camera ar
 public class DeepArCameraViewFactory: NSObject, FlutterPlatformViewFactory {
     let messenger: FlutterBinaryMessenger
+    let registrar: FlutterPluginRegistrar
     
-    init(messenger: FlutterBinaryMessenger) {
+    init(messenger: FlutterBinaryMessenger, registrar: FlutterPluginRegistrar) {
         self.messenger = messenger
+        self.registrar = registrar
+
     }
     public func create(withFrame frame: CGRect,
                        viewIdentifier viewId: Int64,
                        arguments args: Any?) -> FlutterPlatformView {
-        return DeepArCameraView(messenger: messenger,
+        return DeepArCameraView(messenger: messenger, registrar: registrar,
                                 frame: frame, viewId: viewId,
                                 args: args)
     }
@@ -91,10 +95,11 @@ public class DeepArCameraViewFactory: NSObject, FlutterPlatformViewFactory {
 
 
 //The main view for DeepAr Camera
-public class DeepArCameraView : NSObject,FlutterPlatformView,FlutterPluginRegistrar,FlutterPlugin,DeepARDelegate{
+public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
     
     let messenger: FlutterBinaryMessenger
     let frame: CGRect
+    let registrar: FlutterPluginRegistrar
     let viewId: Int64
     let channel: FlutterMethodChannel
     var licenceKey: String
@@ -129,8 +134,9 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,FlutterPluginRegist
     
     
     
-    init(messenger: FlutterBinaryMessenger, frame: CGRect, viewId: Int64, args: Any?){
+    init(messenger: FlutterBinaryMessenger,  registrar: FlutterPluginRegistrar, frame: CGRect, viewId: Int64, args: Any?){
         self.messenger=messenger
+        self.registrar=registrar
         self.frame=frame
         self.viewId=viewId
         deepAR = DeepAR()
@@ -233,7 +239,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,FlutterPluginRegist
                 if let dict = call.arguments as? [String: Any] {
                     if let mode = (dict["mode"] as? String) {
                         if let path = (dict["path"] as? String){
-                            let key = registrar.lookupKey(forAsset: path);
+                            let key = self.registrar.lookupKey(forAsset: path);
                             let pathSwift = Bundle.main.path(forResource: key, ofType: nil)
                             self.deepAR.switchEffect(withSlot: mode, path: pathSwift)
                         }
