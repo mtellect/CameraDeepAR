@@ -270,7 +270,11 @@ public class CameraDeepArView implements PlatformView,
                 Map<String, Object> params = (Map<String, Object>) methodCall.arguments;
                 Object mode = params.get("mode");
                 Object path = params.get("path");
-                deepAR.switchEffect(String.valueOf(mode), String.valueOf(path));
+
+                FlutterLoader loader = FlutterInjector.instance().flutterLoader();
+                String pathJava = loader.getLookupKeyForAsset(String.valueOf(path));
+
+                deepAR.switchEffect(String.valueOf(mode), pathJava);
             }
             result.success("Custom Effect Changed");
         }
