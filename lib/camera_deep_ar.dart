@@ -336,7 +336,7 @@ class CameraDeepArController {
   }
 
   Future changeParameterFloat(String changeParameter, String component,
-      String parameter, Float floatValue) async {
+      String parameter, Double floatValue) async {
     return channel.invokeMethod('changeParameterFloat', <String, dynamic>{
       'changeParameter': changeParameter,
       'component': component,
