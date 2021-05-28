@@ -42,6 +42,8 @@ import ai.deepar.ar.AREventListener;
 import ai.deepar.ar.CameraResolutionPreset;
 import ai.deepar.ar.DeepAR;
 import io.flutter.plugin.common.BinaryMessenger;
+import io.flutter.PluginRegistry;
+import io.FlutterPlugin.registrar;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.PluginRegistry;
