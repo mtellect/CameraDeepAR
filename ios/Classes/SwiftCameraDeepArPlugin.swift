@@ -91,7 +91,7 @@ public class DeepArCameraViewFactory: NSObject, FlutterPlatformViewFactory {
 
 
 //The main view for DeepAr Camera
-public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
+public class DeepArCameraView : NSObject,FlutterPlatformView,FlutterPluginRegistrar,FlutterPlugin,DeepARDelegate{
     
     let messenger: FlutterBinaryMessenger
     let frame: CGRect
