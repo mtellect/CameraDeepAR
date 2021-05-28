@@ -134,7 +134,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
     
     
     
-    init(messenger: FlutterBinaryMessenger,  registrar: FlutterPluginRegistrar, frame: CGRect, viewId: Int64, args: Any?){
+    @objc init(messenger: FlutterBinaryMessenger,  registrar: FlutterPluginRegistrar, frame: CGRect, viewId: Int64, args: Any?){
         self.messenger=messenger
         self.registrar=registrar
         self.frame=frame
