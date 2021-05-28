@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -331,6 +332,16 @@ class CameraDeepArController {
     return channel.invokeMethod('switchEffect', <String, dynamic>{
       'mode': mode,
       'path': path,
+    });
+  }
+
+  Future changeParameterFloat(String changeParameter, String component,
+      String parameter, Float floatValue) async {
+    return channel.invokeMethod('changeParameterFloat', <String, dynamic>{
+      'changeParameter': changeParameter,
+      'component': component,
+      'parameter': parameter,
+      'floatValue': floatValue,
     });
   }
 }

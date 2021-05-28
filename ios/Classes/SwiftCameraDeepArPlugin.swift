@@ -247,6 +247,19 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
                     }
                 }
                 result("Custom Effect Changed")
+            } else if call.method == "changeParameterFloat" {
+                if let dict = call.arguments as? [String: Any] {
+                    if let changeParameter = (dict["changeParameter"] as? String) {
+                        if let component = (dict["component"] as? String){
+                            if let parameter = (dict["parameter"] as? String){
+                                if let floatValue = (dict["floatValue"] as? Float){
+                                   [self.arView changeParameter:@changeParameter component:@component parameter:@parameter floatValue:@floatValue]
+                                }
+                            }
+                        }
+                    }
+                }
+                result("Param Changed")
             }
             
         }
@@ -366,7 +379,6 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         print(self.modeValue)
         deepAR.switchEffect(withSlot: currentMode.rawValue, path: path)
     }
-    
     
     private var isRecordingInProcess: Bool = false
     
