@@ -253,7 +253,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
                         if let component = (dict["component"] as? String){
                             if let parameter = (dict["parameter"] as? String){
                                 if let floatValue = (dict["floatValue"] as? Double){
-                                   self.arView.changeParameter(_ gameObject:changeParameter,component:component,parameter:parameter,floatValue:floatValue);
+                                   self.arView.changeParameter(gameObject:changeParameter,component:component,parameter:parameter,floatValue:floatValue);
                                 }
                             }
                         }
