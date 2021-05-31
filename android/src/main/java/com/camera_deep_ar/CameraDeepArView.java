@@ -42,8 +42,8 @@ import ai.deepar.ar.AREventListener;
 import ai.deepar.ar.CameraResolutionPreset;
 import ai.deepar.ar.DeepAR;
 import io.flutter.plugin.common.BinaryMessenger;
-import io.flutter.PluginRegistry;
-import io.FlutterPlugin.registrar;
+// import io.flutter.PluginRegistry;
+// import io.FlutterPlugin.registrar;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.PluginRegistry;
@@ -56,6 +56,7 @@ public class CameraDeepArView implements PlatformView,
 
     private final Activity activity;
     private final Context context;
+    private final Registrar registrar;
     private View view;
     private final MethodChannel methodChannel;
     private boolean disposed = false;
@@ -96,9 +97,10 @@ public class CameraDeepArView implements PlatformView,
     private File videoFile;
 
 
-    public CameraDeepArView(Activity mActivity, BinaryMessenger mBinaryMessenger, Context mContext, int id, Object args) {
+    public CameraDeepArView(Activity mActivity, BinaryMessenger mBinaryMessenger, Registrar mRegistrar, Context mContext, int id, Object args) {
         this.activity=mActivity;
         this.context=mContext;
+        this.registrar=mRegistrar;
        //view = View.inflate(context,R.layout.activity_camera, null);
         view = activity.getLayoutInflater().inflate(R.layout.activity_camera, null);
 
@@ -273,10 +275,16 @@ public class CameraDeepArView implements PlatformView,
                 Object mode = params.get("mode");
                 Object path = params.get("path");
 
-                FlutterLoader loader = FlutterInjector.instance().flutterLoader();
-                String pathJava = loader.getLookupKeyForAsset(String.valueOf(path));
-                //deepAR.changeParameterFloat("","","",0.0);
-                deepAR.switchEffect(String.valueOf(mode), pathJava);
+                // FlutterLoader loader = FlutterInjector.instance().flutterLoader();
+                // String pathJava = loader.getLookupKeyForAsset(String.valueOf(path));
+                // //deepAR.changeParameterFloat("","","",0.0);
+                // deepAR.switchEffect(String.valueOf(mode), pathJava);
+
+                AssetManager assetManager = this.registrar.context().getAssets();
+                String key = this.registrar.lookupKeyForAsset(String.valueOf(path));
+                //AssetFileDescriptor fd = assetManager.openFd(key);
+                Log(key);
+                deepAR.switchEffect(key, pathJava);
             }
             result.success("Custom Effect Changed");
         } else if ("changeParameterFloat".equals(methodCall.method)){
