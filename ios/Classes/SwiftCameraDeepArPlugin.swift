@@ -241,7 +241,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
                         if let path = (dict["path"] as? String){
                             let key = self.registrar.lookupKey(forAsset: path);
                             let pathSwift = Bundle.main.path(forResource: key, ofType: nil)
-                            NSLog(pathSwift)
+                            NSLog(pathSwift ?? "No path")
                             NSLog(key)
                             self.deepAR.switchEffect(withSlot: mode, path: pathSwift)
                         }
