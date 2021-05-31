@@ -280,6 +280,8 @@ public class CameraDeepArView implements PlatformView,
                  String pathJava = loader.getLookupKeyForAsset(String.valueOf(path));
                  //deepAR.changeParameterFloat("","","",0.0);
                  deepAR.switchEffect(String.valueOf(mode), pathJava);
+                 Log.d("CAMERA_DEEPAR", String.valueOf(mode));
+                 Log.d("CAMERA_DEEPAR", pathJava);
 
 //                AssetManager assetManager = context.getAssets();
 //                String key = this.registrar.lookupKeyForAsset(String.valueOf(path));
