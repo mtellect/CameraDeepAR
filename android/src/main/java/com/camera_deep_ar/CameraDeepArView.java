@@ -46,6 +46,7 @@ import io.flutter.FlutterInjector;
 import io.flutter.embedding.engine.loader.FlutterLoader;
 import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.FlutterInjector;
+import io.flutter.AssetManager;
 import io.flutter.embedding.engine.loader.FlutterLoader;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
@@ -278,10 +279,11 @@ public class CameraDeepArView implements PlatformView,
 
                  FlutterLoader loader = FlutterInjector.instance().flutterLoader();
                  String pathJava = loader.getLookupKeyForAsset(String.valueOf(path));
+                 AssetFileDescriptor fd = assetManager.openFd(pathJava);
                  //deepAR.changeParameterFloat("","","",0.0);
-                 deepAR.switchEffect(String.valueOf(mode), pathJava);
+                 deepAR.switchEffect(String.valueOf(mode), key.toString());
                  Log.d("CAMERA_DEEPAR", String.valueOf(mode));
-                 Log.d("CAMERA_DEEPAR", pathJava);
+                 Log.d("CAMERA_DEEPAR", key.toString());
 
 //                AssetManager assetManager = context.getAssets();
 //                String key = this.registrar.lookupKeyForAsset(String.valueOf(path));
