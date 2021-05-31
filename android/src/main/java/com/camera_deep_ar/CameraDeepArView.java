@@ -314,9 +314,9 @@ public class CameraDeepArView implements PlatformView,
                 Object changeParameter = params.get("changeParameter");
                 Object component = params.get("component");
                 Object parameter = params.get("parameter");
-                Object floatValue = params.get("floatValue");
+                Object floatParam = params.get("floatValue");
 
-                deepAR.changeParameterFloat(changeParameter.toString(), component.toString(), parameter.toString(), ((Float)floatValue).floatValue());
+                deepAR.changeParameterFloat(changeParameter.toString(), component.toString(), parameter.toString(), ((Double) floatParam).floatValue());
             }
         }
 
