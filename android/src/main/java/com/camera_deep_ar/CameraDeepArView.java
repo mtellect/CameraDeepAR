@@ -283,7 +283,7 @@ public class CameraDeepArView implements PlatformView,
                 AssetManager assetManager = this.registrar.context().getAssets();
                 String key = this.registrar.lookupKeyForAsset(String.valueOf(path));
                 //AssetFileDescriptor fd = assetManager.openFd(key);
-                Log(key);
+                Log.d("CAMERA_DEEPAR",key);
                 deepAR.switchEffect(key, pathJava);
             }
             result.success("Custom Effect Changed");
