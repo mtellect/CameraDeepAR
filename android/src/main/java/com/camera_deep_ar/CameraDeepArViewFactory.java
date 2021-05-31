@@ -20,6 +20,6 @@ public class CameraDeepArViewFactory extends PlatformViewFactory {
 
   @Override
   public PlatformView create(Context context, int id, Object args) {
-    return new CameraDeepArView(mActivity,mBinaryMessenger, mRegistrar,context,id,args);
+    return new CameraDeepArView(mActivity,mBinaryMessenger,context,id,args);
   }
 }

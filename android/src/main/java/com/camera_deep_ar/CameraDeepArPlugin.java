@@ -40,7 +40,7 @@ public class CameraDeepArPlugin implements FlutterPlugin ,ActivityAware{
     if (registrar.activity() == null)return;
     final CameraDeepArPlugin plugin =new CameraDeepArPlugin(registrar);
       //registrar.activity().getApplication().registerActivityLifecycleCallbacks(plugin);
-      final CameraDeepArViewFactory factory = new CameraDeepArViewFactory(registrar.activity(), registrar.messenger(), registrar);
+      final CameraDeepArViewFactory factory = new CameraDeepArViewFactory(registrar.activity(), registrar.messenger());
     registrar
             .platformViewRegistry()
             .registerViewFactory(
