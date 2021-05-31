@@ -59,7 +59,6 @@ public class CameraDeepArView implements PlatformView,
 
     private final Activity activity;
     private final Context context;
-    private final Registrar registrar;
     private View view;
     private final MethodChannel methodChannel;
     private boolean disposed = false;
