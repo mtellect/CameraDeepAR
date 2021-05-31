@@ -282,7 +282,12 @@ public class CameraDeepArView implements PlatformView,
                 // AssetManager assetManager = context.getAssets();
                 FlutterLoader loader = FlutterInjector.instance().flutterLoader();
                 String pathJava = loader.getLookupKeyForAsset(String.valueOf(path));
-                deepAR.switchEffect(String.valueOf(mode), pathJava);
+
+                try {
+                    deepAR.switchEffect(String.valueOf(mode), context.getAssets().open(pathJava));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 Log.d("CAMERA_DEEPAR", String.valueOf(mode));
                 Log.d("CAMERA_DEEPAR", pathJava);
                 // try {
