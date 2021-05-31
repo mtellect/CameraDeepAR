@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
@@ -46,7 +47,6 @@ import io.flutter.FlutterInjector;
 import io.flutter.embedding.engine.loader.FlutterLoader;
 import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.FlutterInjector;
-import io.flutter.AssetManager;
 import io.flutter.embedding.engine.loader.FlutterLoader;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
@@ -277,9 +277,14 @@ public class CameraDeepArView implements PlatformView,
                 Object mode = params.get("mode");
                 Object path = params.get("path");
 
+                AssetManager assetManager = context.getAssets();
                  FlutterLoader loader = FlutterInjector.instance().flutterLoader();
                  String pathJava = loader.getLookupKeyForAsset(String.valueOf(path));
-                 AssetFileDescriptor fd = assetManager.openFd(pathJava);
+                 try {
+                    AssetFileDescriptor key = assetManager.openFd(pathJava);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                  //deepAR.changeParameterFloat("","","",0.0);
                  deepAR.switchEffect(String.valueOf(mode), key.toString());
                  Log.d("CAMERA_DEEPAR", String.valueOf(mode));
