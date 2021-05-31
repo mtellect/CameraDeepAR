@@ -248,6 +248,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
                        
                     }
                 }
+                NSLog("Custom Effect Changed")
                 result("Custom Effect Changed")
             } else if call.method == "changeParameterFloat" {
                 if let dict = call.arguments as? [String: Any] {
