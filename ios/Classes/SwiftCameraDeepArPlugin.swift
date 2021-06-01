@@ -256,10 +256,9 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
                         if let component = (dict["component"] as? String){
                             if let parameter = (dict["parameter"] as? String){
                                 if let floatValue = (dict["floatValue"] as? Double){
-                                    NSLog(type(of: floatValue));
-                                    NSLog(type(of: CGFloat(floatValue)));
-                                   self.deepAR.changeParameter(changeParameter,component:component,parameter:parameter,floatValue: CGFloat(floatValue));
-                                   NSLog("%f",CGFloat(floatValue));
+                                    let f = (Float) floatValue;
+                                   self.arView.changeParameter(changeParameter,component:component,parameter:parameter,floatValue: f);
+                                   NSLog("%f",f);
                                    NSLog(changeParameter);
                                    NSLog(component);
                                    NSLog(parameter);
