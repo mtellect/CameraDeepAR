@@ -26,6 +26,15 @@ typedef struct {
     FaceData faceData[4];
 } MultiFaceData;
 
+
+typedef struct {
+    NSInteger outputWidth;
+    NSInteger outputHeight;
+    CGRect subframe;
+    NSDictionary* videoCompressionProperties;
+    BOOL recordAudio;
+} RecordingConfig;
+
 typedef struct {
     float x;
     float y;
@@ -38,6 +47,18 @@ typedef struct {
     float y;
     float z;
 } Vector3;
+
+typedef enum
+{
+    Undefined, // 0
+
+    RGBA,      // 1
+    BGRA,      // 2
+    ARGB,      // 3
+    ABGR,      // 4
+    
+    COUNT
+} OutputFormat;
 
 typedef enum {
     DEEPAR_ERROR_TYPE_DEBUG,
@@ -83,6 +104,9 @@ typedef enum {
 // Called when DeepAR has started video recording (after calling startVideoRecording method).
 - (void)didStartVideoRecording;
 
+// Called when DeepAR has prepared video recording (after calling startVideoRecording method if videoRecordingWarmupEnabled is set to YES).
+- (void)didFinishPreparingForVideoRecording;
+
 // Called when the video recording is finished and video file is saved.
 - (void)didFinishVideoRecording:(NSString*)videoFilePath;
 
@@ -111,6 +135,10 @@ typedef enum {
 
 // Rendering resolution DeepAR has been initialized with
 @property (nonatomic, readonly) CGSize renderingResolution;
+
+// If set, video recording will not start paused so when you call resume, it will start immediatelly
+@property (nonatomic, assign) BOOL videoRecordingWarmupEnabled;
+
 
 @property (nonatomic, strong) NSDictionary* audioCompressionSettings;
 
@@ -163,6 +191,9 @@ typedef enum {
 
 // Feed frame to DeepAR for processing. The result can be received in the frameAvailable delegate method. imageBuffer is the input image data that needs processing. mirror indicates whether the image should be flipped vertically before processing (front/back camera).
 - (void)processFrame:(CVPixelBufferRef)imageBuffer mirror:(BOOL)mirror;
+
+// Feed frame to DeepAR for processing. The result can be received in the frameAvailable delegate method. imageBuffer is the input image data that needs processing. mirror indicates whether the image should be flipped vertically before processing (front/back camera). Timestamp is used for audio/video sync.
+- (void)processFrame:(CVPixelBufferRef)imageBuffer mirror:(BOOL)mirror timestamp:(CMTimeValue)timestamp;
 
 
 // Feed frame to DeepAR for processing. Outputs the result in the outputBuffer parameter
@@ -217,8 +248,11 @@ typedef enum {
 // Sets the pitch change amount. Negative values will make the recorded audio lower in pitch and positive values will make it higher in pitch. Must call enableAudioProcessing to enable the pitch processing beforehand.
 - (void)setAudioProcessingSemitone:(float)sts;
 
-// By default DeepARDelegate will not call frameAvailable method on each new processed frame to save on processing time and resources. If we want the processed frames to be available in frameAvailable method of DeepARDelegate we need to call this method first on ARView. outputHeight and outputWidth define the size of the processed frames and subframe defines a subrectangle of DeepAR rendering which will be outputted. This means that the output frame in frameAvailable does not need to be the same size and/or position as the one rendered.
+// By default DeepARDelegate will not call frameAvailable method on each new processed frame to save on processing time and resources. If we want the processed frames to be available in frameAvailable method of DeepARDelegate we need to call this method first on ARView. outputHeight and outputWidth define the size of the processed frames and subframe defines a subrectangle of DeepAR rendering which will be outputted. This means that the output frame in frameAvailable does not need to be the same size and/or position as the one rendered. Default output image format is RGBA.
 - (void)startCaptureWithOutputWidth:(NSInteger)outputWidth outputHeight:(NSInteger)outputHeight subframe:(CGRect)subframe;
+
+// Start capturing with custom output image format.
+- (void)startCaptureWithOutputWidthAndFormat:(NSInteger)outputWidth outputHeight:(NSInteger)outputHeight subframe:(CGRect)subframe outputImageFormat:(OutputFormat)outputFormat;
 
 // Stops outputting frames to frameAvailable.
 - (void)stopCapture;
@@ -228,6 +262,10 @@ typedef enum {
 
 - (void)touchEvent;
 
+- (void)touchStart;
+
+- (void)touchEnd;
+
 // Display debuging stats on screen (if rendering is on).
 - (void)showStats:(BOOL) enabled;
 
@@ -235,7 +273,7 @@ typedef enum {
 - (void)setFaceDetectionSensitivity:(NSInteger)sensitivity;
 
 // Change a float value on a GameObject given by value parameter. The parameter  is the name of the parameter you want to change, e.g. scalar uniform on a shader or blendshape. For more details about changeParameter API read our article https://help.deepar.ai/en/articles/3732006-changing-filter-parameters-from-code.
-- (void)changeParameter:(NSString*)gameObject component:(NSString*)component parameter:(NSString*)parameter floatValue:(CGFloat)value;
+- (void)changeParameter:(NSString*)gameObject component:(NSString*)component parameter:(NSString*)parameter floatValue:(float)value;
 // Change a vector of 4 elements on a GameObject given by value parameter. The parameter  is the name of the parameter you want to change, e.g. an uniform on a shader or blendshape. For more details about changeParameter API read our article https://help.deepar.ai/en/articles/3732006-changing-filter-parameters-from-code.
 - (void)changeParameter:(NSString*)gameObject component:(NSString*)component parameter:(NSString*)parameter vectorValue:(Vector4)value;
 // Change a vector of 3 elements on a GameObject given by value parameter. The parameter  is the name of the parameter you want to change, e.g. an uniform on a shader or blendshape. For more details about changeParameter API read our article https://help.deepar.ai/en/articles/3732006-changing-filter-parameters-from-code.
@@ -244,9 +282,14 @@ typedef enum {
 - (void)changeParameter:(NSString*)gameObject component:(NSString*)component parameter:(NSString*)parameter boolValue:(BOOL)value;
 // Change an image parameter on a game object. The parameter is the name of the parameter you want to change. Most common use case for this override is to change the texture of a shader on a given game object. For more details about changeParameter API read our article https://help.deepar.ai/en/articles/3732006-changing-filter-parameters-from-code.
 - (void)changeParameter:(NSString*)gameObject component:(NSString*)component parameter:(NSString*)parameter image:(UIImage*)image;
+// Change a string value on a GameObject by value parameter. The parameter is the name of the parameter you want to change. Most common use for this override is to change the blending mode of a material on a given game object. For more details about changeParameter API read our article https://help.deepar.ai/en/articles/3732006-changing-filter-parameters-from-code.
+- (void)changeParameter:(NSString*)gameObject component:(NSString*)component parameter:(NSString*)parameter stringValue:(NSString*)value;
 
 
 - (void)setParameterWithKey:(NSString*)key value:(NSString*)value;
+
+// Moves the selected game object from its current position in a tree. Sets the selected game object as a direct child of a target game object.
+- (void)moveGameObject:(NSString*)selectedGameObjectName targetGameObjectname:(NSString*)targetGameObjectName;
 
 @end
 
