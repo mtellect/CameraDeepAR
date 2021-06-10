@@ -288,23 +288,6 @@ public class CameraDeepArView implements PlatformView,
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                Log.d("CAMERA_DEEPAR", String.valueOf(mode));
-                Log.d("CAMERA_DEEPAR", pathJava);
-                // try {
-                //     AssetFileDescriptor key = assetManager.openFd(pathJava);
-                    
-                // } catch (IOException e) {
-                //     e.printStackTrace();
-                // }
-
-                 //deepAR.changeParameterFloat("","","",0.0);
-                 
-
-//                AssetManager assetManager = context.getAssets();
-//                String key = this.registrar.lookupKeyForAsset(String.valueOf(path));
-//                //AssetFileDescriptor fd = assetManager.openFd(key);
-//                Log.d("CAMERA_DEEPAR",key);
-//                deepAR.switchEffect(key, pathJava);
             }
             result.success("Custom Effect Changed");
         } else if ("changeParameterFloat".equals(methodCall.method)){
