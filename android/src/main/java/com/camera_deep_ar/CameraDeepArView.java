@@ -8,43 +8,57 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.content.res.AssetFileDescriptor;
-import android.content.res.AssetManager;
+
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.media.Image;
 import android.media.MediaScannerConnection;
+
 import android.os.Environment;
 import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.ImageView;
+
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.io.IOException;
+
 
 import ai.deepar.ar.ARErrorType;
 import ai.deepar.ar.AREventListener;
 import ai.deepar.ar.CameraResolutionPreset;
 import ai.deepar.ar.DeepAR;
+
+import android.net.Uri;
+import android.view.LayoutInflater;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.AssetManager;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import java.io.ByteArrayOutputStream;
+import java.nio.ByteBuffer;
+import java.io.IOException;
 import io.flutter.FlutterInjector;
 import io.flutter.embedding.engine.loader.FlutterLoader;
 import io.flutter.plugin.common.BinaryMessenger;
@@ -72,16 +86,6 @@ public class CameraDeepArView implements PlatformView,
 
     private CameraGrabber cameraGrabber;
 
-//    @Override
-//    public void onFlutterViewAttached(@NonNull View flutterView) {
-//
-//    }
-//
-//    @Override
-//    public void onFlutterViewDetached() {
-//
-//    }
-
     private int defaultCameraDevice = Camera.CameraInfo.CAMERA_FACING_FRONT;
 
 
@@ -101,23 +105,53 @@ public class CameraDeepArView implements PlatformView,
     private int activeFilterType = 0;
     private File videoFile;
 
+    private ImageView imageView;
+    private Canvas canvas;
 
     public CameraDeepArView(Activity mActivity, BinaryMessenger mBinaryMessenger, Context mContext, int id, Object args) {
+
         this.activity=mActivity;
         this.context=mContext;
        //view = View.inflate(context,R.layout.activity_camera, null);
         view = activity.getLayoutInflater().inflate(R.layout.activity_camera, null);
 
-        methodChannel =
-                new MethodChannel(mBinaryMessenger, "plugins.flutter.io/deep_ar_camera/" + id);
+        methodChannel = new MethodChannel(mBinaryMessenger, "plugins.flutter.io/deep_ar_camera/" + id);
+        imgSurface = view.findViewById(R.id.surface);
+        // imgSurface.setOnClickListener(new View.OnClickListener() {
+        //     @Override
+        //     public void onClick(View view) {
+        //         deepAR.onClick();
+        //     }
+        // });
 
-         imgSurface = view.findViewById(R.id.surface);
-        imgSurface.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                deepAR.onClick();
-            }
-        });
+
+        // START OF MY CODE
+
+        this.imageView = new ImageView(mContext);
+        File externalStoragePublicDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        File imgsrc = new File(externalStoragePublicDirectory.toString()+ "/image.jpg");
+        Bitmap myBitmap = BitmapFactory.decodeFile(imgsrc.getAbsolutePath());
+        imageView.setImageBitmap(myBitmap);
+        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        // imageView.setVisibility(View.VISIBLE);
+        imageView.setMinimumWidth(100);
+        imageView.setMinimumHeight(100);
+        imageView.setBackgroundColor(Color.rgb(255, 255, 255));
+
+        Canvas canvas = new Canvas();
+        canvas.drawBitmap(myBitmap, 10, 10, null);
+        imgSurface.draw(canvas);
+        view.draw(canvas);
+
+        //Creating image buffer to send to DeepAR?
+
+        // ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        // myBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        // byte[] data = baos.toByteArray();
+        // ByteBuffer buffer = ByteBuffer.wrap(data);
+        // deepAR.receiveFrame(buffer, imageView.getMaxWidth(), imageView.getMaxHeight(), 1, false);
+
+        // END OF MY CODE
 
         imgSurface.setFocusable(true);
         imgSurface.setFocusableInTouchMode(true);
@@ -125,7 +159,8 @@ public class CameraDeepArView implements PlatformView,
         // Surface might already be initialized, so we force the call to onSurfaceChanged
         imgSurface.setVisibility(View.GONE);
         imgSurface.setVisibility(View.VISIBLE);
-
+//
+        // This is for the licensing pourposes. Do not remove!
         if (args instanceof HashMap) {
             @SuppressWarnings({"unchecked"})
             Map<String, Object> params = (Map<String, Object>) args;
@@ -145,24 +180,28 @@ public class CameraDeepArView implements PlatformView,
                 defaultCameraDevice = index==0?Camera.CameraInfo.CAMERA_FACING_FRONT:Camera.CameraInfo.CAMERA_FACING_FRONT;
                 cameraDevice = defaultCameraDevice;
             }*/
-  }
+        }
 
         methodChannel.setMethodCallHandler(this);
-//        activity.addRequestPermissionsResultListener(this);
-        checkPermissions();
+        // activity.addRequestPermissionsResultListener(this);
+        //checkPermissions();
+
+        initializeDeepAR();
     }
 
     private  void checkPermissions(){
-        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(activity, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(activity, new String[]{ Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO },
-                    1);
-        } else {
-            // Permission has already been granted
-            initializeDeepAR();
-            setupCamera();
-        }
+        initializeDeepAR();
+        // setupCamera();
+        // if (ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
+        //         ContextCompat.checkSelfPermission(activity, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ||
+        //         ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        //     ActivityCompat.requestPermissions(activity, new String[]{ Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO },
+        //             1);
+        // } else {
+        //     Permission has already been granted
+        //     initializeDeepAR();
+        //     setupCamera();
+        // }
     }
 
    private void initializeDeepAR(){
@@ -470,8 +509,6 @@ public class CameraDeepArView implements PlatformView,
         });
     }
 
-
-
     private String getFilterPath(String filterName) {
         if (filterName.equals("none")) {
             return null;
@@ -479,10 +516,9 @@ public class CameraDeepArView implements PlatformView,
         return "file:///android_asset/" + filterName;
     }
 
-
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        setupCamera();
+         setupCamera();
     }
 
     @Override
@@ -498,9 +534,9 @@ public class CameraDeepArView implements PlatformView,
         }
     }
 
-
     @Override
     public View getView() {
+//        return imageView;
         return view;
     }
 
