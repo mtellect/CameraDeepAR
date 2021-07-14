@@ -1,4 +1,4 @@
-package ai.deepar.photo_edit_example;
+package com.camera_deep_ar;
 
 import android.annotation.SuppressLint;
 import android.content.ContextWrapper;
@@ -72,7 +72,7 @@ public class LoadImageHandlerThread extends HandlerThread {
 
                     case LOAD_DEFAULT_IMAGE_TASK:
                         Log.d(TAG, "Load Image from Assets Task, obj: " + msg.obj);
-                        loadDefaultBitmap();
+//                        loadDefaultBitmap();
 
                     case REFRESH_IMAGE_TASK:
                         Log.d(TAG, "Refresh Image Task, obj: " + msg.obj);
@@ -82,13 +82,13 @@ public class LoadImageHandlerThread extends HandlerThread {
         };
     }
 
-    void loadDefaultBitmap() {
-        Bitmap defaultImage = ((BitmapDrawable) mContext.get().getResources()
-                .getDrawable(R.drawable.default_face)).getBitmap();
-        lastImage = defaultImage;
-        lastRotate = true;
-        uploadBitmapToDeepAR(defaultImage, true);
-    }
+//    void loadDefaultBitmap() {
+//        Bitmap defaultImage = ((BitmapDrawable) mContext.get().getResources()
+//                .getDrawable(R.drawable.default_face)).getBitmap();
+//        lastImage = defaultImage;
+//        lastRotate = true;
+//        uploadBitmapToDeepAR(defaultImage, true);
+//    }
 
     void refreshBitmap() {
         if (lastImage != null) {

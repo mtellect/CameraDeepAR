@@ -4,61 +4,53 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-
+import android.content.res.AssetFileDescriptor;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.media.Image;
 import android.media.MediaScannerConnection;
-
+import android.net.Uri;
 import android.os.Environment;
+import android.os.Message;
 import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
-
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
+import java.net.URI;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import java.io.IOException;
 
 import ai.deepar.ar.ARErrorType;
 import ai.deepar.ar.AREventListener;
 import ai.deepar.ar.CameraResolutionPreset;
 import ai.deepar.ar.DeepAR;
-
-import android.net.Uri;
-import android.view.LayoutInflater;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.content.res.AssetFileDescriptor;
-import android.content.res.AssetManager;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import java.io.ByteArrayOutputStream;
-import java.nio.ByteBuffer;
-import java.io.IOException;
 import io.flutter.FlutterInjector;
 import io.flutter.embedding.engine.loader.FlutterLoader;
 import io.flutter.plugin.common.BinaryMessenger;
@@ -68,6 +60,7 @@ import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.PluginRegistry;
 import io.flutter.plugin.platform.PlatformView;
+import com.camera_deep_ar.LoadImageHandlerThread;
 
 public class CameraDeepArView implements PlatformView,
         SurfaceHolder.Callback, AREventListener,
@@ -81,10 +74,20 @@ public class CameraDeepArView implements PlatformView,
     private boolean disposed = false;
     private float mDist;
     private SurfaceView imgSurface;
-    private  String androidLicenceKey;
+    private String androidLicenceKey;
 
 
     private CameraGrabber cameraGrabber;
+
+//    @Override
+//    public void onFlutterViewAttached(@NonNull View flutterView) {
+//
+//    }
+//
+//    @Override
+//    public void onFlutterViewDetached() {
+//
+//    }
 
     private int defaultCameraDevice = Camera.CameraInfo.CAMERA_FACING_FRONT;
 
@@ -105,53 +108,28 @@ public class CameraDeepArView implements PlatformView,
     private int activeFilterType = 0;
     private File videoFile;
 
-    private ImageView imageView;
-    private Canvas canvas;
+    private LoadImageHandlerThread imageGrabber;
+    private ImageView offscreenView;
+    private int RESULT_LOAD_IMG = 123;
+    private int width = 720;
+    private int height = 1280;
 
     public CameraDeepArView(Activity mActivity, BinaryMessenger mBinaryMessenger, Context mContext, int id, Object args) {
-
         this.activity=mActivity;
         this.context=mContext;
-       //view = View.inflate(context,R.layout.activity_camera, null);
+        //view = View.inflate(context,R.layout.activity_camera, null);
         view = activity.getLayoutInflater().inflate(R.layout.activity_camera, null);
 
-        methodChannel = new MethodChannel(mBinaryMessenger, "plugins.flutter.io/deep_ar_camera/" + id);
+        methodChannel =
+                new MethodChannel(mBinaryMessenger, "plugins.flutter.io/deep_ar_camera/" + id);
+
         imgSurface = view.findViewById(R.id.surface);
-        // imgSurface.setOnClickListener(new View.OnClickListener() {
-        //     @Override
-        //     public void onClick(View view) {
-        //         deepAR.onClick();
-        //     }
-        // });
-
-
-        // START OF MY CODE
-
-        this.imageView = new ImageView(mContext);
-        File externalStoragePublicDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        File imgsrc = new File(externalStoragePublicDirectory.toString()+ "/image.jpg");
-        Bitmap myBitmap = BitmapFactory.decodeFile(imgsrc.getAbsolutePath());
-        imageView.setImageBitmap(myBitmap);
-        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        // imageView.setVisibility(View.VISIBLE);
-        imageView.setMinimumWidth(100);
-        imageView.setMinimumHeight(100);
-        imageView.setBackgroundColor(Color.rgb(255, 255, 255));
-
-        Canvas canvas = new Canvas();
-        canvas.drawBitmap(myBitmap, 10, 10, null);
-        imgSurface.draw(canvas);
-        view.draw(canvas);
-
-        //Creating image buffer to send to DeepAR?
-
-        // ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        // myBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        // byte[] data = baos.toByteArray();
-        // ByteBuffer buffer = ByteBuffer.wrap(data);
-        // deepAR.receiveFrame(buffer, imageView.getMaxWidth(), imageView.getMaxHeight(), 1, false);
-
-        // END OF MY CODE
+        imgSurface.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deepAR.onClick();
+            }
+        });
 
         imgSurface.setFocusable(true);
         imgSurface.setFocusableInTouchMode(true);
@@ -159,8 +137,8 @@ public class CameraDeepArView implements PlatformView,
         // Surface might already be initialized, so we force the call to onSurfaceChanged
         imgSurface.setVisibility(View.GONE);
         imgSurface.setVisibility(View.VISIBLE);
-//
-        // This is for the licensing pourposes. Do not remove!
+        offscreenView = mActivity.findViewById(R.id.surface);
+
         if (args instanceof HashMap) {
             @SuppressWarnings({"unchecked"})
             Map<String, Object> params = (Map<String, Object>) args;
@@ -171,7 +149,7 @@ public class CameraDeepArView implements PlatformView,
             if(null!=licenceKey)androidLicenceKey=licenceKey.toString();
             if(null!=cameraEffect)activeFilterType=Integer.parseInt(String.valueOf(cameraEffect));
             if(null!=direction){
-               int index=Integer.parseInt(String.valueOf(direction));
+                int index=Integer.parseInt(String.valueOf(direction));
                 defaultCameraDevice = index==0?Camera.CameraInfo.CAMERA_FACING_BACK:Camera.CameraInfo.CAMERA_FACING_FRONT;
                 cameraDevice = defaultCameraDevice;
             }
@@ -182,33 +160,34 @@ public class CameraDeepArView implements PlatformView,
             }*/
         }
 
-        methodChannel.setMethodCallHandler(this);
-        // activity.addRequestPermissionsResultListener(this);
-        //checkPermissions();
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        mActivity.startActivityForResult(photoPickerIntent, RESULT_LOAD_IMG);
 
-        initializeDeepAR();
+
+        methodChannel.setMethodCallHandler(this);
+//        activity.addRequestPermissionsResultListener(this);
+        checkPermissions();
     }
 
     private  void checkPermissions(){
-        initializeDeepAR();
-        // setupCamera();
-        // if (ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
-        //         ContextCompat.checkSelfPermission(activity, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ||
-        //         ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-        //     ActivityCompat.requestPermissions(activity, new String[]{ Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO },
-        //             1);
-        // } else {
-        //     Permission has already been granted
-        //     initializeDeepAR();
-        //     setupCamera();
-        // }
+        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(activity, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity, new String[]{ Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO },
+                    1);
+        } else {
+            // Permission has already been granted
+            initializeDeepAR();
+            setupCamera();
+        }
     }
 
-   private void initializeDeepAR(){
-       deepAR = new DeepAR(activity);
-       deepAR.setLicenseKey(androidLicenceKey);
-       deepAR.initialize(activity, this);
-       initializeFilters();
+    private void initializeDeepAR(){
+        deepAR = new DeepAR(activity);
+        deepAR.setLicenseKey(androidLicenceKey);
+        deepAR.initialize(activity, this);
+        initializeFilters();
     }
 
     @Override
@@ -243,7 +222,7 @@ public class CameraDeepArView implements PlatformView,
                     cameraDevice = defaultCameraDevice;
                     cameraGrabber.changeCameraDevice(cameraDevice);
                 }
-                 }
+            }
             result.success("Mask Changed");
         }
 
@@ -257,7 +236,7 @@ public class CameraDeepArView implements PlatformView,
                 cameraGrabber.getCamera().cancelAutoFocus();
                 camParams.setZoom(zoom);
                 cameraGrabber.getCamera().setParameters(camParams);
-                 }
+            }
             result.success("ZoomTo Changed");
         }
 
@@ -292,16 +271,16 @@ public class CameraDeepArView implements PlatformView,
         }
         else  if ("startVideoRecording".equals(methodCall.method)) {
             CharSequence now = DateFormat.format("yyyy_MM_dd_hh_mm_ss", new Date());
-             videoFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES) + "/DeepAR_" + now + ".mp4");
+            videoFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES) + "/DeepAR_" + now + ".mp4");
             deepAR.startVideoRecording(videoFile.getPath());
             result.success("Video Recording Started");
         }
         else  if ("stopVideoRecording".equals(methodCall.method)) {
-              deepAR.stopVideoRecording();
+            deepAR.stopVideoRecording();
             result.success("Video Recording Stopped");
         }
         else  if ("snapPhoto".equals(methodCall.method)) {
-              deepAR.takeScreenshot();
+            deepAR.takeScreenshot();
             result.success("Photo Snapped");
         }
         else  if ("dispose".equals(methodCall.method)) {
@@ -442,72 +421,85 @@ public class CameraDeepArView implements PlatformView,
     }
 
     private void setupCamera() {
-        cameraGrabber = new CameraGrabber(cameraDevice);
-        screenOrientation = getScreenOrientation();
 
-        switch (screenOrientation) {
-            case ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE:
-                cameraGrabber.setScreenOrientation(90);
-                break;
-            case ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE:
-                cameraGrabber.setScreenOrientation(270);
-                break;
-            default:
-                cameraGrabber.setScreenOrientation(0);
-                break;
-        }
+        imageGrabber = new LoadImageHandlerThread(new ContextWrapper(this.context));
+        imageGrabber.start();
+        imageGrabber.setImageReceiver(deepAR);
+        File externalStoragePublicDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        File imgsrc = new File(externalStoragePublicDirectory.toString()+ "/image.jpg");
+        imageGrabber.loadBitmapFromGallery(Uri.fromFile(imgsrc));
+
+
+//        cameraGrabber = new CameraGrabber(cameraDevice);
+//        screenOrientation = getScreenOrientation();
+//
+//        switch (screenOrientation) {
+//            case ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE:
+//                cameraGrabber.setScreenOrientation(90);
+//                break;
+//            case ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE:
+//                cameraGrabber.setScreenOrientation(270);
+//                break;
+//            default:
+//                cameraGrabber.setScreenOrientation(0);
+//
+//                break;
+//        }
 
         // Available 1080p, 720p and 480p resolutions
-        cameraGrabber.setResolutionPreset(CameraResolutionPreset.P1280x720);
+//        cameraGrabber.setResolutionPreset(CameraResolutionPreset.P1280x720);
 
         //final Activity context = this;
-        cameraGrabber.initCamera(new CameraGrabberListener() {
-            @Override
-            public void onCameraInitialized() {
-                cameraGrabber.setFrameReceiver(deepAR);
-                cameraGrabber.startPreview();
-            }
-
-            @Override
-            public void onCameraError(String errorMsg) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                builder.setTitle("Camera error");
-                builder.setMessage(errorMsg);
-                builder.setCancelable(true);
-                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
-        });
-         imgSurface.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                // Get the pointer ID
-                Camera.Parameters params = cameraGrabber.getCamera().getParameters();
-                int action = event.getAction();
-                if (event.getPointerCount() > 1) {
-                    // handle multi-touch events
-//                    if (action == MotionEvent.ACTION_POINTER_DOWN) {
-//                        mDist = getFingerSpacing(event);
-//                    } else if (action == MotionEvent.ACTION_MOVE && params.isZoomSupported()) {
-//                        cameraGrabber.getCamera().cancelAutoFocus();
-//                        handleZoom(event, params);
+//        cameraGrabber.initCamera(new CameraGrabberListener() {
+//            @Override
+//            public void onCameraInitialized() {
+//                cameraGrabber.setFrameReceiver(deepAR);
+//
+//                cameraGrabber.startPreview();
+//            }
+//
+//            @Override
+//            public void onCameraError(String errorMsg) {
+//                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+//                builder.setTitle("Camera error");
+//                builder.setMessage(errorMsg);
+//                builder.setCancelable(true);
+//                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        dialogInterface.cancel();
 //                    }
-                } else {
-                    // handle single touch events
-                    if (action == MotionEvent.ACTION_UP) {
-                        handleFocus(event);
-                    }
-                }
-                return true;
-            }
-        });
+//                });
+//                AlertDialog dialog = builder.create();
+//                dialog.show();
+//            }
+//        });
+//        imgSurface.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                // Get the pointer ID
+//                Camera.Parameters params = cameraGrabber.getCamera().getParameters();
+//                int action = event.getAction();
+//                if (event.getPointerCount() > 1) {
+//                    // handle multi-touch events
+////                    if (action == MotionEvent.ACTION_POINTER_DOWN) {
+////                        mDist = getFingerSpacing(event);
+////                    } else if (action == MotionEvent.ACTION_MOVE && params.isZoomSupported()) {
+////                        cameraGrabber.getCamera().cancelAutoFocus();
+////                        handleZoom(event, params);
+////                    }
+//                } else {
+//                    // handle single touch events
+//                    if (action == MotionEvent.ACTION_UP) {
+//                        handleFocus(event);
+//                    }
+//                }
+//                return true;
+//            }
+//        });
     }
+
+
 
     private String getFilterPath(String filterName) {
         if (filterName.equals("none")) {
@@ -516,9 +508,10 @@ public class CameraDeepArView implements PlatformView,
         return "file:///android_asset/" + filterName;
     }
 
+
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-         setupCamera();
+        setupCamera();
     }
 
     @Override
@@ -534,9 +527,9 @@ public class CameraDeepArView implements PlatformView,
         }
     }
 
+
     @Override
     public View getView() {
-//        return imageView;
         return view;
     }
 
@@ -575,12 +568,12 @@ public class CameraDeepArView implements PlatformView,
 
     @Override
     public void videoRecordingStarted() {
-//deepAR.startVideoRecording("");
+//        deepAR.startVideoRecording("");
     }
 
     @Override
     public void videoRecordingFinished() {
-//deepAR.stopVideoRecording();
+//        deepAR.stopVideoRecording();
         Map<String, Object> argument = new HashMap<>();
         argument.put("path",videoFile.toString());
         methodChannel.invokeMethod("onVideoRecordingComplete",argument);
@@ -603,7 +596,23 @@ public class CameraDeepArView implements PlatformView,
 
     @Override
     public void initialized() {
+        if (imageGrabber != null && deepAR != null) {
+            imageGrabber.setImageReceiver(deepAR);
+            // Load default image
+            Message msg = Message.obtain(imageGrabber.getHandler());
+            msg.what = LoadImageHandlerThread.LOAD_DEFAULT_IMAGE_TASK;
+            msg.sendToTarget();
+        }
+        //jumpstart masks
+        deepAR.switchEffect("mask", getFilterPath(masks.get(1)));
+        refreshImage();
 
+    }
+
+    void refreshImage() {
+        Message msg = Message.obtain(imageGrabber.getHandler());
+        msg.what = LoadImageHandlerThread.REFRESH_IMAGE_TASK;
+        msg.sendToTarget();
     }
 
     @Override
@@ -617,8 +626,18 @@ public class CameraDeepArView implements PlatformView,
     }
 
     @Override
-    public void frameAvailable(Image image) {
-
+    public void frameAvailable(Image frame) {
+        if (frame != null) {
+            Log.d("Frame", "Load Image from Assets Task, obj: " + frame.toString());
+            final Image.Plane[] planes = frame.getPlanes();
+            final Buffer buffer = planes[0].getBuffer().rewind();
+            int pixelStride = planes[0].getPixelStride();
+            int rowStride = planes[0].getRowStride();
+            int rowPadding = rowStride - pixelStride * width;
+            Bitmap bitmap = Bitmap.createBitmap(width + rowPadding / pixelStride, height, Bitmap.Config.ARGB_8888);
+            bitmap.copyPixelsFromBuffer(buffer);
+            offscreenView.setImageBitmap(bitmap);
+        }
     }
 
     @Override
@@ -749,7 +768,6 @@ public class CameraDeepArView implements PlatformView,
         }
     }
 
-
     @Override
     public boolean onRequestPermissionsResult(int requestCode,  String[] permissions, int[] grantResults) {
         if (requestCode == 1 && grantResults.length > 0) {
@@ -763,6 +781,33 @@ public class CameraDeepArView implements PlatformView,
         return false;
     }
 
-
-
 }
+
+
+// START OF MY CODE
+
+//        this.imageView = new ImageView(mContext);
+//        File externalStoragePublicDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+//        File imgsrc = new File(externalStoragePublicDirectory.toString()+ "/image.jpg");
+//        Bitmap myBitmap = BitmapFactory.decodeFile(imgsrc.getAbsolutePath());
+//        imageView.setImageBitmap(myBitmap);
+//        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+//        // imageView.setVisibility(View.VISIBLE);
+//        imageView.setMinimumWidth(100);
+//        imageView.setMinimumHeight(100);
+//        imageView.setBackgroundColor(Color.rgb(255, 255, 255));
+//
+//        Canvas canvas = new Canvas();
+//        canvas.drawBitmap(myBitmap, 10, 10, null);
+//        imgSurface.draw(canvas);
+//        view.draw(canvas);
+
+//Creating image buffer to send to DeepAR?
+
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        myBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+//        byte[] data = baos.toByteArray();
+//        ByteBuffer buffer = ByteBuffer.wrap(data);
+//        deepAR.receiveFrame(buffer, imageView.getMaxWidth(), imageView.getMaxHeight(), 1, false);
+
+// END OF MY CODE
