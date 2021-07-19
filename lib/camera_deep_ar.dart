@@ -343,4 +343,15 @@ class CameraDeepArController {
       'floatValue': floatValue,
     });
   }
+
+  //TODO: Implement this on both Android and IOS
+  Future changeParameterTexture(String changeParameter, String component,
+      String parameter, String texturePath) async {
+    return channel.invokeMethod('changeParameterTexture', <String, dynamic>{
+      'changeParameter': changeParameter,
+      'component': component,
+      'parameter': parameter,
+      'texturePath': texturePath,
+    });
+  }
 }
