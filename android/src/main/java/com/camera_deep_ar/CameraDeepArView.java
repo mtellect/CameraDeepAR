@@ -298,8 +298,21 @@ public class CameraDeepArView implements PlatformView,
                 Object component = params.get("component");
                 Object parameter = params.get("parameter");
                 Object floatParam = params.get("floatValue");
-
                 deepAR.changeParameterFloat(changeParameter.toString(), component.toString(), parameter.toString(), ((Double) floatParam).floatValue());
+            }
+        }
+        else if ("changeParameterTexture".equals(methodCall.method)){
+            if (methodCall.arguments instanceof HashMap) {
+                @SuppressWarnings({"unchecked"})
+                Map<String, Object> params = (Map<String, Object>) methodCall.arguments;
+                Object changeParameter = params.get("changeParameter");
+                Object component = params.get("component");
+                Object parameter = params.get("parameter");
+                Object texturePath = params.get("texturePath");
+                // BitmapFactory.Options options = new BitmapFactory.Options();
+                // options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+                Bitmap bitmap = BitmapFactory.decodeFile(texturePath); //, options  ////R.drawable.texture
+                deepAR.changeParameterTexture(changeParameter.toString(), component.toString(), parameter.toString(), bitmap);
             }
         }
 
