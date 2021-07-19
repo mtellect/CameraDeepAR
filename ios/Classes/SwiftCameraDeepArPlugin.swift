@@ -290,29 +290,6 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         }
     }
     
-//    @objc
-//    private func handlePinch(_ pinch: UIPinchGestureRecognizer) {
-//        guard sessionSetupSucceeds,  let device = activeCamera else { return }
-//
-//        switch pinch.state {
-//        case .began:
-//            initialScale = device.videoZoomFactor
-//        case .changed:
-//            let minAvailableZoomScale = device.minAvailableVideoZoomFactor
-//            let maxAvailableZoomScale = device.maxAvailableVideoZoomFactor
-//            let availableZoomScaleRange = minAvailableZoomScale...maxAvailableZoomScale
-//            let resolvedZoomScaleRange = zoomScaleRange.clamped(to: availableZoomScaleRange)
-//
-//            let resolvedScale = max(resolvedZoomScaleRange.lowerBound, min(pinch.scale * initialScale, resolvedZoomScaleRange.upperBound))
-//
-//            configCamera(device) { device in
-//                device.videoZoomFactor = resolvedScale
-//            }
-//        default:
-//            return
-//        }
-//    }
-    
     
     @objc func orientationDidChange() {
         //        @available(iOS 13.0, *)
