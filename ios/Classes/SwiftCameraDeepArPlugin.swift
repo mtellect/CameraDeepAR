@@ -288,7 +288,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
                 // Fallback on earlier versions
             }
         }
-    
+    }
     
 //    @objc
 //    private func handlePinch(_ pinch: UIPinchGestureRecognizer) {
@@ -339,6 +339,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         
         
     }
+
     
     
     
@@ -589,4 +590,3 @@ extension String {
         //return Bundle.main.path(forResource: self, ofType: nil)
     }
 }
-
