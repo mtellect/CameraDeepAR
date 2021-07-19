@@ -279,38 +279,39 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
                     }
                 }
                 result("Param Changed")
-            } else if call.method == "processFrame" {
-                if let dict = call.arguments as? [String: Any] {
-                    if let imageBuffer = (dict["imageBuffer"] as? String) {
-                        if let mirror = (dict["mirror"] as? Bool){
-                           //TODO: Figure out how to pass a CVPixelBufferRef
-                            self.deepAR.processFrame(imageBuffer, mirror);
+            } 
+    //         else if call.method == "processFrame" {
+    //             if let dict = call.arguments as? [String: Any] {
+    //                 if let imageBuffer = (dict["imageBuffer"] as? String) {
+    //                     if let mirror = (dict["mirror"] as? Bool){
+    //                        //TODO: Figure out how to pass a CVPixelBufferRef
+    //                         self.deepAR.processFrame(imageBuffer, mirror);
                             
-                        }
-                    }
-                }
-                result("Param Changed")
-            } else if call.method == "frameAvailable" {
-                if let dict = call.arguments as? [String: Any] {
-                    if let sampleBuffer = (dict["sampleBuffer"] as? String) {
+    //                     }
+    //                 }
+    //             }
+    //             result("Param Changed")
+    //         } else if call.method == "frameAvailable" {
+    //             if let dict = call.arguments as? [String: Any] {
+    //                 if let sampleBuffer = (dict["sampleBuffer"] as? String) {
                         
-                        //TODO: Figure out if frameAvailable modifies the sampleBuffer
-                        self.deepAR.frameAvailable(sampleBuffer);
+    //                     //TODO: Figure out if frameAvailable modifies the sampleBuffer
+    //                     self.deepAR.frameAvailable(sampleBuffer);
                             
                         
-                    }
-                }
-                result("Param Changed")
-            }
+    //                 }
+    //             }
+    //             result("Param Changed")
+    //         }
             
-        }
-        if #available(iOS 9.0, *) {
-            self.initCameraDeepAR()
+    //     }
+    //     if #available(iOS 9.0, *) {
+    //         self.initCameraDeepAR()
             
-        } else {
-            // Fallback on earlier versions
-        }
-    }
+    //     } else {
+    //         // Fallback on earlier versions
+    //     }
+    // }
     
     
 //    @objc
