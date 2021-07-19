@@ -280,7 +280,13 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
                 }
                 result("Param Changed")
             } 
-        }
+            if #available(iOS 9.0, *) {
+                self.initCameraDeepAR()
+            
+            } else {
+                // Fallback on earlier versions
+            }
+    }
     //         else if call.method == "processFrame" {
     //             if let dict = call.arguments as? [String: Any] {
     //                 if let imageBuffer = (dict["imageBuffer"] as? String) {
@@ -306,13 +312,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
     //         }
             
     //     }
-    //     if #available(iOS 9.0, *) {
-    //         self.initCameraDeepAR()
-            
-    //     } else {
-    //         // Fallback on earlier versions
-    //     }
-    // }
+
     
     
 //    @objc
