@@ -305,14 +305,14 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
     //             result("Param Changed")
     //         }
             
-        }
-        if #available(iOS 9.0, *) {
-            self.initCameraDeepAR()
+    //     }
+    //     if #available(iOS 9.0, *) {
+    //         self.initCameraDeepAR()
             
-        } else {
-            // Fallback on earlier versions
-        }
-    }
+    //     } else {
+    //         // Fallback on earlier versions
+    //     }
+    // }
     
     
 //    @objc
