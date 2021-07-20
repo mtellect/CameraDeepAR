@@ -252,7 +252,7 @@ public class CameraGrabber
             }
 
             try {
-                Camera.release();
+                camera.release();
                 camera = Camera.open(cameraId);
             } catch (Exception e) {
                 // event error
