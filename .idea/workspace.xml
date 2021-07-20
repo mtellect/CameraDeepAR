@@ -8,12 +8,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fce1fb28-a1e1-4aae-8d4d-dbf5bbf22375" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/src/main/java/com/camera_deep_ar/CameraDeepArView.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/camera_deep_ar/CameraDeepArView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/src/main/java/com/camera_deep_ar/CameraGrabber.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/camera_deep_ar/CameraGrabber.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/com/camera_deep_ar/CameraDeepArViewFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/camera_deep_ar/CameraDeepArViewFactory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/src/main/java/com/camera_deep_ar/LoadImageHandlerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/camera_deep_ar/LoadImageHandlerThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/src/main/res/layout/activity_camera.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/res/layout/activity_camera.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/camera_deep_ar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/camera_deep_ar.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,25 +115,29 @@
     <option name="LAST_COMMIT_MESSAGE" value="Add ReadMe Mod documentation" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="773" y="266" key="AndroidProcessChooserDialog" timestamp="1626448628308">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="773" y="266" key="AndroidProcessChooserDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1626448628308" />
     <state x="740" y="274" key="FileChooserDialogImpl" timestamp="1626283084275">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="274" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1626283084275" />
-    <state width="1877" height="450" key="GridCell.Tab.0.bottom" timestamp="1626287431866">
+    <state width="1877" height="194" key="GridCell.Tab.0.bottom" timestamp="1626460392535">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="450" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1626287431866" />
-    <state width="1877" height="450" key="GridCell.Tab.0.center" timestamp="1626287431866">
+    <state width="1877" height="194" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1626460392535" />
+    <state width="1877" height="194" key="GridCell.Tab.0.center" timestamp="1626460392535">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="450" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1626287431866" />
-    <state width="1877" height="450" key="GridCell.Tab.0.left" timestamp="1626287431866">
+    <state width="1877" height="194" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1626460392535" />
+    <state width="1877" height="194" key="GridCell.Tab.0.left" timestamp="1626460392535">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="450" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1626287431866" />
-    <state width="1877" height="450" key="GridCell.Tab.0.right" timestamp="1626287431866">
+    <state width="1877" height="194" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1626460392535" />
+    <state width="1877" height="194" key="GridCell.Tab.0.right" timestamp="1626460392535">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="450" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1626287431866" />
+    <state width="1877" height="194" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1626460392535" />
   </component>
 </project>

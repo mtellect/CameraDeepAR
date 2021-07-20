@@ -47,7 +47,7 @@ public class LoadImageHandlerThread extends HandlerThread {
     public LoadImageHandlerThread(ContextWrapper context) {
         super("ExampleHandlerThread", Process.THREAD_PRIORITY_BACKGROUND);
         this.mContext = new WeakReference<ContextWrapper>(context);;
-
+        Log.d("Damon - ImageThread", "Being created");
     }
 
     public Handler getHandler() {
@@ -117,24 +117,43 @@ public class LoadImageHandlerThread extends HandlerThread {
         // w1280xh720, w640xh480 and w640xh360
         // If we want to show a portrait image we need to first crop the 1280x720 rectangle and
         // then rotate it and feed as such to DeepAR.
-        final Bitmap resizedBitmap;
-        final Bitmap rotatedBitmap;
-        if (rotate){
-            resizedBitmap = scaleCenterCrop(selectedImage, 1280, 720);
-            rotatedBitmap = rotateBitmap(resizedBitmap, 90);
-        }
-        else {
-            resizedBitmap = scaleCenterCrop(selectedImage, 720, 1280);
-            rotatedBitmap = rotateBitmap(resizedBitmap, 180);
-        }
+//        final Bitmap resizedBitmap;
+//        final Bitmap rotatedBitmap;
+//        if (rotate){
+//            resizedBitmap = scaleCenterCrop(selectedImage, 1280, 720);
+//            rotatedBitmap = rotateBitmap(resizedBitmap, 90);
+//        }
+//        else {
+//            resizedBitmap = scaleCenterCrop(selectedImage, 720, 1280);
+//            rotatedBitmap = rotateBitmap(resizedBitmap, 180);
+//        }
+//
+//        width = rotatedBitmap.getWidth();
+//        height = rotatedBitmap.getHeight();
 
+        // My Code:
+        double tempY = selectedImage.getHeight()/1280;
+        double tempX = selectedImage.getWidth()/720;
+        double scalerRatio = tempY;
+        if(scalerRatio < tempX) scalerRatio = tempX;
+        int newHeight = (int) (selectedImage.getHeight()/scalerRatio);
+        if (newHeight > 1280) newHeight = 1280;
+        int newWidth = (int) (selectedImage.getWidth()/scalerRatio);
+        if (newWidth > 720) newWidth = 720;
 
-        width = rotatedBitmap.getWidth();
-        height = rotatedBitmap.getHeight();
+        Log.d("DAMON - BITMAP", "WIDTH " + selectedImage.getWidth() + " HEIGHT " + selectedImage.getHeight());
+        Log.d("DAMON - BITMAP", "Scaler WIDTH " + newWidth + " Scaler HEIGHT " + newHeight);
+        final Bitmap resizedBitmap = scaleCenterCrop(selectedImage, newHeight, newWidth);
+        width = resizedBitmap.getWidth();
+        height = resizedBitmap.getHeight();
 
         // We need to transform the image from RGB to YUV color format which uses NV21 encoding
         // format on Android
-        byte[] nv21Bytes = getNV21(width, height, rotatedBitmap);
+//        byte[] nv21Bytes = getNV21(width, height, rotatedBitmap);
+
+        // My Code:
+        byte[] nv21Bytes = getNV21(width, height, resizedBitmap);
+
         nv21bb = ByteBuffer.allocateDirect(nv21Bytes.length);
         nv21bb.order(ByteOrder.nativeOrder());
         nv21bb.put(nv21Bytes);
@@ -145,9 +164,9 @@ public class LoadImageHandlerThread extends HandlerThread {
         SystemClock.sleep(100);
         // Due to initial rotation of portrait image by 90 degrees, we need to tell DeepAR to rotate
         // the final output by another 270 degrees to output a portrait image
-        imageReceiver.receiveFrame(nv21bb, width, height, 270, false, DeepARImageFormat.YUV_NV21, 1);
+        imageReceiver.receiveFrame(nv21bb, width, height, 0, false, DeepARImageFormat.YUV_NV21, 1);
         SystemClock.sleep(100);
-        imageReceiver.receiveFrame(nv21bb, width, height, 270, false, DeepARImageFormat.YUV_NV21, 1 );
+        imageReceiver.receiveFrame(nv21bb, width, height, 0, false, DeepARImageFormat.YUV_NV21, 1 );
 
     }
 
@@ -218,8 +237,7 @@ public class LoadImageHandlerThread extends HandlerThread {
 
         RectF targetRect = new RectF(left, top, left + scaledWidth, top + scaledHeight);
 
-        Bitmap dest = Bitmap.createBitmap(newWidth, newHeight,
-                source.getConfig());
+        Bitmap dest = Bitmap.createBitmap(newWidth, newHeight, source.getConfig());
         Canvas canvas = new Canvas(dest);
         canvas.drawBitmap(source, null, targetRect, null);
 

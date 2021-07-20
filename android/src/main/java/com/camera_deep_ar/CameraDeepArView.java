@@ -62,6 +62,7 @@ import io.flutter.plugin.common.PluginRegistry;
 import io.flutter.plugin.platform.PlatformView;
 import com.camera_deep_ar.LoadImageHandlerThread;
 
+
 public class CameraDeepArView implements PlatformView,
         SurfaceHolder.Callback, AREventListener,
         MethodChannel.MethodCallHandler,
@@ -76,22 +77,8 @@ public class CameraDeepArView implements PlatformView,
     private SurfaceView imgSurface;
     private String androidLicenceKey;
 
-
     private CameraGrabber cameraGrabber;
-
-//    @Override
-//    public void onFlutterViewAttached(@NonNull View flutterView) {
-//
-//    }
-//
-//    @Override
-//    public void onFlutterViewDetached() {
-//
-//    }
-
     private int defaultCameraDevice = Camera.CameraInfo.CAMERA_FACING_FRONT;
-
-
     private int cameraDevice = defaultCameraDevice;
     private DeepAR deepAR;
 
@@ -153,34 +140,36 @@ public class CameraDeepArView implements PlatformView,
                 defaultCameraDevice = index==0?Camera.CameraInfo.CAMERA_FACING_BACK:Camera.CameraInfo.CAMERA_FACING_FRONT;
                 cameraDevice = defaultCameraDevice;
             }
-           /* if(null!=cameraMode){
-                int index=Integer.parseInt(String.valueOf(direction));
-                defaultCameraDevice = index==0?Camera.CameraInfo.CAMERA_FACING_FRONT:Camera.CameraInfo.CAMERA_FACING_FRONT;
-                cameraDevice = defaultCameraDevice;
-            }*/
         }
 
-        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-        photoPickerIntent.setType("image/*");
-        mActivity.startActivityForResult(photoPickerIntent, RESULT_LOAD_IMG);
+//        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+//        photoPickerIntent.setType("image/*");
+//        mActivity.startActivityForResult(photoPickerIntent, RESULT_LOAD_IMG);
 
+        mContext
+        mActivity.on(
+                new registerActivityLifecycleCallbacks<Uri>() {
+                    @Override
+                    public void onActivityResult(Uri uri) {
+                        // Handle the returned Uri
+                    }
+                });
 
         methodChannel.setMethodCallHandler(this);
-//        activity.addRequestPermissionsResultListener(this);
         checkPermissions();
     }
 
-    private  void checkPermissions(){
-        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(activity, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(activity, new String[]{ Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO },
-                    1);
-        } else {
-            // Permission has already been granted
-            initializeDeepAR();
-            setupCamera();
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode == RESULT_LOAD_IMG) {
+            Log.d("Image Intent", data.toString() + "");
         }
+    }
+
+    private  void checkPermissions(){
+        initializeDeepAR();
+        setupCamera();
     }
 
     private void initializeDeepAR(){
@@ -319,7 +308,15 @@ public class CameraDeepArView implements PlatformView,
 
                 deepAR.changeParameterFloat(changeParameter.toString(), component.toString(), parameter.toString(), ((Double) floatParam).floatValue());
             }
+        } else if ("changeImage".equals(methodCall.method)){
+            Log.d("Damon - changeImage", "Being Involked");
+            File externalStoragePublicDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            File imgsrc = new File(externalStoragePublicDirectory.toString()+ "/image.jpg");
+            imageGrabber.loadBitmapFromGallery(Uri.fromFile(imgsrc));
+            Log.d("Damon - changeImage", "Path is " + imgsrc.toString());
+            Log.d("Damon - changeImage", "Ended Involked");
         }
+
 
     }
 
@@ -426,77 +423,8 @@ public class CameraDeepArView implements PlatformView,
         imageGrabber.start();
         imageGrabber.setImageReceiver(deepAR);
         File externalStoragePublicDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        File imgsrc = new File(externalStoragePublicDirectory.toString()+ "/image.jpg");
+        File imgsrc = new File(externalStoragePublicDirectory.toString()+ "/image31.jpg");
         imageGrabber.loadBitmapFromGallery(Uri.fromFile(imgsrc));
-
-
-//        cameraGrabber = new CameraGrabber(cameraDevice);
-//        screenOrientation = getScreenOrientation();
-//
-//        switch (screenOrientation) {
-//            case ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE:
-//                cameraGrabber.setScreenOrientation(90);
-//                break;
-//            case ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE:
-//                cameraGrabber.setScreenOrientation(270);
-//                break;
-//            default:
-//                cameraGrabber.setScreenOrientation(0);
-//
-//                break;
-//        }
-
-        // Available 1080p, 720p and 480p resolutions
-//        cameraGrabber.setResolutionPreset(CameraResolutionPreset.P1280x720);
-
-        //final Activity context = this;
-//        cameraGrabber.initCamera(new CameraGrabberListener() {
-//            @Override
-//            public void onCameraInitialized() {
-//                cameraGrabber.setFrameReceiver(deepAR);
-//
-//                cameraGrabber.startPreview();
-//            }
-//
-//            @Override
-//            public void onCameraError(String errorMsg) {
-//                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-//                builder.setTitle("Camera error");
-//                builder.setMessage(errorMsg);
-//                builder.setCancelable(true);
-//                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        dialogInterface.cancel();
-//                    }
-//                });
-//                AlertDialog dialog = builder.create();
-//                dialog.show();
-//            }
-//        });
-//        imgSurface.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                // Get the pointer ID
-//                Camera.Parameters params = cameraGrabber.getCamera().getParameters();
-//                int action = event.getAction();
-//                if (event.getPointerCount() > 1) {
-//                    // handle multi-touch events
-////                    if (action == MotionEvent.ACTION_POINTER_DOWN) {
-////                        mDist = getFingerSpacing(event);
-////                    } else if (action == MotionEvent.ACTION_MOVE && params.isZoomSupported()) {
-////                        cameraGrabber.getCamera().cancelAutoFocus();
-////                        handleZoom(event, params);
-////                    }
-//                } else {
-//                    // handle single touch events
-//                    if (action == MotionEvent.ACTION_UP) {
-//                        handleFocus(event);
-//                    }
-//                }
-//                return true;
-//            }
-//        });
     }
 
 
@@ -517,7 +445,7 @@ public class CameraDeepArView implements PlatformView,
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
         // If we are using on screen rendering we have to set surface view where DeepAR will render
-        deepAR.setRenderSurface(holder.getSurface(), width, height);
+        deepAR.setRenderSurface(holder.getSurface(), imgSurface.getWidth(), imgSurface.getWidth());
     }
 
     @Override
@@ -596,6 +524,7 @@ public class CameraDeepArView implements PlatformView,
 
     @Override
     public void initialized() {
+        Log.d("DAMON - initialized", "Function running");
         if (imageGrabber != null && deepAR != null) {
             imageGrabber.setImageReceiver(deepAR);
             // Load default image

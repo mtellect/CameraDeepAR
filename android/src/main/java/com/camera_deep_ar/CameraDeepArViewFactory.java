@@ -14,12 +14,12 @@ public class CameraDeepArViewFactory extends PlatformViewFactory {
 
   public CameraDeepArViewFactory(Activity activity, BinaryMessenger binaryMessenger) {
     super(StandardMessageCodec.INSTANCE);
-    this.mActivity =  activity;
-    this.mBinaryMessenger=binaryMessenger;
+    this.mActivity = activity;
+    this.mBinaryMessenger = binaryMessenger;
   }
 
   @Override
   public PlatformView create(Context context, int id, Object args) {
-    return new CameraDeepArView(mActivity,mBinaryMessenger,context,id,args);
+    return new CameraDeepArView(mActivity, mBinaryMessenger, context, id, args);
   }
 }

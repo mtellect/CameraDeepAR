@@ -88,6 +88,17 @@ class _MyAppState extends State<MyApp> {
                             padding: EdgeInsets.all(15),
                           ),
                         ),
+                        Expanded(
+                          child: FlatButton(
+                            onPressed: () {
+                              cameraDeepArController.changeImage();
+                              print("DAMON - Calling Change Image Flutter");
+                            },
+                            child: Icon(Icons.image),
+                            color: Colors.orange,
+                            padding: EdgeInsets.all(15),
+                          ),
+                        ),
                         if (isRecording)
                           Expanded(
                             child: FlatButton(
