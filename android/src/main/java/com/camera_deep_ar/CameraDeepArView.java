@@ -146,14 +146,14 @@ public class CameraDeepArView implements PlatformView,
 //        photoPickerIntent.setType("image/*");
 //        mActivity.startActivityForResult(photoPickerIntent, RESULT_LOAD_IMG);
 
-        mContext
-        mActivity.on(
-                new registerActivityLifecycleCallbacks<Uri>() {
-                    @Override
-                    public void onActivityResult(Uri uri) {
-                        // Handle the returned Uri
-                    }
-                });
+//        mContext
+//        mActivity.on(
+//                new registerActivityLifecycleCallbacks<Uri>() {
+//                    @Override
+//                    public void onActivityResult(Uri uri) {
+//                        // Handle the returned Uri
+//                    }
+//                });
 
         methodChannel.setMethodCallHandler(this);
         checkPermissions();

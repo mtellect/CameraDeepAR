@@ -10,10 +10,7 @@
     <list default="true" id="fce1fb28-a1e1-4aae-8d4d-dbf5bbf22375" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/src/main/java/com/camera_deep_ar/CameraDeepArView.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/camera_deep_ar/CameraDeepArView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/src/main/java/com/camera_deep_ar/CameraDeepArViewFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/camera_deep_ar/CameraDeepArViewFactory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/src/main/java/com/camera_deep_ar/LoadImageHandlerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/camera_deep_ar/LoadImageHandlerThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/camera_deep_ar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/camera_deep_ar.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,21 +120,21 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="274" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1626283084275" />
-    <state width="1877" height="194" key="GridCell.Tab.0.bottom" timestamp="1626460392535">
+    <state width="999" height="333" key="GridCell.Tab.0.bottom" timestamp="1626795119038">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="194" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1626460392535" />
-    <state width="1877" height="194" key="GridCell.Tab.0.center" timestamp="1626460392535">
+    <state width="999" height="333" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1626795119038" />
+    <state width="999" height="333" key="GridCell.Tab.0.center" timestamp="1626795119037">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="194" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1626460392535" />
-    <state width="1877" height="194" key="GridCell.Tab.0.left" timestamp="1626460392535">
+    <state width="999" height="333" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1626795119037" />
+    <state width="999" height="333" key="GridCell.Tab.0.left" timestamp="1626795119037">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="194" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1626460392535" />
-    <state width="1877" height="194" key="GridCell.Tab.0.right" timestamp="1626460392535">
+    <state width="999" height="333" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1626795119037" />
+    <state width="999" height="333" key="GridCell.Tab.0.right" timestamp="1626795119038">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="194" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1626460392535" />
+    <state width="999" height="333" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1626795119038" />
   </component>
 </project>

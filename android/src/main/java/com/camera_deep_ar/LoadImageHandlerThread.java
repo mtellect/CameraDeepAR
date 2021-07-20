@@ -132,17 +132,16 @@ public class LoadImageHandlerThread extends HandlerThread {
 //        height = rotatedBitmap.getHeight();
 
         // My Code:
-        double tempY = selectedImage.getHeight()/1280;
-        double tempX = selectedImage.getWidth()/720;
-        double scalerRatio = tempY;
-        if(scalerRatio < tempX) scalerRatio = tempX;
-        int newHeight = (int) (selectedImage.getHeight()/scalerRatio);
+        double scaleX_Y = (double) selectedImage.getWidth() / (double) selectedImage.getHeight();
+        double scaleY_X = (double) selectedImage.getHeight()/ (double) selectedImage.getWidth();
+        double scalerRatio = scaleX_Y;
+        if(scalerRatio > scaleY_X) scalerRatio = scaleY_X;
+        int newHeight = (int) (1280*scalerRatio);
+        int newWidth = (int) (720*scalerRatio);
+
         if (newHeight > 1280) newHeight = 1280;
-        int newWidth = (int) (selectedImage.getWidth()/scalerRatio);
         if (newWidth > 720) newWidth = 720;
 
-        Log.d("DAMON - BITMAP", "WIDTH " + selectedImage.getWidth() + " HEIGHT " + selectedImage.getHeight());
-        Log.d("DAMON - BITMAP", "Scaler WIDTH " + newWidth + " Scaler HEIGHT " + newHeight);
         final Bitmap resizedBitmap = scaleCenterCrop(selectedImage, newHeight, newWidth);
         width = resizedBitmap.getWidth();
         height = resizedBitmap.getHeight();
