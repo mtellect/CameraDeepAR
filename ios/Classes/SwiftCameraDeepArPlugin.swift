@@ -261,6 +261,24 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
                     }
                 }
                 result("Param Changed")
+            } else if call.method == "changeParameterTexture" {
+                if let dict = call.arguments as? [String: Any] {
+                    if let changeParameter = (dict["changeParameter"] as? String) {
+                        if let component = (dict["component"] as? String){
+                            if let parameter = (dict["parameter"] as? String){
+                                if let texturePath = (dict["texturePath"] as? Double){
+                                    //let f = Float(floatValue);
+                                    let key = self.registrar.lookupKey(forAsset: texturePath);
+                                    let pathSwift = Bundle.main.path(forResource: key, ofType: nil)
+                                    let image = UIImage(contentsOfFile: pathSwift)
+                                    self.deepAR.changeParameter(changeParameter,component:component,parameter:parameter,image: image);
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
+                result("Param Changed")
             }
         }
         if #available(iOS 9.0, *) {
