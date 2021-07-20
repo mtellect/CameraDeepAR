@@ -269,7 +269,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
                                 if let texturePath = (dict["texturePath"] as? String){
                                     //let f = Float(floatValue);
                                     let key = self.registrar.lookupKey(forAsset: texturePath);
-                                    NSLog(key!);
+                                    NSLog(key);
                                     let pathSwift = Bundle.main.path(forResource: key, ofType: nil);
                                     NSLog(pathSwift!);
                                     let image = UIImage(named: pathSwift!);
