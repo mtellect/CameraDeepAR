@@ -310,12 +310,12 @@ public class CameraDeepArView implements PlatformView,
                 Object component = params.get("component");
                 Object parameter = params.get("parameter");
                 Object texturePath = params.get("texturePath");
-                BitmapFactory.Options options = new BitmapFactory.Options();
+                //BitmapFactory.Options options = new BitmapFactory.Options();
                 //options.inPreferredConfig = Bitmap.Config.ARGB_8888;
                 FlutterLoader loader = FlutterInjector.instance().flutterLoader();
                 String pathJava = loader.getLookupKeyForAsset(String.valueOf(texturePath));
                 try{
-                    Bitmap bitmap = BitmapFactory.decodeFile(context.getAssets().open(pathJava), options); //, options  ////R.drawable.texture
+                    Bitmap bitmap = BitmapFactory.decodeStream(context.getAssets().open(pathJava)); //, options  ////R.drawable.texture
                     deepAR.changeParameterTexture(changeParameter.toString(), component.toString(), parameter.toString(), bitmap);
                 } catch (IOException e) {
                     e.printStackTrace();
