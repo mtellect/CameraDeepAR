@@ -26,6 +26,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Toast;
+import android.graphics.BitmapFactory;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -309,9 +310,11 @@ public class CameraDeepArView implements PlatformView,
                 Object component = params.get("component");
                 Object parameter = params.get("parameter");
                 Object texturePath = params.get("texturePath");
-                // BitmapFactory.Options options = new BitmapFactory.Options();
-                // options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-                Bitmap bitmap = BitmapFactory.decodeFile(texturePath); //, options  ////R.drawable.texture
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                //options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+                FlutterLoader loader = FlutterInjector.instance().flutterLoader();
+                String pathJava = loader.getLookupKeyForAsset(String.valueOf(texturePath));
+                Bitmap bitmap = BitmapFactory.decodeFile(pathJava, options); //, options  ////R.drawable.texture
                 deepAR.changeParameterTexture(changeParameter.toString(), component.toString(), parameter.toString(), bitmap);
             }
         }
