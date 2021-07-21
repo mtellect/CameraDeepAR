@@ -46,7 +46,7 @@ public class LoadImageHandlerThread extends HandlerThread {
 
     public LoadImageHandlerThread(ContextWrapper context) {
         super("ExampleHandlerThread", Process.THREAD_PRIORITY_BACKGROUND);
-        this.mContext = new WeakReference<ContextWrapper>(context);;
+        this.mContext = new WeakReference<ContextWrapper>(context);
         Log.d("Damon - ImageThread", "Being created");
     }
 
@@ -67,7 +67,7 @@ public class LoadImageHandlerThread extends HandlerThread {
                 switch (msg.what) {
                     case LOAD_IMAGE_FROM_GALLERY_TASK:
                         Log.d(TAG, "Load Image from Gallery Task, obj: " + msg.obj);
-                        loadBitmapFromGallery((Uri)msg.obj);
+                        //loadBitmapFromGallery(msg.obj);
                         break;
 
                     case LOAD_DEFAULT_IMAGE_TASK:
@@ -96,19 +96,11 @@ public class LoadImageHandlerThread extends HandlerThread {
         }
     }
 
-    void loadBitmapFromGallery(Uri imageUri) {
-
-        final Bitmap selectedImage;
-        try {
-            selectedImage = BitmapFactory.decodeStream(mContext.get().getContentResolver().openInputStream(imageUri));
-            lastImage = selectedImage;
-            if (lastImage != null) {
-                lastRotate = false;
-                uploadBitmapToDeepAR(selectedImage, false);
-            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+    void loadBitmapFromGallery(Bitmap bitmap){
+        lastImage = bitmap;
+        if (lastImage != null) {
+            lastRotate = false;
+            uploadBitmapToDeepAR(bitmap, false);
         }
     }
 

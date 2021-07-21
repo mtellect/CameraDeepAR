@@ -22,6 +22,7 @@ import android.os.Message;
 import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.Surface;
@@ -309,12 +310,28 @@ public class CameraDeepArView implements PlatformView,
                 deepAR.changeParameterFloat(changeParameter.toString(), component.toString(), parameter.toString(), ((Double) floatParam).floatValue());
             }
         } else if ("changeImage".equals(methodCall.method)){
+            if (methodCall.arguments instanceof HashMap) {
             Log.d("Damon - changeImage", "Being Involked");
-            File externalStoragePublicDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-            File imgsrc = new File(externalStoragePublicDirectory.toString()+ "/image.jpg");
-            imageGrabber.loadBitmapFromGallery(Uri.fromFile(imgsrc));
-            Log.d("Damon - changeImage", "Path is " + imgsrc.toString());
+             @SuppressWarnings({"unchecked"})
+                Map<String, Object> params = (Map<String, Object>) methodCall.arguments;
+                Object filePath = params.get("filePath");
+                FlutterLoader loader = FlutterInjector.instance().flutterLoader();
+                String pathJava = loader.getLookupKeyForAsset(String.valueOf(filePath));
+                try{
+                    Bitmap bitmap = BitmapFactory.decodeStream(context.getAssets().open(pathJava)); //, options ////R.drawable.texture
+                    imageGrabber.loadBitmapFromGallery(bitmap);
+                    imageGrabber.refreshBitmap();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            //TODO HEre
+            // File externalStoragePublicDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            // File imgsrc = new File(externalStoragePublicDirectory.toString()+ "/image.jpg");
+            // imageGrabber.loadBitmapFromGallery(Uri.fromFile(imgsrc));
+            Log.d("Damon - changeImage", "Path is " + filePath.toString());
             Log.d("Damon - changeImage", "Ended Involked");
+            }
         }
 
 
@@ -422,9 +439,11 @@ public class CameraDeepArView implements PlatformView,
         imageGrabber = new LoadImageHandlerThread(new ContextWrapper(this.context));
         imageGrabber.start();
         imageGrabber.setImageReceiver(deepAR);
-        File externalStoragePublicDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        File imgsrc = new File(externalStoragePublicDirectory.toString()+ "/image31.jpg");
-        imageGrabber.loadBitmapFromGallery(Uri.fromFile(imgsrc));
+
+        //TODO Come here
+        // File externalStoragePublicDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        // File imgsrc = new File(externalStoragePublicDirectory.toString()+ "/image31.jpg");
+        // imageGrabber.loadBitmapFromGallery(Uri.fromFile(imgsrc));
     }
 
 

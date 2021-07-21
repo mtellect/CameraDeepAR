@@ -91,7 +91,8 @@ class _MyAppState extends State<MyApp> {
                         Expanded(
                           child: FlatButton(
                             onPressed: () {
-                              cameraDeepArController.changeImage();
+                              cameraDeepArController
+                                  .changeImage("assets/testImage.png");
                               print("DAMON - Calling Change Image Flutter");
                             },
                             child: Icon(Icons.image),

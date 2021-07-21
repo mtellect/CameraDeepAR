@@ -343,8 +343,11 @@ class CameraDeepArController {
       'floatValue': floatValue,
     });
   }
-  Future changeImage() async {
+
+  Future changeImage(String filePath) async {
     print("Damon - Involking change Image Flutter");
-    return channel.invokeMethod('changeImage');
+    return channel.invokeMethod('changeImage', <String, dynamic>{
+      'filePath': filePath,
+    });
   }
 }
