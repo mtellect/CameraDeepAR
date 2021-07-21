@@ -25,15 +25,8 @@ import java.nio.ByteOrder;
 import ai.deepar.ar.DeepAR;
 import ai.deepar.ar.DeepARImageFormat;
 
-public class LoadImageHandlerThread extends HandlerThread {
+public class LoadImageHandler {
 
-    private static final String TAG = "ExampleHandlerThread";
-
-    public static final int LOAD_IMAGE_FROM_GALLERY_TASK = 1;
-    public static final int LOAD_DEFAULT_IMAGE_TASK = 2;
-    public static final int REFRESH_IMAGE_TASK = 3;
-
-    private Handler handler;
     private DeepAR imageReceiver;
     private WeakReference<ContextWrapper> mContext;
 
@@ -44,51 +37,13 @@ public class LoadImageHandlerThread extends HandlerThread {
     Bitmap lastImage;
     boolean lastRotate;
 
-    public LoadImageHandlerThread(ContextWrapper context) {
-        super("ExampleHandlerThread", Process.THREAD_PRIORITY_BACKGROUND);
+    public LoadImageHandler(ContextWrapper context) {
         this.mContext = new WeakReference<ContextWrapper>(context);
-        Log.d("Damon - ImageThread", "Being created");
-    }
-
-    public Handler getHandler() {
-        return handler;
     }
 
     synchronized void setImageReceiver(DeepAR receiver) {
         this.imageReceiver = receiver;
     }
-
-    @SuppressLint("HandlerLeak")
-    @Override
-    protected void onLooperPrepared() {
-        handler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case LOAD_IMAGE_FROM_GALLERY_TASK:
-                        Log.d(TAG, "Load Image from Gallery Task, obj: " + msg.obj);
-                        //loadBitmapFromGallery(msg.obj);
-                        break;
-
-                    case LOAD_DEFAULT_IMAGE_TASK:
-                        Log.d(TAG, "Load Image from Assets Task, obj: " + msg.obj);
-//                        loadDefaultBitmap();
-
-                    case REFRESH_IMAGE_TASK:
-                        Log.d(TAG, "Refresh Image Task, obj: " + msg.obj);
-                        refreshBitmap();
-                }
-            }
-        };
-    }
-
-//    void loadDefaultBitmap() {
-//        Bitmap defaultImage = ((BitmapDrawable) mContext.get().getResources()
-//                .getDrawable(R.drawable.default_face)).getBitmap();
-//        lastImage = defaultImage;
-//        lastRotate = true;
-//        uploadBitmapToDeepAR(defaultImage, true);
-//    }
 
     void refreshBitmap() {
         if (lastImage != null) {
@@ -105,25 +60,7 @@ public class LoadImageHandlerThread extends HandlerThread {
     }
 
     private void uploadBitmapToDeepAR(Bitmap selectedImage, boolean rotate) {
-        // DeepAR supports following resolutions:
-        // w1280xh720, w640xh480 and w640xh360
-        // If we want to show a portrait image we need to first crop the 1280x720 rectangle and
-        // then rotate it and feed as such to DeepAR.
-//        final Bitmap resizedBitmap;
-//        final Bitmap rotatedBitmap;
-//        if (rotate){
-//            resizedBitmap = scaleCenterCrop(selectedImage, 1280, 720);
-//            rotatedBitmap = rotateBitmap(resizedBitmap, 90);
-//        }
-//        else {
-//            resizedBitmap = scaleCenterCrop(selectedImage, 720, 1280);
-//            rotatedBitmap = rotateBitmap(resizedBitmap, 180);
-//        }
-//
-//        width = rotatedBitmap.getWidth();
-//        height = rotatedBitmap.getHeight();
 
-        // My Code:
         double scaleX_Y = (double) selectedImage.getWidth() / (double) selectedImage.getHeight();
         double scaleY_X = (double) selectedImage.getHeight()/ (double) selectedImage.getWidth();
         double scalerRatio = scaleX_Y;
@@ -138,11 +75,7 @@ public class LoadImageHandlerThread extends HandlerThread {
         width = resizedBitmap.getWidth();
         height = resizedBitmap.getHeight();
 
-        // We need to transform the image from RGB to YUV color format which uses NV21 encoding
-        // format on Android
-//        byte[] nv21Bytes = getNV21(width, height, rotatedBitmap);
 
-        // My Code:
         byte[] nv21Bytes = getNV21(width, height, resizedBitmap);
 
         nv21bb = ByteBuffer.allocateDirect(nv21Bytes.length);
@@ -150,11 +83,12 @@ public class LoadImageHandlerThread extends HandlerThread {
         nv21bb.put(nv21Bytes);
         nv21bb.position(0);
 
-        // Due  to DeepAR optimization to work on a stream of frames from video we need to feed at least
+        // NOTE Due  to DeepAR optimization to work on a stream of frames from video we need to feed at least
         // 2 frames to jumpstart tracking and rendering process
-        SystemClock.sleep(100);
-        // Due to initial rotation of portrait image by 90 degrees, we need to tell DeepAR to rotate
+        
+        // NOTE Due to initial rotation of portrait image by 90 degrees, we need to tell DeepAR to rotate
         // the final output by another 270 degrees to output a portrait image
+        SystemClock.sleep(100);
         imageReceiver.receiveFrame(nv21bb, width, height, 0, false, DeepARImageFormat.YUV_NV21, 1);
         SystemClock.sleep(100);
         imageReceiver.receiveFrame(nv21bb, width, height, 0, false, DeepARImageFormat.YUV_NV21, 1 );
@@ -248,4 +182,24 @@ public class LoadImageHandlerThread extends HandlerThread {
         String filename = "rotated"+System.currentTimeMillis()+".png";
         MediaStore.Images.Media.insertImage(mContext.get().getContentResolver(), bitmap, filename , "Description.");
     }
+
+
+
+    //NOTE Rotation code
+
+           
+//        final Bitmap resizedBitmap;
+//        final Bitmap rotatedBitmap;
+//        if (rotate){
+//            resizedBitmap = scaleCenterCrop(selectedImage, 1280, 720);
+//            rotatedBitmap = rotateBitmap(resizedBitmap, 90);
+//        }
+//        else {
+//            resizedBitmap = scaleCenterCrop(selectedImage, 720, 1280);
+//            rotatedBitmap = rotateBitmap(resizedBitmap, 180);
+//        }
+//
+//        width = rotatedBitmap.getWidth();
+//        height = rotatedBitmap.getHeight();
+
 }

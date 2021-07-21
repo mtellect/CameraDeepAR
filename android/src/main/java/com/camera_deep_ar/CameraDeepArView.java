@@ -61,7 +61,7 @@ import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.PluginRegistry;
 import io.flutter.plugin.platform.PlatformView;
-import com.camera_deep_ar.LoadImageHandlerThread;
+import com.camera_deep_ar.LoadImageHandler;
 
 
 public class CameraDeepArView implements PlatformView,
@@ -96,7 +96,7 @@ public class CameraDeepArView implements PlatformView,
     private int activeFilterType = 0;
     private File videoFile;
 
-    private LoadImageHandlerThread imageGrabber;
+    private LoadImageHandler imageGrabber;
     private ImageView offscreenView;
     private int RESULT_LOAD_IMG = 123;
     private int width = 720;
@@ -143,34 +143,13 @@ public class CameraDeepArView implements PlatformView,
             }
         }
 
-//        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-//        photoPickerIntent.setType("image/*");
-//        mActivity.startActivityForResult(photoPickerIntent, RESULT_LOAD_IMG);
-
-//        mContext
-//        mActivity.on(
-//                new registerActivityLifecycleCallbacks<Uri>() {
-//                    @Override
-//                    public void onActivityResult(Uri uri) {
-//                        // Handle the returned Uri
-//                    }
-//                });
-
         methodChannel.setMethodCallHandler(this);
         checkPermissions();
     }
 
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        if (requestCode == RESULT_LOAD_IMG) {
-            Log.d("Image Intent", data.toString() + "");
-        }
-    }
-
     private  void checkPermissions(){
         initializeDeepAR();
-        setupCamera();
+        setupImage();
     }
 
     private void initializeDeepAR(){
@@ -182,9 +161,6 @@ public class CameraDeepArView implements PlatformView,
 
     @Override
     public void onMethodCall(@NonNull MethodCall methodCall, @NonNull MethodChannel.Result result) {
-
-        //File imageFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/DeepAR_" + now + ".jpg");
-
 
         if ("isCameraReady".equals(methodCall.method)) {
             Map<String, Object> argument = new HashMap<>();
@@ -311,7 +287,6 @@ public class CameraDeepArView implements PlatformView,
             }
         } else if ("changeImage".equals(methodCall.method)){
             if (methodCall.arguments instanceof HashMap) {
-            Log.d("Damon - changeImage", "Being Involked");
              @SuppressWarnings({"unchecked"})
                 Map<String, Object> params = (Map<String, Object>) methodCall.arguments;
                 Object filePath = params.get("filePath");
@@ -324,13 +299,6 @@ public class CameraDeepArView implements PlatformView,
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-            //TODO HEre
-            // File externalStoragePublicDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-            // File imgsrc = new File(externalStoragePublicDirectory.toString()+ "/image.jpg");
-            // imageGrabber.loadBitmapFromGallery(Uri.fromFile(imgsrc));
-            Log.d("Damon - changeImage", "Path is " + filePath.toString());
-            Log.d("Damon - changeImage", "Ended Involked");
             }
         }
 
@@ -434,16 +402,9 @@ public class CameraDeepArView implements PlatformView,
         return orientation;
     }
 
-    private void setupCamera() {
-
-        imageGrabber = new LoadImageHandlerThread(new ContextWrapper(this.context));
-        imageGrabber.start();
+    private void setupImage() {
+        imageGrabber = new LoadImageHandler(new ContextWrapper(this.context));
         imageGrabber.setImageReceiver(deepAR);
-
-        //TODO Come here
-        // File externalStoragePublicDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        // File imgsrc = new File(externalStoragePublicDirectory.toString()+ "/image31.jpg");
-        // imageGrabber.loadBitmapFromGallery(Uri.fromFile(imgsrc));
     }
 
 
@@ -458,7 +419,7 @@ public class CameraDeepArView implements PlatformView,
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        setupCamera();
+        setupImage();
     }
 
     @Override
@@ -543,24 +504,8 @@ public class CameraDeepArView implements PlatformView,
 
     @Override
     public void initialized() {
-        Log.d("DAMON - initialized", "Function running");
-        if (imageGrabber != null && deepAR != null) {
-            imageGrabber.setImageReceiver(deepAR);
-            // Load default image
-            Message msg = Message.obtain(imageGrabber.getHandler());
-            msg.what = LoadImageHandlerThread.LOAD_DEFAULT_IMAGE_TASK;
-            msg.sendToTarget();
-        }
-        //jumpstart masks
         deepAR.switchEffect("mask", getFilterPath(masks.get(1)));
-        refreshImage();
-
-    }
-
-    void refreshImage() {
-        Message msg = Message.obtain(imageGrabber.getHandler());
-        msg.what = LoadImageHandlerThread.REFRESH_IMAGE_TASK;
-        msg.sendToTarget();
+        imageGrabber.refreshBitmap();
     }
 
     @Override
@@ -730,32 +675,3 @@ public class CameraDeepArView implements PlatformView,
     }
 
 }
-
-
-// START OF MY CODE
-
-//        this.imageView = new ImageView(mContext);
-//        File externalStoragePublicDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-//        File imgsrc = new File(externalStoragePublicDirectory.toString()+ "/image.jpg");
-//        Bitmap myBitmap = BitmapFactory.decodeFile(imgsrc.getAbsolutePath());
-//        imageView.setImageBitmap(myBitmap);
-//        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-//        // imageView.setVisibility(View.VISIBLE);
-//        imageView.setMinimumWidth(100);
-//        imageView.setMinimumHeight(100);
-//        imageView.setBackgroundColor(Color.rgb(255, 255, 255));
-//
-//        Canvas canvas = new Canvas();
-//        canvas.drawBitmap(myBitmap, 10, 10, null);
-//        imgSurface.draw(canvas);
-//        view.draw(canvas);
-
-//Creating image buffer to send to DeepAR?
-
-//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//        myBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-//        byte[] data = baos.toByteArray();
-//        ByteBuffer buffer = ByteBuffer.wrap(data);
-//        deepAR.receiveFrame(buffer, imageView.getMaxWidth(), imageView.getMaxHeight(), 1, false);
-
-// END OF MY CODE
