@@ -10,7 +10,6 @@ public class SwiftCameraDeepArPlugin: NSObject, FlutterPlugin {
         let viewFactory = DeepArCameraViewFactory(messenger: registrar.messenger(), registrar: registrar)
         registrar.register(viewFactory, withId: "plugins.flutter.io/deep_ar_camera")
     }
-    
     //public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
     //  result("iOS " + UIDevice.current.systemVersion)
     //}
@@ -78,7 +77,6 @@ public class DeepArCameraViewFactory: NSObject, FlutterPlatformViewFactory {
     init(messenger: FlutterBinaryMessenger, registrar: FlutterPluginRegistrar) {
         self.messenger = messenger
         self.registrar = registrar
-
     }
     public func create(withFrame frame: CGRect,
                        viewIdentifier viewId: Int64,
@@ -99,8 +97,8 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
     
     let messenger: FlutterBinaryMessenger
     let frame: CGRect
-    let registrar: FlutterPluginRegistrar
     let viewId: Int64
+    let registrar: FlutterPluginRegistrar
     let channel: FlutterMethodChannel
     var licenceKey: String
     var modeValue: String
@@ -136,9 +134,9 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
     
     @objc init(messenger: FlutterBinaryMessenger,  registrar: FlutterPluginRegistrar, frame: CGRect, viewId: Int64, args: Any?){
         self.messenger=messenger
-        self.registrar=registrar
         self.frame=frame
         self.viewId=viewId
+        self.registrar=registrar
         deepAR = DeepAR()
         cameraController = CameraController()
         licenceKey=""
@@ -235,7 +233,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
             } else if call.method == "dispose" {
                 self.deepAR.shutdown()
                 result("You Tapped on SnapPhoto")
-            } else if call.method == "switchEffect" {
+            }else if call.method == "switchEffect" {
                 if let dict = call.arguments as? [String: Any] {
                     if let mode = (dict["mode"] as? String) {
                         if let path = (dict["path"] as? String){
@@ -263,8 +261,27 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
                     }
                 }
                 result("Param Changed")
+            } else if call.method == "changeParameterTexture" {
+                if let dict = call.arguments as? [String: Any] {
+                    if let changeParameter = (dict["changeParameter"] as? String) {
+                        if let component = (dict["component"] as? String){
+                            if let parameter = (dict["parameter"] as? String){
+                                if let texturePath = (dict["texturePath"] as? String){
+                                    //let f = Float(floatValue);
+                                    let key = self.registrar.lookupKey(forAsset: texturePath);
+                                    //NSLog(key);
+                                    let pathSwift = Bundle.main.path(forResource: key, ofType: nil);
+                                    //NSLog(pathSwift!);
+                                    let image = UIImage(named: pathSwift!);
+                                    self.deepAR.changeParameter(changeParameter,component:component,parameter:parameter,image: image);
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
+                result("Param Changed")
             }
-            
         }
         if #available(iOS 9.0, *) {
             self.initCameraDeepAR()
@@ -382,6 +399,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         print(self.modeValue)
         deepAR.switchEffect(withSlot: currentMode.rawValue, path: path)
     }
+    
     
     private var isRecordingInProcess: Bool = false
     
@@ -574,4 +592,3 @@ extension String {
         //return Bundle.main.path(forResource: self, ofType: nil)
     }
 }
-

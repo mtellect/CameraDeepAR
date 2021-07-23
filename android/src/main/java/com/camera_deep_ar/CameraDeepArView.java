@@ -31,6 +31,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.graphics.BitmapFactory;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -298,7 +299,6 @@ public class CameraDeepArView implements PlatformView,
                 Object component = params.get("component");
                 Object parameter = params.get("parameter");
                 Object floatParam = params.get("floatValue");
-
                 deepAR.changeParameterFloat(changeParameter.toString(), component.toString(), parameter.toString(), ((Double) floatParam).floatValue());
             }
         } else if ("changeImage".equals(methodCall.method)){
@@ -312,6 +312,26 @@ public class CameraDeepArView implements PlatformView,
                     Bitmap bitmap = BitmapFactory.decodeStream(context.getAssets().open(pathJava)); //, options ////R.drawable.texture
                     imageGrabber.loadBitmapFromGallery(bitmap);
                     imageGrabber.refreshBitmap();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        else if ("changeParameterTexture".equals(methodCall.method)){
+            if (methodCall.arguments instanceof HashMap) {
+                @SuppressWarnings({"unchecked"})
+                Map<String, Object> params = (Map<String, Object>) methodCall.arguments;
+                Object changeParameter = params.get("changeParameter");
+                Object component = params.get("component");
+                Object parameter = params.get("parameter");
+                Object texturePath = params.get("texturePath");
+                //BitmapFactory.Options options = new BitmapFactory.Options();
+                //options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+                FlutterLoader loader = FlutterInjector.instance().flutterLoader();
+                String pathJava = loader.getLookupKeyForAsset(String.valueOf(texturePath));
+                try{
+                    Bitmap bitmap = BitmapFactory.decodeStream(context.getAssets().open(pathJava)); //, options  ////R.drawable.texture
+                    deepAR.changeParameterTexture(changeParameter.toString(), component.toString(), parameter.toString(), bitmap);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

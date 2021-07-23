@@ -350,10 +350,23 @@ class CameraDeepArController {
     });
   }
 
+
   Future changeImage(String filePath) async {
     print("Damon - Involking change Image Flutter");
     return channel.invokeMethod('changeImage', <String, dynamic>{
       'filePath': filePath,
+    });
+  }
+
+  //TODO: Implement this on both Android and IOS
+  Future changeParameterTexture(String changeParameter, String component,
+      String parameter, String texturePath) async {
+    return channel.invokeMethod('changeParameterTexture', <String, dynamic>{
+      'changeParameter': changeParameter,
+      'component': component,
+      'parameter': parameter,
+      'texturePath': texturePath,
+
     });
   }
 }
