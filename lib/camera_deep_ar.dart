@@ -350,7 +350,6 @@ class CameraDeepArController {
     });
   }
 
-
   Future changeImage(String filePath) async {
     print("Damon - Involking change Image Flutter");
     return channel.invokeMethod('changeImage', <String, dynamic>{
@@ -366,7 +365,6 @@ class CameraDeepArController {
       'component': component,
       'parameter': parameter,
       'texturePath': texturePath,
-
     });
   }
 }
