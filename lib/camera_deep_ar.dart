@@ -81,7 +81,7 @@ class CameraDeepAr extends StatefulWidget {
       required this.onImageCaptured,
       required this.onVideoRecorded,
       required this.onCameraReady,
-      required this.mode,
+      this.mode = "camera",
       this.cameraMode = CameraMode.masks,
       this.cameraDirection = CameraDirection.front,
       this.recordingMode = RecordingMode.video,
