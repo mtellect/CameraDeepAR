@@ -15,8 +15,11 @@ enum CameraMode { masks, effects, filters }
 
 enum CameraDirection { back, front }
 
+// NOTE: We use Masks.empty to replace none to force the underlying plugin to apply a mask as otherwise it would not.
+// Causing issues with loading maskes later on.
+// Needed to jumpstart the masks
 enum Masks {
-  none,
+  empty,
   aviators,
   bigmouth,
   dalmatian,
@@ -68,6 +71,7 @@ class CameraDeepAr extends StatefulWidget {
   final List<Filters> supportedFilters;
   final List<Masks> supportedMasks;
   final List<Effects> supportedEffects;
+  final String mode;
 
   const CameraDeepAr(
       {Key? key,
@@ -77,6 +81,7 @@ class CameraDeepAr extends StatefulWidget {
       required this.onImageCaptured,
       required this.onVideoRecorded,
       required this.onCameraReady,
+      required this.mode,
       this.cameraMode = CameraMode.masks,
       this.cameraDirection = CameraDirection.front,
       this.recordingMode = RecordingMode.video,
@@ -85,7 +90,7 @@ class CameraDeepAr extends StatefulWidget {
         Filters.bleachbypass,
       ],
       this.supportedMasks = const [
-        Masks.none,
+        Masks.empty,
         Masks.aviators,
         Masks.bigmouth,
         Masks.dalmatian,
@@ -138,7 +143,8 @@ class _CameraDeepArState extends State<CameraDeepAr> {
       "iosLicenceKey": widget.iosLicenceKey,
       "recordingMode": RecordingMode.values.indexOf(widget.recordingMode),
       "direction": CameraDirection.values.indexOf(widget.cameraDirection),
-      "cameraMode": CameraMode.values.indexOf(widget.cameraMode)
+      "cameraMode": CameraMode.values.indexOf(widget.cameraMode),
+      "mode": widget.mode,
     };
 
     if (defaultTargetPlatform == TargetPlatform.android) {

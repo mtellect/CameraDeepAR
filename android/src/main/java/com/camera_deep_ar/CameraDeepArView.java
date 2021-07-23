@@ -66,8 +66,8 @@ import com.camera_deep_ar.LoadImageHandler;
 
 public class CameraDeepArView implements PlatformView,
         SurfaceHolder.Callback, AREventListener,
-        MethodChannel.MethodCallHandler,
-        PluginRegistry.RequestPermissionsResultListener{
+        MethodChannel.MethodCallHandler {
+        //PluginRegistry.RequestPermissionsResultListener{
 
     private final Activity activity;
     private final Context context;
@@ -101,6 +101,7 @@ public class CameraDeepArView implements PlatformView,
     private int RESULT_LOAD_IMG = 123;
     private int width = 720;
     private int height = 1280;
+    private String displayMode = "camera";
 
     public CameraDeepArView(Activity mActivity, BinaryMessenger mBinaryMessenger, Context mContext, int id, Object args) {
         this.activity=mActivity;
@@ -126,7 +127,7 @@ public class CameraDeepArView implements PlatformView,
         imgSurface.setVisibility(View.GONE);
         imgSurface.setVisibility(View.VISIBLE);
         offscreenView = mActivity.findViewById(R.id.surface);
-
+        
         if (args instanceof HashMap) {
             @SuppressWarnings({"unchecked"})
             Map<String, Object> params = (Map<String, Object>) args;
@@ -134,6 +135,7 @@ public class CameraDeepArView implements PlatformView,
             Object cameraEffect = params.get("cameraEffect");
             Object direction = params.get("direction");
             Object cameraMode = params.get("cameraMode");
+            displayMode = params.get("mode").toString();
             if(null!=licenceKey)androidLicenceKey=licenceKey.toString();
             if(null!=cameraEffect)activeFilterType=Integer.parseInt(String.valueOf(cameraEffect));
             if(null!=direction){
@@ -142,14 +144,23 @@ public class CameraDeepArView implements PlatformView,
                 cameraDevice = defaultCameraDevice;
             }
         }
-
         methodChannel.setMethodCallHandler(this);
         checkPermissions();
     }
 
-    private  void checkPermissions(){
-        initializeDeepAR();
-        setupImage();
+    private void checkPermissions(){
+        Log.d("Setup", "Check Permissions Function");
+        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(activity, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    Log.d("Setup", "Permissions not granted");
+                    //TODO: possibly kick back to flutter
+        } else {
+            // Permission has already been granted
+            initializeDeepAR();
+            //setupImage();
+            //TODO setupCamera();
+        }
     }
 
     private void initializeDeepAR(){
@@ -212,7 +223,12 @@ public class CameraDeepArView implements PlatformView,
                 Map<String, Object> params = (Map<String, Object>) methodCall.arguments;
                 Object mask = params.get("mask");
                 currentMask=Integer.parseInt(String.valueOf(mask));
+                Log.d("MASK", "" + String.format("%d",currentMask));
+                Log.d("MASK", "" + masks.get(currentMask).toString());
+                
                 deepAR.switchEffect("mask", getFilterPath(masks.get(currentMask)));
+               
+                
             }
             result.success("Mask Changed");
         }else  if ("changeEffect".equals(methodCall.method)) {
@@ -307,7 +323,7 @@ public class CameraDeepArView implements PlatformView,
 
     private void initializeFilters() {
         masks = new ArrayList<>();
-        masks.add("none");
+        masks.add("empty");
         masks.add("aviators");
         masks.add("bigmouth");
         masks.add("dalmatian");
@@ -407,6 +423,68 @@ public class CameraDeepArView implements PlatformView,
         imageGrabber.setImageReceiver(deepAR);
     }
 
+    private void setupCamera() {
+        cameraGrabber = new CameraGrabber(cameraDevice);
+        screenOrientation = getScreenOrientation();
+
+        switch (screenOrientation) {
+            case ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE:
+                cameraGrabber.setScreenOrientation(90);
+                break;
+            case ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE:
+                cameraGrabber.setScreenOrientation(270);
+                break;
+            default:
+                cameraGrabber.setScreenOrientation(0);
+                break;
+        }
+
+        // Available 1080p, 720p and 480p resolutions
+        cameraGrabber.setResolutionPreset(CameraResolutionPreset.P1280x720);
+
+        cameraGrabber.initCamera(new CameraGrabberListener() {
+            @Override
+            public void onCameraInitialized() {
+                cameraGrabber.setFrameReceiver(deepAR);
+                cameraGrabber.startPreview();
+            }
+
+            @Override
+            public void onCameraError(String errorMsg) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                Log.d("Setup", "Camera Erroring on setup");
+                builder.setTitle("Camera error");
+                builder.setMessage(errorMsg);
+                builder.setCancelable(true);
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+         imgSurface.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // Get the pointer ID
+                Camera.Parameters params = cameraGrabber.getCamera().getParameters();
+                int action = event.getAction();
+                if (event.getPointerCount() > 1) {
+
+                } else {
+                    // handle single touch events
+                    if (action == MotionEvent.ACTION_UP) {
+                        handleFocus(event);
+                    }
+                }
+                return true;
+            }
+        });
+    }
+
 
 
     private String getFilterPath(String filterName) {
@@ -419,7 +497,16 @@ public class CameraDeepArView implements PlatformView,
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        setupImage();
+        if(displayMode.equals("image")){
+            setupImage();
+            Log.d("MODE", "Image!");
+        } else if(displayMode.equals("camera")){
+            setupCamera();
+            Log.d("MODE", "Camera!");
+        } else {
+            Log.e("ERROR", "No mode specified!");
+        }
+
     }
 
     @Override
@@ -504,8 +591,10 @@ public class CameraDeepArView implements PlatformView,
 
     @Override
     public void initialized() {
-        deepAR.switchEffect("mask", getFilterPath(masks.get(1)));
-        imageGrabber.refreshBitmap();
+        //NOTE: to jumpstart masks
+        //TODO: check if it works with camera as well
+        Log.d("MASK", "Image Loaded");
+        deepAR.switchEffect("mask", getFilterPath(masks.get(0)));
     }
 
     @Override
@@ -661,17 +750,22 @@ public class CameraDeepArView implements PlatformView,
         }
     }
 
-    @Override
-    public boolean onRequestPermissionsResult(int requestCode,  String[] permissions, int[] grantResults) {
-        if (requestCode == 1 && grantResults.length > 0) {
-            for (int grantResult : grantResults) {
-                if (grantResult != PackageManager.PERMISSION_GRANTED) {
-                    return false;
-                }
-                initializeDeepAR();
-            }
-        }
-        return false;
-    }
+    // @Override
+    // public boolean onRequestPermissionsResult(int requestCode,  String[] permissions, int[] grantResults) {
+    //     Log.d("Setup", String.format("%d",requestCode));
+    //     Log.d("Setup", String.format("%d",grantResults.length));
+    //     if (requestCode == 1 && grantResults.length > 0) {
+    //         for (int grantResult : grantResults) {
+    //             Log.d("Setup", "Here");
+    //             if (grantResult != PackageManager.PERMISSION_GRANTED) {
+    //                 return false;
+    //             }
+    //             initializeDeepAR();
+    //             setupImage();
+    //             Log.d("Setup", "Inited");
+    //         }
+    //     }
+    //     return false;
+    // }
 
 }

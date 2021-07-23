@@ -75,6 +75,7 @@ public class LoadImageHandler {
         width = resizedBitmap.getWidth();
         height = resizedBitmap.getHeight();
 
+        
 
         byte[] nv21Bytes = getNV21(width, height, resizedBitmap);
 
@@ -92,7 +93,6 @@ public class LoadImageHandler {
         imageReceiver.receiveFrame(nv21bb, width, height, 0, false, DeepARImageFormat.YUV_NV21, 1);
         SystemClock.sleep(100);
         imageReceiver.receiveFrame(nv21bb, width, height, 0, false, DeepARImageFormat.YUV_NV21, 1 );
-
     }
 
     // https://stackoverflow.com/questions/5960247/convert-bitmap-array-to-yuv-ycbcr-nv21
