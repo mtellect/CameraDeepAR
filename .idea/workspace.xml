@@ -7,7 +7,11 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fce1fb28-a1e1-4aae-8d4d-dbf5bbf22375" name="Default Changelist" comment="" />
+    <list default="true" id="fce1fb28-a1e1-4aae-8d4d-dbf5bbf22375" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/com/camera_deep_ar/CameraDeepArView.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/camera_deep_ar/CameraDeepArView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/com/camera_deep_ar/LoadImageHandlerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/camera_deep_ar/LoadImageHandlerThread.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -28,7 +32,7 @@
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/android" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -108,49 +112,29 @@
     <option name="LAST_COMMIT_MESSAGE" value="Add ReadMe Mod documentation" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="269" y="113" key="#PSD" timestamp="1600700760687">
-      <screen x="0" y="23" width="1366" height="699" />
+    <state x="773" y="266" key="AndroidProcessChooserDialog" timestamp="1626448628308">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="269" y="113" key="#PSD/0.23.1366.699@0.23.1366.699" timestamp="1600700760687" />
-    <state x="423" y="181" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1600660202212">
-      <screen x="0" y="23" width="1366" height="699" />
+    <state x="773" y="266" key="AndroidProcessChooserDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1626448628308" />
+    <state x="740" y="274" key="FileChooserDialogImpl" timestamp="1626283084275">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="423" y="181" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1366.699@0.23.1366.699" timestamp="1600660202212" />
-    <state x="173" y="23" key="CommitChangelistDialog2" timestamp="1608714688617">
-      <screen x="0" y="23" width="1366" height="699" />
+    <state x="740" y="274" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1626283084275" />
+    <state width="999" height="333" key="GridCell.Tab.0.bottom" timestamp="1626795119038">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="173" y="23" key="CommitChangelistDialog2/0.23.1366.699@0.23.1366.699" timestamp="1608714688617" />
-    <state x="221" y="123" width="1145" height="499" key="DiffContextDialog" timestamp="1600761419147">
-      <screen x="0" y="23" width="1366" height="699" />
+    <state width="999" height="333" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1626795119038" />
+    <state width="999" height="333" key="GridCell.Tab.0.center" timestamp="1626795119037">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="221" y="123" width="1145" height="499" key="DiffContextDialog/0.23.1366.699@0.23.1366.699" timestamp="1600761419147" />
-    <state width="1303" height="241" key="GridCell.Tab.0.bottom" timestamp="1600789585379">
-      <screen x="0" y="23" width="1366" height="699" />
+    <state width="999" height="333" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1626795119037" />
+    <state width="999" height="333" key="GridCell.Tab.0.left" timestamp="1626795119037">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1303" height="241" key="GridCell.Tab.0.bottom/0.23.1366.699@0.23.1366.699" timestamp="1600789585379" />
-    <state width="1303" height="241" key="GridCell.Tab.0.center" timestamp="1600789585378">
-      <screen x="0" y="23" width="1366" height="699" />
+    <state width="999" height="333" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1626795119037" />
+    <state width="999" height="333" key="GridCell.Tab.0.right" timestamp="1626795119038">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1303" height="241" key="GridCell.Tab.0.center/0.23.1366.699@0.23.1366.699" timestamp="1600789585378" />
-    <state width="1303" height="241" key="GridCell.Tab.0.left" timestamp="1600789585377">
-      <screen x="0" y="23" width="1366" height="699" />
-    </state>
-    <state width="1303" height="241" key="GridCell.Tab.0.left/0.23.1366.699@0.23.1366.699" timestamp="1600789585377" />
-    <state width="1303" height="241" key="GridCell.Tab.0.right" timestamp="1600789585378">
-      <screen x="0" y="23" width="1366" height="699" />
-    </state>
-    <state width="1303" height="241" key="GridCell.Tab.0.right/0.23.1366.699@0.23.1366.699" timestamp="1600789585378" />
-    <state x="305" y="98" key="Vcs.Push.Dialog.v2" timestamp="1608714976054">
-      <screen x="0" y="23" width="1366" height="699" />
-    </state>
-    <state x="305" y="98" key="Vcs.Push.Dialog.v2/0.23.1366.699@0.23.1366.699" timestamp="1608714976054" />
-    <state x="221" y="123" width="1145" height="499" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1600761419148">
-      <screen x="0" y="23" width="1366" height="699" />
-    </state>
-    <state x="221" y="123" width="1145" height="499" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog/0.23.1366.699@0.23.1366.699" timestamp="1600761419148" />
-    <state x="342" y="204" key="com.intellij.ide.util.TipDialog" timestamp="1600655302209">
-      <screen x="0" y="23" width="1366" height="699" />
-    </state>
-    <state x="342" y="204" key="com.intellij.ide.util.TipDialog/0.23.1366.699@0.23.1366.699" timestamp="1600655302209" />
+    <state width="999" height="333" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1626795119038" />
   </component>
 </project>

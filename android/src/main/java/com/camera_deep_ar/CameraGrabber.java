@@ -1,5 +1,6 @@
 package com.camera_deep_ar;
 
+
 import android.graphics.ImageFormat;
 import android.graphics.PixelFormat;
 import android.graphics.SurfaceTexture;
@@ -15,6 +16,7 @@ import java.util.List;
 
 import ai.deepar.ar.CameraResolutionPreset;
 import ai.deepar.ar.DeepAR;
+import ai.deepar.ar.DeepARImageFormat;
 
 
 /**
@@ -198,7 +200,8 @@ public class CameraGrabber
                                 buffers[currentBuffer].put(data);
                                 buffers[currentBuffer].position(0);
                                 if (frameReceiver != null) {
-                                    frameReceiver.receiveFrame(buffers[currentBuffer], width,height, cameraOrientation, cameraDevice == Camera.CameraInfo.CAMERA_FACING_FRONT);
+//                                    frameReceiver.receiveFrame(buffers[currentBuffer], width, height, cameraOrientation, cameraDevice == Camera.CameraInfo.CAMERA_FACING_FRONT);
+                                    frameReceiver.receiveFrame(buffers[currentBuffer], width, height, cameraOrientation, cameraDevice == Camera.CameraInfo.CAMERA_FACING_FRONT, DeepARImageFormat.YUV_420_888, 1000);
                                 }
                                 currentBuffer = ( currentBuffer + 1 ) % NUMBER_OF_BUFFERS;
                             }

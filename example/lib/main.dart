@@ -17,7 +17,7 @@ class _MyAppState extends State<MyApp> {
   final vp = PageController(viewportFraction: .24);
   Effects currentEffect = Effects.none;
   Filters currentFilter = Filters.none;
-  Masks currentMask = Masks.none;
+  Masks currentMask = Masks.empty;
   bool isRecording = false;
 
   @override
@@ -49,6 +49,7 @@ class _MyAppState extends State<MyApp> {
                   isRecording = false;
                   setState(() {});
                 },
+                mode: "camera",
                 androidLicenceKey:
                     "3b58c448bd650192e7c53d965cfe5dc1c341d2568b663a3962b7517c4ac6eeed0ba1fb2afe491a4b",
                 iosLicenceKey:
@@ -85,6 +86,18 @@ class _MyAppState extends State<MyApp> {
                             },
                             child: Icon(Icons.camera_enhance_outlined),
                             color: Colors.white,
+                            padding: EdgeInsets.all(15),
+                          ),
+                        ),
+                        Expanded(
+                          child: FlatButton(
+                            onPressed: () {
+                              cameraDeepArController
+                                  .changeImage("assets/testImage.png");
+                              print("DAMON - Calling Change Image Flutter");
+                            },
+                            child: Icon(Icons.image),
+                            color: Colors.orange,
                             padding: EdgeInsets.all(15),
                           ),
                         ),
