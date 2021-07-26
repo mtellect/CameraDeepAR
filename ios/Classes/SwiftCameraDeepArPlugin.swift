@@ -281,6 +281,27 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
                     }
                 }
                 result("Param Changed")
+            } else if call.method == "changeImage" {
+                if let dict = call.arguments as? [String: Any] {
+                    if let changeParameter = (dict["changeParameter"] as? String) {
+                        if let component = (dict["component"] as? String){
+                            if let parameter = (dict["parameter"] as? String){
+                                if let imagePath = (dict["imagePath"] as? String){
+                                    //let f = Float(floatValue);
+                                    let key = self.registrar.lookupKey(forAsset: imagePath);
+                                    //NSLog(key);
+                                    let pathSwift = Bundle.main.path(forResource: key, ofType: nil);
+                                    NSLog("changing Image");
+                                    let image = UIImage(named: pathSwift!);
+                                    self.arViewContainer.backgroundColor = UIColor(patternImage: image!);
+//                                    self.deepAR.changeParameter(changeParameter,component:component,parameter:parameter,image: image);
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
+                result("Param Changed")
             }
         }
         if #available(iOS 9.0, *) {
@@ -346,7 +367,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         
     }
 
-    @objc func frameAvailable(_ sampleBuffer: CMSampleBufferRef!){
+    @objc public func frameAvailable(_ sampleBuffer: CMSampleBuffer!){
         NSLog("Here?");
     }
     
@@ -420,11 +441,12 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         self.arView = self.deepAR.createARView(withFrame: self.frame) as? ARView
         self.arView.translatesAutoresizingMaskIntoConstraints = false
         //cameraController.startCamera()
-        startImage()
+        //startImage()
     }
 
     @objc func startImage(){
-        cameraController.deepAR.startCaptureWithOutputWidth(_ outputWidth: 100, outputHeight: 100, subframe:self.frame)
+        cameraController.deepAR.startCapture(withOutputWidth: 100, outputHeight: 100, subframe:self.frame)
+        
     }
     
 
