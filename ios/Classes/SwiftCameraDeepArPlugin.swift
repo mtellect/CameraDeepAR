@@ -164,7 +164,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         }
         
         
-        channel.setMethodCallHandler { call, result in
+        channel.setMethodCallHandler { [self] call, result in
             if call.method == "isCameraReady" {
                 var dict: [String: Bool] = [String:Bool]()
                 dict["isReady"] = true
@@ -298,7 +298,8 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
                         // flashView.alpha = 100
                         // flashView.backgroundColor = .red
                         // self.arView.insertSubview(flashView, aboveSubview: self.arView)
-                       self.arView.backgroundColor = .red
+                        let view = self.view();
+                        view.backgroundColor = .red
     //                                    self.deepAR.changeParameter(changeParameter,component:component,parameter:parameter,image: image);
     
                     }
