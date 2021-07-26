@@ -312,10 +312,10 @@ public class CameraDeepArView implements PlatformView,
                 // String pathJava = loader.getLookupKeyForAsset(String.valueOf(filePath));
                 // Log.d("File path is ", pathJava.toString());
                 try{
-                    Bitmap bitmap = BitmapFactory.decodeStream(context.getAssets().open(filePath.toString())); //, options ////R.drawable.texture
+                    Bitmap bitmap = BitmapFactory.decodeFile(filePath.toString()); //, options ////R.drawable.texture
                     imageGrabber.loadBitmapFromGallery(bitmap);
                     imageGrabber.refreshBitmap();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
