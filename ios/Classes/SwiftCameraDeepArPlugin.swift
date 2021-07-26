@@ -286,21 +286,19 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
                     if let filePath = (dict["filePath"] as? String) {
                     
                         //let f = Float(floatValue);
-                        //let key = self.registrar.lookupKey(forAsset: filePath);
+                        let key = self.registrar.lookupKey(forAsset: filePath);
                         //NSLog(key);
-                        //let pathSwift = Bundle.main.path(forResource: key, ofType: nil);
+                        let pathSwift = Bundle.main.path(forResource: key, ofType: nil);
                         NSLog("changing Image");
-                        //let image = UIImage(named: pathSwift!);
+                        let image = UIImage(named: pathSwift!);
                         NSLog("changing container");
                         //let view = self.arView.inputView;
                         //view?.backgroundColor = UIColor.red;
-                        // let flashView = UIView(frame: self.arView.frame)
-                        // flashView.alpha = 100
-                        // flashView.backgroundColor = .red
-                        // self.arView.insertSubview(flashView, aboveSubview: self.arView)
-                        DispatchQueue.main.async {
-                            self.arView.backgroundColor = .red
-                        }
+                        let flashView = UIView(frame: self.arView.frame)
+                        flashView.alpha = 100
+                        flashView.backgroundColor = UIColor(patternImage: image!)
+                        self.arView.insertSubview(flashView, aboveSubview: self.arView)
+                       
     //                                    self.deepAR.changeParameter(changeParameter,component:component,parameter:parameter,image: image);
     
                     }
