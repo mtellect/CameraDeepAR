@@ -285,6 +285,10 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         }
         if #available(iOS 9.0, *) {
             self.initCameraDeepAR()
+            // self.deepAR.delegate = self
+            // self.deepAR.setLicenseKey(self.licenceKey)
+            // startImage()
+            // NSLog("Started Image")
             
         } else {
             // Fallback on earlier versions
@@ -340,6 +344,10 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         }
         
         
+    }
+
+    @objc func frameAvailable(CMSampleBufferRef sampleBuffer){
+        NSLog("Here?");
     }
     
     
@@ -411,7 +419,12 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         cameraController.deepAR = self.deepAR
         self.arView = self.deepAR.createARView(withFrame: self.frame) as? ARView
         self.arView.translatesAutoresizingMaskIntoConstraints = false
-        cameraController.startCamera()
+        //cameraController.startCamera()
+        startImage()
+    }
+
+    @objc func startImage(){
+        cameraController.deepAR.startCaptureWithOutputWidth(Int32(deepAR.renderingResolution.width), outputHeight: Int32(deepAR.renderingResolution.height), subframe:self.frame)
     }
     
 
