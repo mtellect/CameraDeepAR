@@ -283,22 +283,17 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
                 result("Param Changed")
             } else if call.method == "changeImage" {
                 if let dict = call.arguments as? [String: Any] {
-                    if let changeParameter = (dict["changeParameter"] as? String) {
-                        if let component = (dict["component"] as? String){
-                            if let parameter = (dict["parameter"] as? String){
-                                if let imagePath = (dict["imagePath"] as? String){
-                                    //let f = Float(floatValue);
-                                    let key = self.registrar.lookupKey(forAsset: imagePath);
-                                    //NSLog(key);
-                                    let pathSwift = Bundle.main.path(forResource: key, ofType: nil);
-                                    NSLog("changing Image");
-                                    let image = UIImage(named: pathSwift!);
-                                    self.arViewContainer.backgroundColor = UIColor(patternImage: image!);
-//                                    self.deepAR.changeParameter(changeParameter,component:component,parameter:parameter,image: image);
-                                    
-                                }
-                            }
-                        }
+                    if let filePath = (dict["filePath"] as? String) {
+                    
+                        //let f = Float(floatValue);
+                        let key = self.registrar.lookupKey(forAsset: filePath);
+                        //NSLog(key);
+                        let pathSwift = Bundle.main.path(forResource: key, ofType: nil);
+                        NSLog("changing Image");
+                        let image = UIImage(named: pathSwift!);
+                        self.arViewContainer.backgroundColor = UIColor(patternImage: image!);
+    //                                    self.deepAR.changeParameter(changeParameter,component:component,parameter:parameter,image: image);
+    
                     }
                 }
                 result("Param Changed")
