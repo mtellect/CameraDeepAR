@@ -346,7 +346,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         
     }
 
-    @objc func frameAvailable(CMSampleBufferRef sampleBuffer){
+    @objc func frameAvailable(CMSampleBufferRef: sampleBuffer){
         NSLog("Here?");
     }
     
@@ -424,7 +424,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
     }
 
     @objc func startImage(){
-        cameraController.deepAR.startCaptureWithOutputWidth(Int32(deepAR.renderingResolution.width), outputHeight: Int32(deepAR.renderingResolution.height), subframe:self.frame)
+        cameraController.deepAR.startCaptureWithOutputWidth(100, outputHeight: 100, subframe:self.frame)
     }
     
 
