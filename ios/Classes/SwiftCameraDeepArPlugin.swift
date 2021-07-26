@@ -292,7 +292,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
                         NSLog("changing Image");
                         //let image = UIImage(named: pathSwift!);
                         NSLog("changing container");
-                        self.arViewContainer.backgroundColor = UIColor(red: 100, green: 100, blue: 200, alpha: 100);
+                        self.arViewContainer.backgroundColor = UIColor.red
     //                                    self.deepAR.changeParameter(changeParameter,component:component,parameter:parameter,image: image);
     
                     }
