@@ -296,6 +296,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
                         //view?.backgroundColor = UIColor.red;
                         //let flashView = UIView(frame: self.arView.frame)
                         let uImage = UIImageView(image: image);
+                        
                         uImage.contentMode = .scaleAspectFill
                         uImage.frame = self.arView.frame
                         //uImage.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -353,7 +354,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
     func buffer(from image: UIImage) -> CVPixelBuffer? {
       let attrs = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue, kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
       var pixelBuffer : CVPixelBuffer?
-      let status = CVPixelBufferCreate(kCFAllocatorDefault, Int(image.size.width), Int(image.size.height), kCVPixelFormatType_32ARGB, attrs, &pixelBuffer)
+      let status = CVPixelBufferCreate(kCFAllocatorDefault, Int(image.size.width), Int(image.size.height), kCVPixelFormatType_32BGRA, attrs, &pixelBuffer)
       guard (status == kCVReturnSuccess) else {
         return nil
       }
