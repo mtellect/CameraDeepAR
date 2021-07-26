@@ -297,8 +297,8 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
                         //let flashView = UIView(frame: self.arView.frame)
                         let uImage = UIImageView(image: image);
                         
-                        uImage.contentMode = .scaleAspectFill
-                        uImage.frame = self.arView.frame
+                        uImage.contentMode = .center
+                        //uImage.frame = self.arView.frame
                         //uImage.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 //                        let rImage = resizeImage(image: image!, targetSize: CGSize(width: 200.0, height: 200.0));
 //                        flashView.alpha = 100
@@ -501,12 +501,12 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         self.arView = self.deepAR.createARView(withFrame: self.frame) as? ARView
         self.arView.translatesAutoresizingMaskIntoConstraints = false
         //cameraController.startCamera()
-        //startImage()
+        startImage()
     }
 
     @objc func startImage(){
-        cameraController.deepAR.startCapture(withOutputWidth: 100, outputHeight: 100, subframe:self.frame)
-        
+        cameraController.deepAR.startCapture(withOutputWidth: 720, outputHeight: 1280, subframe:self.frame)
+    
     }
     
 
