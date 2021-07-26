@@ -294,11 +294,11 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
                         NSLog("changing container");
                         //let view = self.arView.inputView;
                         //view?.backgroundColor = UIColor.red;
-                        let flashView = UIView(frame: self.arView.frame)
-                        flashView.alpha = 100
-                        flashView.backgroundColor = .red
-                        self.arView.insertSubview(flashView, aboveSubview: self.arView)
-                       // self.arView.backgroundColor = UIColor.red;
+                        // let flashView = UIView(frame: self.arView.frame)
+                        // flashView.alpha = 100
+                        // flashView.backgroundColor = .red
+                        // self.arView.insertSubview(flashView, aboveSubview: self.arView)
+                       self.arView.backgroundColor = .red
     //                                    self.deepAR.changeParameter(changeParameter,component:component,parameter:parameter,image: image);
     
                     }
