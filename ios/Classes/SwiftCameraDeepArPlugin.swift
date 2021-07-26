@@ -296,6 +296,9 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
                         //view?.backgroundColor = UIColor.red;
                         //let flashView = UIView(frame: self.arView.frame)
                         let uImage = UIImageView(image: image);
+                        uImage.contentMode = .scaleAspectFill
+                        uImage.frame = self.arView.bounds
+                        uImage.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 //                        let rImage = resizeImage(image: image!, targetSize: CGSize(width: 200.0, height: 200.0));
 //                        flashView.alpha = 100
 //                        flashView.backgroundColor = UIColor(patternImage: rImage)
@@ -345,6 +348,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
     
     return newImage!
 }
+    
     
     
 //    @objc
