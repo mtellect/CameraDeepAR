@@ -284,7 +284,8 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
             } else if call.method == "changeImage" {
                 if let dict = call.arguments as? [String: Any] {
                     if let filePath = (dict["filePath"] as? String) {
-                    
+                        DispatchQueue.main.async {
+                        
                         //let f = Float(floatValue);
                         let key = self.registrar.lookupKey(forAsset: filePath);
                         //NSLog(key);
@@ -299,13 +300,15 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
                         
                         uImage.contentMode = .scaleAspectFill
                         uImage.frame = self.frame
+                        NSLog("\(self.frame.size.width) \(self.frame.size.height)")
+                        NSLog("\(self.arView.frame.size.width) \(self.arView.frame.size.height)")
                         //uImage.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 //                        let rImage = resizeImage(image: image!, targetSize: CGSize(width: 200.0, height: 200.0));
 //                        flashView.alpha = 100
 //                        flashView.backgroundColor = UIColor(patternImage: rImage)
                         self.arView.insertSubview(uImage, at: 0)
                         self.deepAR.processFrame(buffer(from: image!), mirror: false)
-                       
+                        }
     //                                    self.deepAR.changeParameter(changeParameter,component:component,parameter:parameter,image: image);
     
                     }
