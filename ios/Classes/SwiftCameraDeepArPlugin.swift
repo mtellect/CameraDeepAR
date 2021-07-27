@@ -298,19 +298,19 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
                         //let view = self.arView.inputView;
                         //view?.backgroundColor = UIColor.red;
                         //let flashView = UIView(frame: self.arView.frame)
-                        let uImage =  UIImageView.init(image: image);
-                            uImage.contentMode = .scaleAspectFill
-                           
-//                            uImage.tintColor = .none
-//                            uImage.tintAdjustmentMode = .au∂tomatic
-                            uImage.frame = imageFrame
-                            NSLog("Frame: \(self.frame.width) \(self.frame.height)")
-                        NSLog("ARView: \(self.arView.frame.width) \(self.arView.frame.height)")
+//                        let uImage =  UIImageView.init(image: image);
+//                            uImage.contentMode = .scaleAspectFill
+//
+////                            uImage.tintColor = .none
+////                            uImage.tintAdjustmentMode = .au∂tomatic
+//                            uImage.frame = imageFrame
+//                            NSLog("Frame: \(self.frame.width) \(self.frame.height)")
+//                        NSLog("ARView: \(self.arView.frame.width) \(self.arView.frame.height)")
                         //uImage.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 //                        let rImage = resizeImage(image: image!, targetSize: CGSize(width: 200.0, height: 200.0));
 //                        flashView.alpha = 100
 //                        flashView.backgroundColor = UIColor(patternImage: rImage)
-                        self.arView.insertSubview(uImage, at: 0)
+                        //self.arView.insertSubview(uImage, at: 0)
                         self.deepAR.processFrame(buffer(from: image!), mirror: false)
                         }
     //                                    self.deepAR.changeParameter(changeParameter,component:component,parameter:parameter,image: image);
