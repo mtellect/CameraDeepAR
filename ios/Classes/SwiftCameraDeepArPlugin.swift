@@ -294,6 +294,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
                         let pathSwift = Bundle.main.path(forResource: key, ofType: nil);
                         NSLog("changing Image");
                         let image = UIImage(named: pathSwift!);
+                       
                             NSLog("ColorSpace \(image?.cgImage?.colorSpace)")
                             //let cImage = CIImage.init(image: image!);
                         NSLog("changing container");
@@ -384,8 +385,8 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
       let pixelData = CVPixelBufferGetBaseAddress(pixelBuffer!)
 
       let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
-      let context = CGContext(data: pixelData, width: Int(image.size.width), height: Int(image.size.height), bitsPerComponent: 8, bytesPerRow: CVPixelBufferGetBytesPerRow(pixelBuffer!), space: rgbColorSpace, bitmapInfo: CGImageAlphaInfo.noneSkipFirst.rawValue)
-
+      let context = CGContext(data: pixelData, width: Int(image.size.width), height: Int(image.size.height), bitsPerComponent: 8, bytesPerRow: 4 * Int(image.size.width), space: rgbColorSpace, bitmapInfo: CGBitmapInfo.byteOrder32Little.rawValue | CGImageAlphaInfo.noneSkipFirst.rawValue)
+    // CVPixelBufferGetBytesPerRow(pixelBuffer!)
       context?.translateBy(x: 0, y: image.size.height)
       context?.scaleBy(x: 1.0, y: -1.0)
 
