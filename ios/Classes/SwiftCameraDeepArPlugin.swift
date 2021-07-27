@@ -302,7 +302,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
 //                            uImage.tintColor = .none
 //                            uImage.tintAdjustmentMode = .au∂tomatic
                        
-                            uImage.frame = self.frame
+                            uImage.frame = CGRect(x: 0, y: 0, width: 200, height: 200);
                             NSLog("Frame: \(self.frame.width) \(self.frame.height)")
                         NSLog("ARView: \(self.arView.frame.width) \(self.arView.frame.height)")
                         //uImage.autoresizingMask = [.flexibleWidth, .flexibleHeight]
