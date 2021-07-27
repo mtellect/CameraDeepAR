@@ -287,39 +287,12 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
             } else if call.method == "changeImage" {
                 if let dict = call.arguments as? [String: Any] {
                     if let filePath = (dict["filePath"] as? String) {
-                        DispatchQueue.main.async {
-                        
-                        //let f = Float(floatValue);
-                        let key = self.registrar.lookupKey(forAsset: filePath);
-                        //NSLog(key);
-                        let pathSwift = Bundle.main.path(forResource: key, ofType: nil);
-                        NSLog("changing Image");
-                        let image = UIImage(named: pathSwift!);
-                       
-                            NSLog("ColorSpace \(image?.cgImage?.colorSpace)")
-                            //let cImage = CIImage.init(image: image!);
-                        NSLog("changing container");
-                        //let view = self.arView.inputView;
-                        //view?.backgroundColor = UIColor.red;
-                        //let flashView = UIView(frame: self.arView.frame)
-//                        let uImage =  UIImageView.init(image: image);
-//                            uImage.contentMode = .scaleAspectFill
-//
-////                            uImage.tintColor = .none
-////                            uImage.tintAdjustmentMode = .au∂tomatic
-//                            uImage.frame = imageFrame
-//                            NSLog("Frame: \(self.frame.width) \(self.frame.height)")
-//                        NSLog("ARView: \(self.arView.frame.width) \(self.arView.frame.height)")
-                        //uImage.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-//                        let rImage = resizeImage(image: image!, targetSize: CGSize(width: 200.0, height: 200.0));
-//                        flashView.alpha = 100
-//                        flashView.backgroundColor = UIColor(patternImage: rImage)
-                        //self.arView.insertSubview(uImage, at: 0)
-                            searchingForFace = true;
-                            enqueueFrame(buffer(from: image!))
-                        }
-    //                                    self.deepAR.changeParameter(changeParameter,component:component,parameter:parameter,image: image);
-    
+//                        let key = self.registrar.lookupKey(forAsset: filePath);
+//                        let pathSwift = Bundle.main.path(forResource: key, ofType: nil);
+                        //let image = UIImage(named: pathSwift!);
+                        let image = UIImage(contentsOfFile: filePath);
+                        searchingForFace = true;
+                        enqueueFrame(buffer(from: image!))
                     }
                 }
                 result("Param Changed")
@@ -327,10 +300,6 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         }
         if #available(iOS 9.0, *) {
             self.initCameraDeepAR()
-            // self.deepAR.delegate = self
-            // self.deepAR.setLicenseKey(self.licenceKey)
-            // startImage()
-            // NSLog("Started Image")
             
         } else {
             // Fallback on earlier versions
@@ -425,7 +394,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
     }
 
     @objc public func frameAvailable(_ sampleBuffer: CMSampleBuffer!){
-        NSLog("Here?");
+
     }
     
     
@@ -498,16 +467,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         self.arView = self.deepAR.createARView(withFrame: self.frame) as? ARView
         self.arView.translatesAutoresizingMaskIntoConstraints = false
         //cameraController.startCamera()
-        startImage()
     }
-
-    @objc func startImage(){
-        imageFrame = CGRect(x: 0, y: 0, width: 200, height: 200);
-//        cameraController.deepAR.startCapture(withOutputWidthAndFormat: 720, outputHeight: 1280, subframe:self.frame, outputImageFormat: BGRA);
-
-    
-    }
-    
 
     
     @objc
