@@ -347,10 +347,6 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         })
     }
     
-     @objc func faceVisiblityDidChange(_ faceVisible: Bool) {
-        searchingForFace = false;
-        NSLog("Found Face!")
-    }
     
     func buffer(from image: UIImage) -> CVPixelBuffer? {
       let attrs = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue, kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
@@ -676,7 +672,10 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
     
     public func didInitialize() {}
     
-    public  func faceVisiblityDidChange(_ faceVisible: Bool) {}
+    public  func faceVisiblityDidChange(_ faceVisible: Bool) {
+        searchingForFace = false;
+        NSLog("Found Face!")
+    }
     
 }
 
