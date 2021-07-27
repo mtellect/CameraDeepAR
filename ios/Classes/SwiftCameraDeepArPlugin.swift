@@ -374,11 +374,11 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
     func buffer(from image: UIImage) -> CVPixelBuffer? {
       let attrs = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue, kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
       var pixelBuffer : CVPixelBuffer?
-      let status = CVPixelBufferCreate(kCFAllocatorDefault, Int(image.size.width), Int(image.size.height), kCVPixelFormatType_32BGRA, attrs, &pixelBuffer)
+      let status = CVPixelBufferCreate(kCFAllocatorDefault, Int(image.size.width), Int(image.size.height), kCVPixelFormatType_32RGBA, attrs, &pixelBuffer)
       guard (status == kCVReturnSuccess) else {
         return nil
       }
-        //kCVPixelFormatType_
+        //kCVPixelFormatType_32RGBA
       CVPixelBufferLockBaseAddress(pixelBuffer!, CVPixelBufferLockFlags(rawValue: 0))
       let pixelData = CVPixelBufferGetBaseAddress(pixelBuffer!)
 
@@ -526,7 +526,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
 
     @objc func startImage(){
         imageFrame = CGRect(x: 0, y: 0, width: 200, height: 200);
-        cameraController.deepAR.startCapture(withOutputWidthAndFormat: 720, outputHeight: 1280, subframe:self.frame, outputImageFormat: BGRA);
+//        cameraController.deepAR.startCapture(withOutputWidthAndFormat: 720, outputHeight: 1280, subframe:self.frame, outputImageFormat: BGRA);
 
     
     }
