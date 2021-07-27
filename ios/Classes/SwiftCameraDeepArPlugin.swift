@@ -312,7 +312,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
 //                        flashView.alpha = 100
 //                        flashView.backgroundColor = UIColor(patternImage: rImage)
                         //self.arView.insertSubview(uImage, at: 0)
-                        self.deepAR.processFrame(bufferC(from: cImage!), mirror: false)
+                        self.deepAR.processFrame(buffer(from: image!), mirror: false)
                         }
     //                                    self.deepAR.changeParameter(changeParameter,component:component,parameter:parameter,image: image);
     
