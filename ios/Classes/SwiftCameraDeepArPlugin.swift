@@ -294,6 +294,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
                         let pathSwift = Bundle.main.path(forResource: key, ofType: nil);
                         NSLog("changing Image");
                         let image = UIImage(named: pathSwift!);
+                            let cImage = CIImage.init(image: image!);
                         NSLog("changing container");
                         //let view = self.arView.inputView;
                         //view?.backgroundColor = UIColor.red;
@@ -311,7 +312,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
 //                        flashView.alpha = 100
 //                        flashView.backgroundColor = UIColor(patternImage: rImage)
                         //self.arView.insertSubview(uImage, at: 0)
-                        self.deepAR.processFrame(buffer(from: image!), mirror: false)
+                        self.deepAR.processFrame(bufferC(from: cImage!), mirror: false)
                         }
     //                                    self.deepAR.changeParameter(changeParameter,component:component,parameter:parameter,image: image);
     
@@ -330,6 +331,18 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         } else {
             // Fallback on earlier versions
         }
+    }
+    
+    func bufferC(from image: CIImage) -> CVPixelBuffer? {
+        let attrs = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue, kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
+        var pixelBuffer : CVPixelBuffer?
+        let status = CVPixelBufferCreate(kCFAllocatorDefault, Int(image.extent.width), Int(image.extent.height), kCVPixelFormatType_32ARGB, attrs, &pixelBuffer)
+
+        guard (status == kCVReturnSuccess) else {
+            return nil
+        }
+
+        return pixelBuffer
     }
 
     func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
