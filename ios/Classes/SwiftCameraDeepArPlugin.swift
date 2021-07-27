@@ -298,8 +298,9 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
                         //let flashView = UIView(frame: self.arView.frame)
                         let uImage = UIImageView(image: image);
                         
-                        uImage.contentMode = .scaleAspectFill
-                        uImage.frame = self.frame
+                            uImage.contentMode = .scaleAspectFit
+                       
+                            uImage.frame = self.frame
                         NSLog("\(self.frame.size.width) \(self.frame.size.height)")
                         NSLog("\(self.arView.frame.size.width) \(self.arView.frame.size.height)")
                         //uImage.autoresizingMask = [.flexibleWidth, .flexibleHeight]
