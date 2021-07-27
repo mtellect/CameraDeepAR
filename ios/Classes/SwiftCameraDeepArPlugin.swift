@@ -294,7 +294,8 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
                         let pathSwift = Bundle.main.path(forResource: key, ofType: nil);
                         NSLog("changing Image");
                         let image = UIImage(named: pathSwift!);
-                            let cImage = CIImage.init(image: image!);
+                            NSLog("ColorSpace \(image?.cgImage?.colorSpace)")
+                            //let cImage = CIImage.init(image: image!);
                         NSLog("changing container");
                         //let view = self.arView.inputView;
                         //view?.backgroundColor = UIColor.red;
@@ -374,7 +375,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
     func buffer(from image: UIImage) -> CVPixelBuffer? {
       let attrs = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue, kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
       var pixelBuffer : CVPixelBuffer?
-      let status = CVPixelBufferCreate(kCFAllocatorDefault, Int(image.size.width), Int(image.size.height), kCVPixelFormatType_32ARGB, attrs, &pixelBuffer)
+      let status = CVPixelBufferCreate(kCFAllocatorDefault, Int(image.size.width), Int(image.size.height), kCVPixelFormatType_32BGRA, attrs, &pixelBuffer)
       guard (status == kCVReturnSuccess) else {
         return nil
       }
