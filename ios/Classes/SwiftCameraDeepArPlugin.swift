@@ -103,6 +103,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
     var licenceKey: String
     var modeValue: String
     var directionValue: String
+    var mode: String
     
     
     // MARK: - IBOutlets -
@@ -143,6 +144,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         deepAR = DeepAR()
         cameraController = CameraController()
         licenceKey=""
+        mode=""
         modeValue=""
         directionValue=""
         channel = FlutterMethodChannel(name: "plugins.flutter.io/deep_ar_camera/\(viewId)", binaryMessenger: messenger)
@@ -156,12 +158,14 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
             let recordingMode: Int = (dict["recordingMode"] as? Int ?? 0)
             let direction: Int = (dict["direction"] as? Int ?? 0)
             let cameraMode: Int = (dict["cameraMode"] as? Int ?? 0)
+            let mode: String = (dict["mode"] as? String ?? "")
             
             print(direction)
             self.licenceKey = licence
             self.currentMode=Mode.allCases[cameraMode];
             self.currentRecordingMode = RecordingMode.allCases[recordingMode]
             self.cameraController.position = direction == 0 ? .back : .front
+            self.mode = mode;
             //currentRecordingMode = .photo
             
         }
@@ -466,7 +470,9 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         cameraController.deepAR = self.deepAR
         self.arView = self.deepAR.createARView(withFrame: self.frame) as? ARView
         self.arView.translatesAutoresizingMaskIntoConstraints = false
-        //cameraController.startCamera()
+        if(mode.elementsEqual("camera")){
+            cameraController.startCamera()
+        }
     }
 
     
