@@ -125,6 +125,8 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
     private var deepAR: DeepAR!
     private var arView: ARView!
     
+    private var imageFrame: CGRect!
+    
     // This class handles camera interaction. Start/stop feed, check permissions etc. You can use it or you
     // can provide your own implementation
     private var cameraController: CameraController!
@@ -301,8 +303,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
                            
 //                            uImage.tintColor = .none
 //                            uImage.tintAdjustmentMode = .au∂tomatic
-                       
-                            uImage.frame = CGRect(x: 0, y: 0, width: 200, height: 200);
+                            uImage.frame = imageFrame
                             NSLog("Frame: \(self.frame.width) \(self.frame.height)")
                         NSLog("ARView: \(self.arView.frame.width) \(self.arView.frame.height)")
                         //uImage.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -511,7 +512,8 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
     }
 
     @objc func startImage(){
-        cameraController.deepAR.startCapture(withOutputWidth: 720, outputHeight: 1280, subframe:self.frame)
+        imageFrame = CGRect(x: 0, y: 0, width: 200, height: 200);
+        cameraController.deepAR.startCapture(withOutputWidth: 720, outputHeight: 1280, subframe:imageFrame)
     
     }
     
