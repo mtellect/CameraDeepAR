@@ -298,13 +298,14 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
                         //let flashView = UIView(frame: self.arView.frame)
                         let uImage = UIImageView(image: image);
                         
-                            uImage.contentMode = .scaleAspectFill
-                            uImage.tintColor = .none
-                            uImage.tintAdjustmentMode = .automatic
+                            uImage.contentMode = .center
+                            uImage.bounds = self.arView.bounds
+//                            uImage.tintColor = .none
+//                            uImage.tintAdjustmentMode = .automatic
                        
-                            uImage.frame = self.frame
-                        NSLog("\(self.frame.size.width) \(self.frame.size.height)")
-                        NSLog("\(self.arView.frame.size.width) \(self.arView.frame.size.height)")
+                            uImage.frame = self.arView.frame
+                            NSLog("\(self.frame.width) \(self.frame.height)")
+                        NSLog("\(self.arView.frame.width) \(self.arView.frame.height)")
                         //uImage.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 //                        let rImage = resizeImage(image: image!, targetSize: CGSize(width: 200.0, height: 200.0));
 //                        flashView.alpha = 100
