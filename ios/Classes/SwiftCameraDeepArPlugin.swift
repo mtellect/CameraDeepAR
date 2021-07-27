@@ -124,6 +124,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
     
     private var deepAR: DeepAR!
     private var arView: ARView!
+    private var searchingForFace = false
     
     private var imageFrame: CGRect!
     
@@ -314,11 +315,8 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
 //                        flashView.alpha = 100
 //                        flashView.backgroundColor = UIColor(patternImage: rImage)
                         //self.arView.insertSubview(uImage, at: 0)
-                            self.deepAR.processFrame(buffer(from: image!), mirror: false)
-                            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(0.5 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: {
-                                self.deepAR.processFrame(buffer(from: image!), mirror: false)
-                               })
-                            
+                            searchingForFace = true;
+                            enqueueFrame(buffer(from: image!))
                         }
     //                                    self.deepAR.changeParameter(changeParameter,component:component,parameter:parameter,image: image);
     
@@ -339,43 +337,20 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         }
     }
     
-    func bufferC(from image: CIImage) -> CVPixelBuffer? {
-        let attrs = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue, kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
-        var pixelBuffer : CVPixelBuffer?
-        let status = CVPixelBufferCreate(kCFAllocatorDefault, Int(image.extent.width), Int(image.extent.height), kCVPixelFormatType_32BGRA, attrs, &pixelBuffer)
-
-        guard (status == kCVReturnSuccess) else {
-            return nil
+    func enqueueFrame(_ sampleBuffer: CVPixelBuffer?) {
+        if !searchingForFace {
+            return
         }
-
-        return pixelBuffer
-    }
-
-    func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
-    let size = image.size
-    
-    let widthRatio  = targetSize.width  / size.width
-    let heightRatio = targetSize.height / size.height
-    
-    // Figure out what our orientation is, and use that to form the rectangle
-    var newSize: CGSize
-    if(widthRatio > heightRatio) {
-        newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
-    } else {
-        newSize = CGSize(width: size.width * widthRatio,  height: size.height * widthRatio)
+        self.deepAR.processFrame(sampleBuffer, mirror: false)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(0.5 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: { [self] in
+            enqueueFrame(sampleBuffer)
+        })
     }
     
-    // This is the rect that we've calculated out and this is what is actually used below
-    let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
-    
-    // Actually do the resizing to the rect using the ImageContext stuff
-    UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
-    image.draw(in: rect)
-    let newImage = UIGraphicsGetImageFromCurrentImageContext()
-    UIGraphicsEndImageContext()
-    
-    return newImage!
-}
+     @objc func faceVisiblityDidChange(_ faceVisible: Bool) {
+        searchingForFace = false;
+        NSLog("Found Face!")
+    }
     
     func buffer(from image: UIImage) -> CVPixelBuffer? {
       let attrs = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue, kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
