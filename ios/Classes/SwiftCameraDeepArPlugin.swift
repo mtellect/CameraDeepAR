@@ -513,7 +513,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
 
     @objc func startImage(){
         imageFrame = CGRect(x: 0, y: 0, width: 200, height: 200);
-        cameraController.deepAR.startCapture(withOutputWidth: 720, outputHeight: 1280, subframe:imageFrame)
+//        cameraController.deepAR.startCapture(withOutputWidth: 720, outputHeight: 1280, subframe:imageFrame)
     
     }
     
