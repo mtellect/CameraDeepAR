@@ -11,14 +11,14 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-feature android:name="android.hardware.camera2" android:required="false"/>
+    <!-- <uses-feature android:name="android.hardware.camera2" android:required="false"/>
 
     <uses-feature android:name="android.hardware.camera.front" />
     <uses-feature android:name="android.hardware.microphone" />
     <uses-feature
         android:name="android.hardware.camera.autofocus"
         android:required="true" />
-    <uses-feature android:name="android.hardware.camera.flash" />
+    <uses-feature android:name="android.hardware.camera.flash" /> -->
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
