@@ -37,7 +37,7 @@ public class CameraGrabber
 
     private int width = 640;
     private int height = 480;
-    private CameraResolutionPreset resolutionPreset = CameraResolutionPreset.P640x480;
+    private CameraResolutionPreset resolutionPreset = CameraResolutionPreset.P1920x1080;
 
     private int screenOrientation = 0;
 

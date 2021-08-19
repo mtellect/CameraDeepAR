@@ -127,6 +127,7 @@ public class CameraDeepArView implements PlatformView,
         // Surface might already be initialized, so we force the call to onSurfaceChanged
         imgSurface.setVisibility(View.GONE);
         imgSurface.setVisibility(View.VISIBLE);
+        Log.d("DAMON", "THE IMAGE SURFACE W: " + imgSurface.getWidth() + " H: " + imgSurface.getHeight());
         offscreenView = mActivity.findViewById(R.id.surface);
         
         if (args instanceof HashMap) {
@@ -537,7 +538,7 @@ public class CameraDeepArView implements PlatformView,
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
         // If we are using on screen rendering we have to set surface view where DeepAR will render
-        deepAR.setRenderSurface(holder.getSurface(), imgSurface.getWidth(), imgSurface.getWidth());
+        deepAR.setRenderSurface(holder.getSurface(), imgSurface.getWidth(), imgSurface.getHeight());
     }
 
     @Override

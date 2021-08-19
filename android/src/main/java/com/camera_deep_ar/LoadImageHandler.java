@@ -183,23 +183,4 @@ public class LoadImageHandler {
         MediaStore.Images.Media.insertImage(mContext.get().getContentResolver(), bitmap, filename , "Description.");
     }
 
-
-
-    //NOTE Rotation code
-
-           
-//        final Bitmap resizedBitmap;
-//        final Bitmap rotatedBitmap;
-//        if (rotate){
-//            resizedBitmap = scaleCenterCrop(selectedImage, 1280, 720);
-//            rotatedBitmap = rotateBitmap(resizedBitmap, 90);
-//        }
-//        else {
-//            resizedBitmap = scaleCenterCrop(selectedImage, 720, 1280);
-//            rotatedBitmap = rotateBitmap(resizedBitmap, 180);
-//        }
-//
-//        width = rotatedBitmap.getWidth();
-//        height = rotatedBitmap.getHeight();
-
 }
