@@ -11,8 +11,6 @@ Get your ApiKeys from DeepAr [a link](https://www.deepar.ai/)
 ![DeepAr Camera Demo](demo.gif)
 
 
-1) Simply follow the example main.dart. More documentations to come in as time permits
-
 
 ```dart
 
