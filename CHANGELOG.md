@@ -1,11 +1,10 @@
 ## 0.0.2
 
-* Library Overhaul
+* Complete Library Overhaul
 * Can use custom effects
 * Fixed crashes on android
 * Fixed black screen
-
-
+* Null safety
 
 ## 0.0.1
 
