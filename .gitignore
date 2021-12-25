@@ -65,7 +65,7 @@ android/gradle/wrapper/gradle-wrapper.properties
 .idea
 
 build/
-example/build/
+**/build
 
-android/lib/deepar.aar
-android/lib/deeparX.aar
+#android/lib/deepar.aar
+#android/lib/deeparX.aar
