@@ -75,12 +75,6 @@ class _MyAppState extends State<MyApp> {
   ];
   List effects = [
     "none",
-    "assets/base_beauty",
-    "assets/hair_color_effect",
-    "assets/hair_segmentation",
-    "assets/hair_deep_red",
-    "assets/hair_white",
-    "assets/hair_pink",
     "assets/fire",
     "assets/heart",
     "assets/blizzard",

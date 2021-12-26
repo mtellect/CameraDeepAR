@@ -1,3 +1,8 @@
+## 0.0.2+3
+
+* Complete Library Overhaul on IOS
+* Can use custom effects
+
 ## 0.0.2
 
 * Complete Library Overhaul

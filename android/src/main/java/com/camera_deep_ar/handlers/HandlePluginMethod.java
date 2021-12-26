@@ -29,7 +29,6 @@ public class HandlePluginMethod implements MethodChannel.MethodCallHandler {
     public HandlePluginMethod(CameraDeepArView pluginView) {
         this.pluginView=pluginView;
         this.handle=pluginView.handleDeepAr;
-
     }
     
 

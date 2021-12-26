@@ -8,8 +8,7 @@ A new Flutter plugin for Camera video and Photo Augmented reality recording. Thi
 
 Get your ApiKeys from DeepAr [a link](https://www.deepar.ai/)
 
-![DeepAr Camera Demo](demo.gif)
-
+![DeepAr Camera Demo](demo.mp4)
 
 
 ```dart
@@ -78,30 +77,7 @@ deepArController.stopVideoRecording();
 You can use [Permission_handler](https://pub.dev/packages/permission_handler), a permissions plugin for Flutter.
 Require and add the following permissions in your manifest:
 
-Add this to the proguard-rules.pro
-
 ```
-
--keepclassmembers class ai.deepar.ar.DeepAR { *; }
-
-```
-
-for release mode modify and add to your BuildType in your build.gradle
-
-```
-buildTypes {
-release {
-    // TODO: Add your own signing config for the release build.
-    // Signing with the debug keys for now, so `flutter run --release` works.
-    signingConfig signingConfigs.debug
-    proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-}
-}
-
-```
-
-
-```java
 
 <uses-permission android:name="android.permission.FLASHLIGHT" />
 <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -114,8 +90,31 @@ release {
 <uses-permission android:name="android.permission.CAMERA" />
 <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
+```
+
+Add this to the proguard-rules.pro
 
 ```
+
+-keepclassmembers class ai.deepar.ar.DeepAR { *; }
+
+```
+
+for release mode modify and add to your BuildType in your build.gradle
+
+```
+
+buildTypes {
+release {
+    // TODO: Add your own signing config for the release build.
+    // Signing with the debug keys for now, so `flutter run --release` works.
+    signingConfig signingConfigs.debug
+    proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+}
+}
+
+```
+
 
 ## iOS
 
