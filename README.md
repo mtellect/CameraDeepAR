@@ -8,8 +8,8 @@ A new Flutter plugin for Camera video and Photo Augmented reality recording. Thi
 
 Get your ApiKeys from DeepAr [a link](https://www.deepar.ai/)
 
-![DeepAr Camera Demo](demo.mp4)
-
+<!-- ![DeepAr Camera Demo](demo.mp4) -->
+https://github.com/mtellect/CameraDeepAR/blob/dev/demo.mp4
 
 ```dart
 
