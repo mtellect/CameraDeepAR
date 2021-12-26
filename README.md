@@ -34,6 +34,7 @@ CameraMode cameraMode = config.cameraMode;
 DisplayMode displayMode = config.displayMode;
 
 
+## Create the controller events listener
 deepArController.setEventHandler(DeepArEventHandler(onCameraReady: (v) {
 _platformVersion = "onCameraReady $v";
 setState(() {});
