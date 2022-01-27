@@ -110,7 +110,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void dispose() {
-    deepArController?.dispose();
+    deepArController.dispose();
     super.dispose();
   }
 
