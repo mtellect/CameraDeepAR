@@ -16,11 +16,13 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import java.util.List;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
+import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
-import io.flutter.plugin.common.MethodChannel;
+import io.flutter.embedding.android.FlutterActivity;
 import io.flutter.plugin.common.PluginRegistry;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
+import io.flutter.plugins.GeneratedPluginRegistrant;
 //import ai.deepar.ar.DeepAR;
 
 
@@ -31,6 +33,17 @@ public class CameraDeepArPlugin implements FlutterPlugin ,ActivityAware{
     private FlutterPluginBinding pluginBinding;
 
     public CameraDeepArPlugin() {}
+
+    @Override
+    public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
+        GeneratedPluginRegistrant.registerWith(flutterEngine);
+        new MethodChannel(flutterEngine.getDartExecutor().getBinaryMessenger(), CHANNEL)
+                .setMethodCallHandler(
+                    (call, result) -> {
+                       // Your existing code
+              }
+        );
+   }
 
 
     @Override

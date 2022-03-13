@@ -27,11 +27,11 @@ rootProject.allprojects {
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     defaultConfig {
         minSdkVersion 19
-        compileSdkVersion(30)
+        compileSdkVersion(31)
         buildToolsVersion("30.0.2")
 
     }
