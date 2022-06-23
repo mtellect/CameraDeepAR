@@ -348,7 +348,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate, Flu
         argument["methodName"] = key
         argument["data"] = data
         eventSink(argument)
-        
+
 //        DispatchQueue.main.async {
 //            NSLog("sendResponse /\(String(describing: key)) /\(String(describing: data))")
 //            guard let eventSink = self.eventSink else { return }

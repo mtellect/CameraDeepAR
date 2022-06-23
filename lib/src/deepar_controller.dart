@@ -2,9 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:camera_deep_ar/camera_deep_ar.dart';
-import 'package:camera_deep_ar/src/events.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';

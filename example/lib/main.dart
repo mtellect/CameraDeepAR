@@ -38,14 +38,10 @@ class _MyAppState extends State<MyApp> {
     switch (cameraMode) {
       case CameraMode.mask:
         return masks;
-        break;
       case CameraMode.effect:
         return effects;
-        break;
-
       case CameraMode.filter:
         return filters;
-        break;
       default:
         return masks;
     }
@@ -57,8 +53,8 @@ class _MyAppState extends State<MyApp> {
     "assets/bigmouth",
     "assets/lion",
     "assets/dalmatian",
-    "assets/bcgseg",
-    "assets/look2",
+    // "assets/bcgseg",
+    // "assets/look2",
     "assets/fatify",
     "assets/flowers",
     "assets/grumpycat",
@@ -110,7 +106,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void dispose() {
-    deepArController?.dispose();
+    deepArController.dispose();
     super.dispose();
   }
 
@@ -139,78 +135,87 @@ class _MyAppState extends State<MyApp> {
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 14, color: Colors.white),
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: FlatButton(
-                              onPressed: () {
-                                if (null == deepArController) return;
-                                if (isRecording) return;
-                                deepArController.snapPhoto();
-                              },
-                              child: Icon(Icons.camera_enhance_outlined),
-                              color: Colors.white,
-                              padding: EdgeInsets.all(15),
+
+                    SizedBox(height: 20),
+
+                    //take photo video widget
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextButton(
+                            onPressed: () {
+                              if (isRecording) return;
+                              deepArController.snapPhoto();
+                            },
+                            child: Icon(Icons.camera_enhance_outlined),
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(Colors.white),
+                              padding: MaterialStateProperty.all(EdgeInsets.all(15)),
                             ),
                           ),
-                          if (displayMode == DisplayMode.image)
-                            Expanded(
-                              child: FlatButton(
-                                onPressed: () async {
-                                  String path = "assets/testImage.png";
-                                  final file = await deepArController
-                                      .createFileFromAsset(path, "test");
+                        ),
+                        if (displayMode == DisplayMode.image)
+                          Expanded(
+                            child: TextButton(
+                              onPressed: () async {
+                                // String path = "assets/testImage.png";
+                                // final file = await deepArController
+                                //     .createFileFromAsset(path, "testImage");
+                                // await Future.delayed(Duration(seconds: 1));
 
-                                  // final file = await ImagePicker()
-                                  //     .pickImage(source: ImageSource.gallery);
-                                  await Future.delayed(Duration(seconds: 1));
+                                final file = await ImagePicker()
+                                    .pickImage(source: ImageSource.gallery);
 
+                                if(file != null) {
                                   deepArController.changeImage(file.path);
-                                  print("DAMON - Calling Change Image Flutter");
-                                },
-                                child: Icon(Icons.image),
-                                color: Colors.orange,
-                                padding: EdgeInsets.all(15),
+                                }
+                                print("DAMON - Calling Change Image Flutter");
+                              },
+                              child: Icon(Icons.image),
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(Colors.orange),
+                                padding: MaterialStateProperty.all(EdgeInsets.all(15)),
                               ),
                             ),
-                          if (isRecording)
-                            Expanded(
-                              child: FlatButton(
-                                onPressed: () {
-                                  if (null == deepArController) return;
-                                  deepArController.stopVideoRecording();
-                                  isRecording = false;
-                                  setState(() {});
-                                },
-                                child: Icon(Icons.videocam_off),
-                                color: Colors.red,
-                                padding: EdgeInsets.all(15),
-                              ),
-                            )
-                          else
-                            Expanded(
-                              child: FlatButton(
-                                onPressed: () {
-                                  if (null == deepArController) return;
-                                  deepArController.startVideoRecording();
-                                  isRecording = true;
-                                  setState(() {});
-                                },
-                                child: Icon(Icons.videocam),
-                                color: Colors.green,
-                                padding: EdgeInsets.all(15),
+                          ),
+
+                        if (isRecording)
+                          Expanded(
+                            child: TextButton(
+                              onPressed: () async{
+                                isRecording = false;
+                                setState(() {});
+                                await deepArController.stopVideoRecording();
+
+                              },
+                              child: Icon(Icons.videocam_off),
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(Colors.red),
+                                padding: MaterialStateProperty.all(EdgeInsets.all(15)),
                               ),
                             ),
-                        ],
-                      ),
+                          )
+                        else
+                          Expanded(
+                            child: TextButton(
+                              onPressed: () {
+                                deepArController.startVideoRecording();
+                                isRecording = true;
+                                setState(() {});
+                              },
+                              child: Icon(Icons.videocam),
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(Colors.green),
+                                padding: MaterialStateProperty.all(EdgeInsets.all(15)),
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
+
+                    SizedBox(height: 10),
+
+                    //change effects widget
                     SingleChildScrollView(
                       padding: EdgeInsets.all(15),
                       scrollDirection: Axis.horizontal,
@@ -252,9 +257,10 @@ class _MyAppState extends State<MyApp> {
                         }),
                       ),
                     ),
-                    SizedBox(
-                      height: 5,
-                    ),
+
+                    SizedBox(height: 5),
+
+                    //change camera mode widget (mask/effect/filter)
                     Row(
                       children: List.generate(CameraMode.values.length, (p) {
                         CameraMode mode = CameraMode.values[p];
@@ -290,14 +296,14 @@ class _MyAppState extends State<MyApp> {
                         );
                       }),
                     ),
-                    SizedBox(
-                      height: 5,
-                    ),
+
+                    SizedBox(height: 5),
+
+                    //change display mode widget (camera/image)
                     Row(
                       children: List.generate(DisplayMode.values.length, (p) {
                         DisplayMode mode = DisplayMode.values[p];
                         bool active = displayMode == mode;
-
                         return Expanded(
                           child: Container(
                             height: 40,
@@ -305,7 +311,7 @@ class _MyAppState extends State<MyApp> {
                             child: TextButton(
                               onPressed: () async {
                                 displayMode = mode;
-                                await deepArController.setDisplayMode(
+                                deepArController.setDisplayMode(
                                     mode: mode);
                                 setState(() {});
                               },
@@ -329,7 +335,7 @@ class _MyAppState extends State<MyApp> {
                           ),
                         );
                       }),
-                    )
+                    ),
                   ],
                 ),
               ),
