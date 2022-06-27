@@ -10,9 +10,9 @@ import 'package:camera_deep_ar/camera_deep_ar.dart';
 
 DeepArConfig config = DeepArConfig(
   androidKey:
-      "3b58c448bd650192e7c53d965cfe5dc1c341d2568b663a3962b7517c4ac6eeed0ba1fb2afe491a4b",
+      "ca5d08279fb7a9a522891438f99fa688b41053df7a63f6564065f94b8f8ac743aec0006389189bc2",
   ioskey:
-      "53618212114fc16bbd7499c0c04c2ca11a4eed188dc20ed62a7f7eec02b41cb34d638e72945a6bf6",
+      "3cf1556ee87a073df61f9763a1307edd7aafe6f7e84d8fbcfdef1be98b1280133d5eb986834e6882",
   displayMode: DisplayMode.camera,
   // displayMode: DisplayMode.camera,
 );

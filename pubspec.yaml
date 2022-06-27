@@ -18,10 +18,10 @@ dependencies:
   #  wakelock: ^0.5.0+2
 #  wakelock: ^0.5.6
   #  permission_handler: ^6.0.1
-  permission_handler: ^8.2.5
+  permission_handler: ^10.0.0
 #  flutter_device_type: ^0.4.0
-  flutter_plugin_android_lifecycle: ^2.0.5
-  path_provider: ^2.0.5
+  flutter_plugin_android_lifecycle: ^2.0.6
+  path_provider: ^2.0.11
 
 
 dev_dependencies:
